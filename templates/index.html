@@ -2087,6 +2087,11 @@ function renderQueue() {
   });
   document.getElementById('queue-footer-count').textContent=`${S.queue.length} songs`;
   document.getElementById('queue-footer-dur').textContent=totalSec>0?fmt(totalSec):'';
+  // Scroll so the now-playing track is always at the top of the visible queue
+  if(S.queueIdx>=0){
+    const active=list.querySelector('.queue-item.active');
+    if(active) list.scrollTop=active.offsetTop-list.offsetTop;
+  }
 }
 
 function renderRoomsQueue() {
