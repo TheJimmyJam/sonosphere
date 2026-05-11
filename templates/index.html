@@ -1167,17 +1167,39 @@ function initAudio() {
   if (S.audioCtx) return;
   S.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   S.analyser  = S.audioCtx.createAnalyser();
-  S.analyser.fftSize = 128;
-  S.analyser.smoothingTimeConstant = 0.82;
+  S.analyser.fftSize = 256;               // 128 bins — more frequency detail
+  S.analyser.smoothingTimeConstant = 0.6; // snappier — reacts to beats harder
+  S.analyser.minDecibels = -85;
+  S.analyser.maxDecibels = -10;
   S.audioSrc  = S.audioCtx.createMediaElementSource(audioEl);
   S.audioSrc.connect(S.analyser);
   const gain = S.audioCtx.createGain(); gain.gain.value = 0;
   S.analyser.connect(gain); gain.connect(S.audioCtx.destination);
 }
-function startVisAudio(id) {
+
+function startVisAudio(id, startPos=0) {
   initAudio();
   if (S.audioCtx.state === 'suspended') S.audioCtx.resume();
-  audioEl.src = `/audio/${id}`; audioEl.play().catch(()=>{});
+  // Only reload src if it changed
+  const newSrc = `/audio/${id}`;
+  if (audioEl.dataset.trackId !== id) {
+    audioEl.dataset.trackId = id;
+    audioEl.src = newSrc;
+    audioEl.currentTime = startPos;
+    audioEl.play().catch(()=>{});
+  } else if (startPos > 0) {
+    audioEl.currentTime = startPos;
+  }
+}
+
+function syncVisToSonos(sonosPosSec) {
+  // Keep local hidden audio in sync with Sonos playback position
+  if (!audioEl.src || !S.playing) return;
+  const drift = Math.abs(audioEl.currentTime - sonosPosSec);
+  if (drift > 1.5) {  // resync if more than 1.5s off
+    audioEl.currentTime = sonosPosSec;
+    if (audioEl.paused) audioEl.play().catch(()=>{});
+  }
 }
 
 // Particle system
@@ -1205,33 +1227,55 @@ function updateParticles(c) {
 
 const peaks = [];
 function drawBars(c, f, w, h) {
-  const n=f.length, gap=3, bw=(w/n)-gap;
+  const n=f.length, gap=2, bw=(w/n)-gap;
   if (peaks.length!==n) for(let i=0;i<n;i++) peaks[i]={val:0,hold:0};
-  const style = getComputedStyle(document.documentElement);
-  const barTop = style.getPropertyValue('--bar-top').trim();
-  const accent = style.getPropertyValue('--accent').trim();
+
   for (let i=0;i<n;i++) {
-    const v=f[i]/255, bh=v*h*0.8, x=i*(bw+gap), y=h-bh;
-    if(v>peaks[i].val){peaks[i].val=v;peaks[i].hold=40;}
+    // Boost low-end (bass) so kick drums punch harder
+    const boost = i < n*0.15 ? 1.4 : i < n*0.4 ? 1.15 : 1.0;
+    const v = Math.min(1, (f[i]/255) * boost);
+    const bh = v * h * 0.92;   // use almost full height
+    const x = i*(bw+gap), y = h-bh;
+
+    // Peak hold — drop faster for snappier feel
+    if(v>peaks[i].val){peaks[i].val=v; peaks[i].hold=22;}
     else if(peaks[i].hold>0) peaks[i].hold--;
-    else peaks[i].val=Math.max(0,peaks[i].val-0.008);
+    else peaks[i].val=Math.max(0, peaks[i].val-0.018);
+
+    // Bar — bright at top, fades at bottom
+    const hue = 260 - (i/n)*60;  // purple → blue across freq range
     const g=c.createLinearGradient(0,y,0,h);
-    g.addColorStop(0, `rgba(168,85,247,${0.15+v*0.85})`);
-    g.addColorStop(0.4,`rgba(124,58,237,${0.1+v*0.75})`);
-    g.addColorStop(1,  'rgba(60,10,150,0)');
-    c.fillStyle=g; c.beginPath(); c.roundRect(x,y,bw,bh,[3,3,0,0]); c.fill();
-    if(bh>4){
-      c.fillStyle=`rgba(200,170,255,${v*0.9})`; c.fillRect(x,y,bw,2);
-      c.shadowBlur=8*v; c.shadowColor='rgba(180,140,255,.8)'; c.fillRect(x,y,bw,2); c.shadowBlur=0;
+    g.addColorStop(0,   `hsla(${hue},90%,72%,${0.2+v*0.8})`);
+    g.addColorStop(0.5, `hsla(${hue},80%,55%,${0.1+v*0.7})`);
+    g.addColorStop(1,   `hsla(${hue},70%,35%,0)`);
+    c.fillStyle=g;
+    c.beginPath(); c.roundRect(x,y,bw,bh,[3,3,0,0]); c.fill();
+
+    // Bright top cap + glow
+    if(bh>6){
+      c.shadowBlur=12*v; c.shadowColor=`hsla(${hue},100%,80%,${v})`;
+      c.fillStyle=`hsla(${hue},100%,88%,${v*0.95})`;
+      c.fillRect(x, y, bw, 2);
+      c.shadowBlur=0;
     }
-    const rg=c.createLinearGradient(0,h,0,h+bh*0.35);
-    rg.addColorStop(0,`rgba(124,58,237,${v*0.18})`); rg.addColorStop(1,'rgba(124,58,237,0)');
-    c.fillStyle=rg; c.beginPath(); c.roundRect(x,h+1,bw,bh*0.3,[0,0,3,3]); c.fill();
-    if(peaks[i].val>0.05){
-      const py=h-peaks[i].val*h*0.8-4;
-      c.fillStyle=`rgba(220,200,255,${peaks[i].val*0.8})`; c.fillRect(x,py,bw,2);
+
+    // Reflection
+    if(bh>10){
+      const rg=c.createLinearGradient(0,h,0,h+bh*0.3);
+      rg.addColorStop(0,`hsla(${hue},80%,55%,${v*0.22})`);
+      rg.addColorStop(1,`hsla(${hue},80%,55%,0)`);
+      c.fillStyle=rg;
+      c.beginPath(); c.roundRect(x,h+1,bw,bh*0.28,[0,0,3,3]); c.fill();
     }
-    if(v>0.65&&S.playing) spawnParticle(x+bw/2,y,v);
+
+    // Peak dot
+    if(peaks[i].val>0.08){
+      const py=h-peaks[i].val*h*0.92-3;
+      c.fillStyle=`hsla(${hue},100%,85%,${peaks[i].val*0.9})`;
+      c.fillRect(x,py,bw,2);
+    }
+
+    if(v>0.6&&S.playing) spawnParticle(x+bw/2,y,v);
   }
   updateParticles(c);
 }
@@ -1794,7 +1838,7 @@ function updateNowPlaying(t) {
   // Background art
   if(t.thumbnail) document.getElementById('bg-art').style.backgroundImage=`url('${t.thumbnail}')`;
   document.title=`${t.title} — Sonosphere`;
-  startVisAudio(t.id);
+  startVisAudio(t.id, 0);
 }
 
 async function playTrack(t) {
@@ -1913,9 +1957,11 @@ function startPoll() {
       const cls='status-dot'+(s.state==='PLAYING'?' playing':s.state==='PAUSED_PLAYBACK'?' paused':'');
       document.getElementById('status-dot').className=cls;
       document.getElementById('bar-dot').className=cls;
-      // Progress
+      // Progress + sync vis audio to Sonos position
       if(s.position&&s.duration){
-        updateProgress(toSec(s.position),toSec(s.duration));
+        const posSec = toSec(s.position);
+        updateProgress(posSec, toSec(s.duration));
+        syncVisToSonos(posSec);
       }
       // Volume sync
       if(s.volume!==undefined&&Math.abs(s.volume-S.volume)>2){
