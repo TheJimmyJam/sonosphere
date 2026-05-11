@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Alpine Lodge
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "alpine-lodge" */
+
+:root[data-skin="alpine-lodge"] {
+  color-scheme: dark;
+  --skin-id: "alpine-lodge";
+  --skin-name: "Alpine Lodge";
+  --skin-category: "Lifestyle";
+  --skin-material: "pine wood";
+
+  --app-bg: #10160f;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #166534 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #f59e0b 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #10160f 92%, #166534 8%), color-mix(in srgb, #10160f 88%, #f59e0b 12%));
+
+  --panel-bg: rgba(28,42,27,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(28,42,27,.90) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(28,42,27,.90) 72%, transparent);
+  --panel-border: rgba(22,101,52,.28);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #f7fee7;
+  --text-secondary: #bfd2aa;
+  --text-muted: color-mix(in srgb, #bfd2aa 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #166534;
+  --accent-secondary: #f59e0b;
+  --accent-tertiary: color-mix(in srgb, #166534 46%, #f59e0b 54%);
+  --accent-soft: color-mix(in srgb, #166534 15%, transparent);
+  --accent-glow-color: rgba(245,158,11,.25);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(28,42,27,.90) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(28,42,27,.90) 64%, #166534 14%);
+  --button-active-bg: linear-gradient(135deg, #166534, #f59e0b);
+  --button-border: color-mix(in srgb, #166534 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #bfd2aa 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #166534, #f59e0b);
+  --scrubber-thumb: #f7fee7;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #166534 82%, black 10%), color-mix(in srgb, #f59e0b 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(28,42,27,.90) 82%, transparent);
+  --album-border: color-mix(in srgb, #166534 24%, white 6%);
+
+  --visualizer-primary: #166534;
+  --visualizer-secondary: #f59e0b;
+  --visualizer-mode: "hearth-pulse";
+  --visualizer-density: 0.38;
+  --visualizer-glow: rgba(245,158,11,.25);
+
+  --app-radius: 26px;
+  --panel-radius: 16px;
+  --card-radius: 14px;
+  --album-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="alpine-lodge"],
+:root[data-skin="alpine-lodge"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="alpine-lodge"] .panel,
+:root[data-skin="alpine-lodge"] .sidebar,
+:root[data-skin="alpine-lodge"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="alpine-lodge"] .active-room,
+:root[data-skin="alpine-lodge"] .primary-button,
+:root[data-skin="alpine-lodge"] .play-button,
+:root[data-skin="alpine-lodge"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="alpine-lodge"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}
