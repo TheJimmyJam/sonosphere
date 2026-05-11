@@ -1164,6 +1164,18 @@ def _lfm_resolve_yt(track_id, title, artist):
     except Exception:
         return None
 
+@app.route("/api/discover/search")
+def discover_search():
+    q = request.args.get("q", "").strip()
+    if not q:
+        return jsonify({"results": []})
+    try:
+        data   = _lfm("track.search", track=q, limit=25)
+        tracks = [_lfm_track(t) for t in data.get("results",{}).get("trackmatches",{}).get("track",[]) if t]
+        return jsonify({"results": tracks})
+    except Exception as e:
+        return jsonify({"error": str(e), "results": []})
+
 @app.route("/api/discover/charts")
 def discover_charts():
     try:
