@@ -1609,8 +1609,19 @@ function renderSidebarRooms() {
       <span style="font-size:10px;color:var(--text3);width:20px;">${room.volume}</span>`;
     const slider=volRow.querySelector('input');
     const label=volRow.querySelector('span:last-child');
+    // Tag so main slider can find it by IP
+    slider.dataset.roomIp = room.ip;
     slider.addEventListener('input',function(){
       label.textContent=this.value;
+      // If this is the active device, sync main sliders too
+      if(S.device && S.device.ip===room.ip){
+        S.volume=this.value;
+        ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{
+          const el=document.getElementById(id); if(el) el.value=this.value;
+        });
+        const vl=document.getElementById('vol-label'), bl=document.getElementById('bar-vol-label');
+        if(vl) vl.textContent=this.value; if(bl) bl.textContent=this.value;
+      }
       clearTimeout(slider._t);
       slider._t=setTimeout(()=>api('/api/rooms/volume',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ip:room.ip,volume:this.value})}),200);
     });
@@ -2056,8 +2067,17 @@ function bindVol(sliderId, labelId) {
     const otherLb=sliderId==='vol-slider'?'bar-vol-label':'vol-label';
     document.getElementById(other).value=this.value;
     document.getElementById(otherLb).textContent=this.value;
-    // Also sync fullscreen vis slider
+    // Sync fullscreen vis slider
     const visVol=document.getElementById('vis-vol'); if(visVol) visVol.value=this.value;
+    // Sync the active room's sidebar slider + label immediately
+    if(S.device){
+      const roomSlider=document.querySelector(`input[data-room-ip="${S.device.ip}"]`);
+      if(roomSlider){
+        roomSlider.value=this.value;
+        const roomLabel=roomSlider.closest('.room-vol-row')?.querySelector('span:last-child');
+        if(roomLabel) roomLabel.textContent=this.value;
+      }
+    }
     clearTimeout(volT);
     volT=setTimeout(()=>{
       if(!S.device) return;
