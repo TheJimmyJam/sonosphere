@@ -1,0 +1,37 @@
+{
+  "id": "apollo-gold",
+  "name": "Apollo Gold",
+  "description": "Moon-mission gold foil, black instruments, and archival luxury.",
+  "category": "Aerospace Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "gold thermal foil",
+  "tags": [
+    "aerospace luxury",
+    "super-premium",
+    "gold thermal foil",
+    "mission-vu",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "mission-vu",
+    "intensity": 0.61,
+    "glow": true,
+    "particleDensity": 0.42,
+    "preferredMotion": "premium-subtle"
+  }
+}
