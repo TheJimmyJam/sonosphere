@@ -1,0 +1,81 @@
+/* Sonosphere skin: Rose Gold
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="rose-gold"> */
+
+:root[data-skin="rose-gold"] {
+  color-scheme: dark;
+
+  --skin-id: "rose-gold";
+  --skin-name: "Rose Gold";
+
+  --app-bg: #2a1217;
+  --app-bg-elevated: color-mix(in srgb, #2a1217 72%, white 8%);
+  --panel-bg: rgba(60,28,34,.82);
+  --panel-bg-strong: color-mix(in srgb, rgba(60,28,34,.82) 82%, black 12%);
+  --panel-border: rgba(251,113,133,.30);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff1f5;
+  --text-secondary: #e9a6b5;
+  --text-muted: color-mix(in srgb, #e9a6b5 72%, transparent);
+
+  --accent-primary: #fb7185;
+  --accent-secondary: #f9a8d4;
+  --accent-tertiary: color-mix(in srgb, #fb7185 45%, #f9a8d4 55%);
+  --accent-glow: 0 0 24px rgba(251,113,133,.35);
+  --accent-soft: color-mix(in srgb, #fb7185 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(60,28,34,.82) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(60,28,34,.82) 64%, #fb7185 16%);
+  --button-active-bg: linear-gradient(135deg, #fb7185, #f9a8d4);
+
+  --slider-track: color-mix(in srgb, #e9a6b5 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #fb7185, #f9a8d4);
+  --scrubber-thumb: #fff1f5;
+
+  --visualizer-primary: #fb7185;
+  --visualizer-secondary: #f9a8d4;
+  --visualizer-glow: rgba(251,113,133,.35);
+  --visualizer-mode: "waveform";
+
+  --album-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Avenir Next, Inter, sans-serif;
+  --font-display: Avenir Next, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="rose-gold"],
+:root[data-skin="rose-gold"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #fb7185 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #f9a8d4 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="rose-gold"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="rose-gold"] .primary-button,
+:root[data-skin="rose-gold"] .active-room,
+:root[data-skin="rose-gold"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="rose-gold"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

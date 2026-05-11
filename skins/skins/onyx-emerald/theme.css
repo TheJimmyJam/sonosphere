@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Onyx Emerald
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "onyx-emerald" */
+
+:root[data-skin="onyx-emerald"] {
+  color-scheme: dark;
+  --skin-id: "onyx-emerald";
+  --skin-name: "Onyx Emerald";
+  --skin-category: "Luxury Materials";
+  --skin-material: "green onyx";
+
+  --app-bg: #020807;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #10b981 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #a7f3d0 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #020807 92%, #10b981 8%), color-mix(in srgb, #020807 90%, #a7f3d0 10%));
+
+  --panel-bg: rgba(6,24,20,.91);
+  --panel-bg-strong: color-mix(in srgb, rgba(6,24,20,.91) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(6,24,20,.91) 64%, transparent);
+  --panel-border: rgba(16,185,129,.27);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #ecfdf5;
+  --text-secondary: #9fd1bf;
+  --text-muted: color-mix(in srgb, #9fd1bf 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #10b981;
+  --accent-secondary: #a7f3d0;
+  --accent-tertiary: color-mix(in srgb, #10b981 48%, #a7f3d0 52%);
+  --accent-soft: color-mix(in srgb, #10b981 13%, transparent);
+  --accent-glow-color: rgba(167,243,208,.24);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(6,24,20,.91) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(6,24,20,.91) 65%, #10b981 12%);
+  --button-active-bg: linear-gradient(135deg, #10b981, #a7f3d0);
+  --button-border: color-mix(in srgb, #10b981 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #9fd1bf 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #10b981, #a7f3d0);
+  --scrubber-thumb: #ecfdf5;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #10b981 76%, black 10%), color-mix(in srgb, #a7f3d0 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(6,24,20,.91) 84%, transparent);
+  --album-border: color-mix(in srgb, #10b981 22%, white 5%);
+
+  --visualizer-primary: #10b981;
+  --visualizer-secondary: #a7f3d0;
+  --visualizer-mode: "gem-pulse";
+  --visualizer-density: 0.42;
+  --visualizer-glow: rgba(167,243,208,.24);
+
+  --app-radius: 32px;
+  --panel-radius: 20px;
+  --card-radius: 16px;
+  --album-radius: 22px;
+  --control-radius: 999px;
+  --app-blur: 16px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="onyx-emerald"],
+:root[data-skin="onyx-emerald"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="onyx-emerald"] .panel,
+:root[data-skin="onyx-emerald"] .sidebar,
+:root[data-skin="onyx-emerald"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="onyx-emerald"] .active-room,
+:root[data-skin="onyx-emerald"] .primary-button,
+:root[data-skin="onyx-emerald"] .play-button,
+:root[data-skin="onyx-emerald"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="onyx-emerald"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

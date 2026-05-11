@@ -1,0 +1,35 @@
+{
+  "id": "gps-grid",
+  "name": "GPS Grid",
+  "description": "Geospatial gridlines, longitude markers, and map-blue UI.",
+  "category": "Technical",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "navigation glass",
+  "tags": [
+    "technical",
+    "navigation glass",
+    "geo-pulse",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "geo-pulse",
+    "intensity": 0.71,
+    "glow": true,
+    "particleDensity": 0.58,
+    "preferredMotion": "adaptive"
+  }
+}

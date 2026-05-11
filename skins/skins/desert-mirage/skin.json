@@ -1,0 +1,35 @@
+{
+  "id": "desert-mirage",
+  "name": "Desert Mirage",
+  "description": "Sand, turquoise, and heat-haze gradients for desert listening.",
+  "category": "Lifestyle",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "sunbaked glass",
+  "tags": [
+    "lifestyle",
+    "sunbaked glass",
+    "heat-wave",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "heat-wave",
+    "intensity": 0.65,
+    "glow": true,
+    "particleDensity": 0.44,
+    "preferredMotion": "adaptive"
+  }
+}

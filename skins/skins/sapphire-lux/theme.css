@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Sapphire Lux
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "sapphire-lux" */
+
+:root[data-skin="sapphire-lux"] {
+  color-scheme: dark;
+  --skin-id: "sapphire-lux";
+  --skin-name: "Sapphire Lux";
+  --skin-category: "Luxury";
+  --skin-material: "sapphire glass";
+
+  --app-bg: #030712;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #2563eb 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #bfdbfe 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #030712 92%, #2563eb 8%), color-mix(in srgb, #030712 88%, #bfdbfe 12%));
+
+  --panel-bg: rgba(8,17,38,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(8,17,38,.90) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(8,17,38,.90) 72%, transparent);
+  --panel-border: rgba(37,99,235,.26);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #eff6ff;
+  --text-secondary: #b7c8e6;
+  --text-muted: color-mix(in srgb, #b7c8e6 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #2563eb;
+  --accent-secondary: #bfdbfe;
+  --accent-tertiary: color-mix(in srgb, #2563eb 46%, #bfdbfe 54%);
+  --accent-soft: color-mix(in srgb, #2563eb 15%, transparent);
+  --accent-glow-color: rgba(191,219,254,.26);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(8,17,38,.90) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(8,17,38,.90) 64%, #2563eb 14%);
+  --button-active-bg: linear-gradient(135deg, #2563eb, #bfdbfe);
+  --button-border: color-mix(in srgb, #2563eb 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #b7c8e6 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #2563eb, #bfdbfe);
+  --scrubber-thumb: #eff6ff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #2563eb 82%, black 10%), color-mix(in srgb, #bfdbfe 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(8,17,38,.90) 82%, transparent);
+  --album-border: color-mix(in srgb, #2563eb 24%, white 6%);
+
+  --visualizer-primary: #2563eb;
+  --visualizer-secondary: #bfdbfe;
+  --visualizer-mode: "gem-wave";
+  --visualizer-density: 0.42;
+  --visualizer-glow: rgba(191,219,254,.26);
+
+  --app-radius: 28px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 16px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="sapphire-lux"],
+:root[data-skin="sapphire-lux"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="sapphire-lux"] .panel,
+:root[data-skin="sapphire-lux"] .sidebar,
+:root[data-skin="sapphire-lux"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="sapphire-lux"] .active-room,
+:root[data-skin="sapphire-lux"] .primary-button,
+:root[data-skin="sapphire-lux"] .play-button,
+:root[data-skin="sapphire-lux"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="sapphire-lux"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Aurora Glass
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="aurora-glass"> */
+
+:root[data-skin="aurora-glass"] {
+  color-scheme: dark;
+
+  --skin-id: "aurora-glass";
+  --skin-name: "Aurora Glass";
+
+  --app-bg: #07111f;
+  --app-bg-elevated: color-mix(in srgb, #07111f 72%, white 8%);
+  --panel-bg: rgba(15,35,52,.58);
+  --panel-bg-strong: color-mix(in srgb, rgba(15,35,52,.58) 82%, black 12%);
+  --panel-border: rgba(139,233,253,.30);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #eef9ff;
+  --text-secondary: #a8c7d9;
+  --text-muted: color-mix(in srgb, #a8c7d9 72%, transparent);
+
+  --accent-primary: #8be9fd;
+  --accent-secondary: #bd93f9;
+  --accent-tertiary: color-mix(in srgb, #8be9fd 45%, #bd93f9 55%);
+  --accent-glow: 0 0 24px rgba(139,233,253,.45);
+  --accent-soft: color-mix(in srgb, #8be9fd 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(15,35,52,.58) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(15,35,52,.58) 64%, #8be9fd 16%);
+  --button-active-bg: linear-gradient(135deg, #8be9fd, #bd93f9);
+
+  --slider-track: color-mix(in srgb, #a8c7d9 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #8be9fd, #bd93f9);
+  --scrubber-thumb: #eef9ff;
+
+  --visualizer-primary: #8be9fd;
+  --visualizer-secondary: #bd93f9;
+  --visualizer-glow: rgba(139,233,253,.45);
+  --visualizer-mode: "waveform";
+
+  --album-radius: 22px;
+  --panel-radius: 22px;
+  --card-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 28px;
+
+  --font-ui: SF Pro Display, Inter, sans-serif;
+  --font-display: SF Pro Display, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="aurora-glass"],
+:root[data-skin="aurora-glass"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #8be9fd 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #bd93f9 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="aurora-glass"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="aurora-glass"] .primary-button,
+:root[data-skin="aurora-glass"] .active-room,
+:root[data-skin="aurora-glass"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="aurora-glass"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

@@ -1,0 +1,35 @@
+{
+  "id": "mixing-desk",
+  "name": "Mixing Desk",
+  "description": "Audio engineer console with fader lanes and channel colors.",
+  "category": "Classic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "console surface",
+  "tags": [
+    "classic",
+    "console surface",
+    "faders",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "faders",
+    "intensity": 0.8,
+    "glow": true,
+    "particleDensity": 0.78,
+    "preferredMotion": "adaptive"
+  }
+}

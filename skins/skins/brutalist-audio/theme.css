@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Brutalist Audio
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "brutalist-audio" */
+
+:root[data-skin="brutalist-audio"] {
+  color-scheme: light;
+  --skin-id: "brutalist-audio";
+  --skin-name: "Brutalist Audio";
+  --skin-category: "Architectural Premium";
+  --skin-material: "cast concrete";
+
+  --app-bg: #d8d5ce;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #ef4444 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #525252 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #d8d5ce 92%, #ef4444 8%), color-mix(in srgb, #d8d5ce 90%, #525252 10%));
+
+  --panel-bg: rgba(232,229,221,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(232,229,221,.86) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(232,229,221,.86) 64%, transparent);
+  --panel-border: rgba(82,82,82,.18);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #171717;
+  --text-secondary: #66625d;
+  --text-muted: color-mix(in srgb, #66625d 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #ef4444;
+  --accent-secondary: #525252;
+  --accent-tertiary: color-mix(in srgb, #ef4444 48%, #525252 52%);
+  --accent-soft: color-mix(in srgb, #ef4444 13%, transparent);
+  --accent-glow-color: rgba(239,68,68,.16);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(232,229,221,.86) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(232,229,221,.86) 65%, #ef4444 12%);
+  --button-active-bg: linear-gradient(135deg, #ef4444, #525252);
+  --button-border: color-mix(in srgb, #ef4444 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #66625d 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #ef4444, #525252);
+  --scrubber-thumb: #171717;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #ef4444 76%, black 10%), color-mix(in srgb, #525252 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(232,229,221,.86) 84%, transparent);
+  --album-border: color-mix(in srgb, #ef4444 22%, white 5%);
+
+  --visualizer-primary: #ef4444;
+  --visualizer-secondary: #525252;
+  --visualizer-mode: "brutalist-bars";
+  --visualizer-density: 0.24;
+  --visualizer-glow: rgba(239,68,68,.16);
+
+  --app-radius: 16px;
+  --panel-radius: 4px;
+  --card-radius: 4px;
+  --album-radius: 6px;
+  --control-radius: 999px;
+  --app-blur: 2px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="brutalist-audio"],
+:root[data-skin="brutalist-audio"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="brutalist-audio"] .panel,
+:root[data-skin="brutalist-audio"] .sidebar,
+:root[data-skin="brutalist-audio"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="brutalist-audio"] .active-room,
+:root[data-skin="brutalist-audio"] .primary-button,
+:root[data-skin="brutalist-audio"] .play-button,
+:root[data-skin="brutalist-audio"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="brutalist-audio"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

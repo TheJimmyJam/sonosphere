@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — FM Operator
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "fm-operator" */
+
+:root[data-skin="fm-operator"] {
+  color-scheme: dark;
+  --skin-id: "fm-operator";
+  --skin-name: "FM Operator";
+  --skin-category: "Boutique Electronic";
+  --skin-material: "digital synth glass";
+
+  --app-bg: #050816;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #06b6d4 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #7c3aed 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #050816 92%, #06b6d4 8%), color-mix(in srgb, #050816 90%, #7c3aed 10%));
+
+  --panel-bg: rgba(12,18,38,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(12,18,38,.90) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(12,18,38,.90) 64%, transparent);
+  --panel-border: rgba(6,182,212,.24);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #ecfeff;
+  --text-secondary: #a5bdd0;
+  --text-muted: color-mix(in srgb, #a5bdd0 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #06b6d4;
+  --accent-secondary: #7c3aed;
+  --accent-tertiary: color-mix(in srgb, #06b6d4 48%, #7c3aed 52%);
+  --accent-soft: color-mix(in srgb, #06b6d4 13%, transparent);
+  --accent-glow-color: rgba(124,58,237,.27);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(12,18,38,.90) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(12,18,38,.90) 65%, #06b6d4 12%);
+  --button-active-bg: linear-gradient(135deg, #06b6d4, #7c3aed);
+  --button-border: color-mix(in srgb, #06b6d4 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #a5bdd0 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #06b6d4, #7c3aed);
+  --scrubber-thumb: #ecfeff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #06b6d4 76%, black 10%), color-mix(in srgb, #7c3aed 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(12,18,38,.90) 84%, transparent);
+  --album-border: color-mix(in srgb, #06b6d4 22%, white 5%);
+
+  --visualizer-primary: #06b6d4;
+  --visualizer-secondary: #7c3aed;
+  --visualizer-mode: "operator-matrix";
+  --visualizer-density: 0.64;
+  --visualizer-glow: rgba(124,58,237,.27);
+
+  --app-radius: 24px;
+  --panel-radius: 12px;
+  --card-radius: 8px;
+  --album-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="fm-operator"],
+:root[data-skin="fm-operator"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="fm-operator"] .panel,
+:root[data-skin="fm-operator"] .sidebar,
+:root[data-skin="fm-operator"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="fm-operator"] .active-room,
+:root[data-skin="fm-operator"] .primary-button,
+:root[data-skin="fm-operator"] .play-button,
+:root[data-skin="fm-operator"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="fm-operator"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Blue Steel
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="blue-steel"> */
+
+:root[data-skin="blue-steel"] {
+  color-scheme: dark;
+
+  --skin-id: "blue-steel";
+  --skin-name: "Blue Steel";
+
+  --app-bg: #1f2937;
+  --app-bg-elevated: color-mix(in srgb, #1f2937 72%, white 8%);
+  --panel-bg: rgba(55,65,81,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(55,65,81,.86) 82%, black 12%);
+  --panel-border: rgba(59,130,246,.22);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: color-mix(in srgb, #cbd5e1 72%, transparent);
+
+  --accent-primary: #3b82f6;
+  --accent-secondary: #94a3b8;
+  --accent-tertiary: color-mix(in srgb, #3b82f6 45%, #94a3b8 55%);
+  --accent-glow: 0 0 24px rgba(59,130,246,.28);
+  --accent-soft: color-mix(in srgb, #3b82f6 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(55,65,81,.86) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(55,65,81,.86) 64%, #3b82f6 16%);
+  --button-active-bg: linear-gradient(135deg, #3b82f6, #94a3b8);
+
+  --slider-track: color-mix(in srgb, #cbd5e1 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #3b82f6, #94a3b8);
+  --scrubber-thumb: #f8fafc;
+
+  --visualizer-primary: #3b82f6;
+  --visualizer-secondary: #94a3b8;
+  --visualizer-glow: rgba(59,130,246,.28);
+  --visualizer-mode: "spectrum";
+
+  --album-radius: 8px;
+  --panel-radius: 8px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: SF Pro Text, Inter, sans-serif;
+  --font-display: SF Pro Text, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="blue-steel"],
+:root[data-skin="blue-steel"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #3b82f6 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #94a3b8 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="blue-steel"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="blue-steel"] .primary-button,
+:root[data-skin="blue-steel"] .active-room,
+:root[data-skin="blue-steel"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="blue-steel"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

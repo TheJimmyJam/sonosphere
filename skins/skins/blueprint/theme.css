@@ -1,0 +1,81 @@
+/* Sonosphere skin: Blueprint
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="blueprint"> */
+
+:root[data-skin="blueprint"] {
+  color-scheme: dark;
+
+  --skin-id: "blueprint";
+  --skin-name: "Blueprint";
+
+  --app-bg: #071428;
+  --app-bg-elevated: color-mix(in srgb, #071428 72%, white 8%);
+  --panel-bg: rgba(10,31,58,.84);
+  --panel-bg-strong: color-mix(in srgb, rgba(10,31,58,.84) 82%, black 12%);
+  --panel-border: rgba(147,197,253,.25);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #e0f2fe;
+  --text-secondary: #9cc6df;
+  --text-muted: color-mix(in srgb, #9cc6df 72%, transparent);
+
+  --accent-primary: #38bdf8;
+  --accent-secondary: #93c5fd;
+  --accent-tertiary: color-mix(in srgb, #38bdf8 45%, #93c5fd 55%);
+  --accent-glow: 0 0 24px rgba(56,189,248,.35);
+  --accent-soft: color-mix(in srgb, #38bdf8 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(10,31,58,.84) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(10,31,58,.84) 64%, #38bdf8 16%);
+  --button-active-bg: linear-gradient(135deg, #38bdf8, #93c5fd);
+
+  --slider-track: color-mix(in srgb, #9cc6df 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #38bdf8, #93c5fd);
+  --scrubber-thumb: #e0f2fe;
+
+  --visualizer-primary: #38bdf8;
+  --visualizer-secondary: #93c5fd;
+  --visualizer-glow: rgba(56,189,248,.35);
+  --visualizer-mode: "grid";
+
+  --album-radius: 8px;
+  --panel-radius: 8px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: IBM Plex Sans, Inter, sans-serif;
+  --font-display: IBM Plex Sans, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="blueprint"],
+:root[data-skin="blueprint"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #38bdf8 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #93c5fd 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="blueprint"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="blueprint"] .primary-button,
+:root[data-skin="blueprint"] .active-room,
+:root[data-skin="blueprint"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="blueprint"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

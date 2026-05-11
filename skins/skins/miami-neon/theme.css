@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Miami Neon
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "miami-neon" */
+
+:root[data-skin="miami-neon"] {
+  color-scheme: dark;
+  --skin-id: "miami-neon";
+  --skin-name: "Miami Neon";
+  --skin-category: "Urban";
+  --skin-material: "wet acrylic";
+
+  --app-bg: #090311;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #ff2bd6 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #00e5ff 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #090311 92%, #ff2bd6 8%), color-mix(in srgb, #090311 88%, #00e5ff 12%));
+
+  --panel-bg: rgba(24,8,31,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(24,8,31,.88) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(24,8,31,.88) 72%, transparent);
+  --panel-border: rgba(255,43,214,.30);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #fff0fb;
+  --text-secondary: #f0a6e7;
+  --text-muted: color-mix(in srgb, #f0a6e7 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #ff2bd6;
+  --accent-secondary: #00e5ff;
+  --accent-tertiary: color-mix(in srgb, #ff2bd6 46%, #00e5ff 54%);
+  --accent-soft: color-mix(in srgb, #ff2bd6 15%, transparent);
+  --accent-glow-color: rgba(0,229,255,.42);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(24,8,31,.88) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(24,8,31,.88) 64%, #ff2bd6 14%);
+  --button-active-bg: linear-gradient(135deg, #ff2bd6, #00e5ff);
+  --button-border: color-mix(in srgb, #ff2bd6 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #f0a6e7 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #ff2bd6, #00e5ff);
+  --scrubber-thumb: #fff0fb;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #ff2bd6 82%, black 10%), color-mix(in srgb, #00e5ff 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(24,8,31,.88) 82%, transparent);
+  --album-border: color-mix(in srgb, #ff2bd6 24%, white 6%);
+
+  --visualizer-primary: #ff2bd6;
+  --visualizer-secondary: #00e5ff;
+  --visualizer-mode: "neon-wave";
+  --visualizer-density: 0.76;
+  --visualizer-glow: rgba(0,229,255,.42);
+
+  --app-radius: 32px;
+  --panel-radius: 22px;
+  --card-radius: 20px;
+  --album-radius: 24px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="miami-neon"],
+:root[data-skin="miami-neon"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="miami-neon"] .panel,
+:root[data-skin="miami-neon"] .sidebar,
+:root[data-skin="miami-neon"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="miami-neon"] .active-room,
+:root[data-skin="miami-neon"] .primary-button,
+:root[data-skin="miami-neon"] .play-button,
+:root[data-skin="miami-neon"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="miami-neon"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

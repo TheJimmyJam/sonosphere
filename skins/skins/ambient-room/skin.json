@@ -1,0 +1,35 @@
+{
+  "id": "ambient-room",
+  "name": "Ambient Room",
+  "description": "Calm ambient listening room with warm gray surfaces.",
+  "category": "Minimal",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "soft matte",
+  "tags": [
+    "minimal",
+    "soft matte",
+    "slow-wave",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "slow-wave",
+    "intensity": 0.59,
+    "glow": true,
+    "particleDensity": 0.32,
+    "preferredMotion": "adaptive"
+  }
+}

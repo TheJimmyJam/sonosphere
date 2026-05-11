@@ -1,0 +1,81 @@
+/* Sonosphere skin: Emerald Studio
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="emerald-studio"> */
+
+:root[data-skin="emerald-studio"] {
+  color-scheme: dark;
+
+  --skin-id: "emerald-studio";
+  --skin-name: "Emerald Studio";
+
+  --app-bg: #061411;
+  --app-bg-elevated: color-mix(in srgb, #061411 72%, white 8%);
+  --panel-bg: rgba(13,34,29,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(13,34,29,.88) 82%, black 12%);
+  --panel-border: rgba(16,185,129,.25);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #ecfdf5;
+  --text-secondary: #99f6c9;
+  --text-muted: color-mix(in srgb, #99f6c9 72%, transparent);
+
+  --accent-primary: #10b981;
+  --accent-secondary: #34d399;
+  --accent-tertiary: color-mix(in srgb, #10b981 45%, #34d399 55%);
+  --accent-glow: 0 0 24px rgba(16,185,129,.40);
+  --accent-soft: color-mix(in srgb, #10b981 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(13,34,29,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(13,34,29,.88) 64%, #10b981 16%);
+  --button-active-bg: linear-gradient(135deg, #10b981, #34d399);
+
+  --slider-track: color-mix(in srgb, #99f6c9 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #10b981, #34d399);
+  --scrubber-thumb: #ecfdf5;
+
+  --visualizer-primary: #10b981;
+  --visualizer-secondary: #34d399;
+  --visualizer-glow: rgba(16,185,129,.40);
+  --visualizer-mode: "meters";
+
+  --album-radius: 12px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="emerald-studio"],
+:root[data-skin="emerald-studio"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #10b981 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #34d399 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="emerald-studio"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="emerald-studio"] .primary-button,
+:root[data-skin="emerald-studio"] .active-room,
+:root[data-skin="emerald-studio"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="emerald-studio"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

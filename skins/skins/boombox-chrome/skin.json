@@ -1,0 +1,35 @@
+{
+  "id": "boombox-chrome",
+  "name": "Boombox Chrome",
+  "description": "Chrome boombox buttons, twin speakers, and electric accents.",
+  "category": "Retro",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "polished chrome",
+  "tags": [
+    "retro",
+    "polished chrome",
+    "speaker-cones",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "speaker-cones",
+    "intensity": 0.75,
+    "glow": true,
+    "particleDensity": 0.66,
+    "preferredMotion": "adaptive"
+  }
+}

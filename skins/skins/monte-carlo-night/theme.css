@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Monte Carlo Night
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "monte-carlo-night" */
+
+:root[data-skin="monte-carlo-night"] {
+  color-scheme: dark;
+  --skin-id: "monte-carlo-night";
+  --skin-name: "Monte Carlo Night";
+  --skin-category: "Resort Premium";
+  --skin-material: "casino lacquer";
+
+  --app-bg: #030816;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #d4af37 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #0ea5e9 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #030816 92%, #d4af37 8%), color-mix(in srgb, #030816 90%, #0ea5e9 10%));
+
+  --panel-bg: rgba(9,17,34,.91);
+  --panel-bg-strong: color-mix(in srgb, rgba(9,17,34,.91) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(9,17,34,.91) 64%, transparent);
+  --panel-border: rgba(212,175,55,.23);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fff7d6;
+  --text-secondary: #c7b584;
+  --text-muted: color-mix(in srgb, #c7b584 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #d4af37;
+  --accent-secondary: #0ea5e9;
+  --accent-tertiary: color-mix(in srgb, #d4af37 48%, #0ea5e9 52%);
+  --accent-soft: color-mix(in srgb, #d4af37 13%, transparent);
+  --accent-glow-color: rgba(14,165,233,.22);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(9,17,34,.91) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(9,17,34,.91) 65%, #d4af37 12%);
+  --button-active-bg: linear-gradient(135deg, #d4af37, #0ea5e9);
+  --button-border: color-mix(in srgb, #d4af37 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #c7b584 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #d4af37, #0ea5e9);
+  --scrubber-thumb: #fff7d6;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #d4af37 76%, black 10%), color-mix(in srgb, #0ea5e9 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(9,17,34,.91) 84%, transparent);
+  --album-border: color-mix(in srgb, #d4af37 22%, white 5%);
+
+  --visualizer-primary: #d4af37;
+  --visualizer-secondary: #0ea5e9;
+  --visualizer-mode: "roulette-wave";
+  --visualizer-density: 0.34;
+  --visualizer-glow: rgba(14,165,233,.22);
+
+  --app-radius: 30px;
+  --panel-radius: 18px;
+  --card-radius: 14px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="monte-carlo-night"],
+:root[data-skin="monte-carlo-night"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="monte-carlo-night"] .panel,
+:root[data-skin="monte-carlo-night"] .sidebar,
+:root[data-skin="monte-carlo-night"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="monte-carlo-night"] .active-room,
+:root[data-skin="monte-carlo-night"] .primary-button,
+:root[data-skin="monte-carlo-night"] .play-button,
+:root[data-skin="monte-carlo-night"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="monte-carlo-night"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

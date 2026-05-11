@@ -1,0 +1,37 @@
+{
+  "id": "mclaren-amber",
+  "name": "McLaren Amber",
+  "description": "Track-day amber glow over graphite with aggressive control geometry.",
+  "category": "Performance Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "graphite aero",
+  "tags": [
+    "performance luxury",
+    "super-premium",
+    "graphite aero",
+    "boost-bars",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "boost-bars",
+    "intensity": 0.67,
+    "glow": true,
+    "particleDensity": 0.52,
+    "preferredMotion": "premium-subtle"
+  }
+}

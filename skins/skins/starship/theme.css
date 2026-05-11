@@ -1,0 +1,81 @@
+/* Sonosphere skin: Starship
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="starship"> */
+
+:root[data-skin="starship"] {
+  color-scheme: dark;
+
+  --skin-id: "starship";
+  --skin-name: "Starship";
+
+  --app-bg: #050b18;
+  --app-bg-elevated: color-mix(in srgb, #050b18 72%, white 8%);
+  --panel-bg: rgba(10,22,43,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(10,22,43,.90) 82%, black 12%);
+  --panel-border: rgba(96,165,250,.26);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #eff6ff;
+  --text-secondary: #a5b4fc;
+  --text-muted: color-mix(in srgb, #a5b4fc 72%, transparent);
+
+  --accent-primary: #60a5fa;
+  --accent-secondary: #22d3ee;
+  --accent-tertiary: color-mix(in srgb, #60a5fa 45%, #22d3ee 55%);
+  --accent-glow: 0 0 24px rgba(34,211,238,.46);
+  --accent-soft: color-mix(in srgb, #60a5fa 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(10,22,43,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(10,22,43,.90) 64%, #60a5fa 16%);
+  --button-active-bg: linear-gradient(135deg, #60a5fa, #22d3ee);
+
+  --slider-track: color-mix(in srgb, #a5b4fc 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #60a5fa, #22d3ee);
+  --scrubber-thumb: #eff6ff;
+
+  --visualizer-primary: #60a5fa;
+  --visualizer-secondary: #22d3ee;
+  --visualizer-glow: rgba(34,211,238,.46);
+  --visualizer-mode: "hud";
+
+  --album-radius: 12px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: Eurostile, Inter, sans-serif;
+  --font-display: Eurostile, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="starship"],
+:root[data-skin="starship"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #60a5fa 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #22d3ee 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="starship"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="starship"] .primary-button,
+:root[data-skin="starship"] .active-room,
+:root[data-skin="starship"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="starship"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

@@ -1,0 +1,35 @@
+{
+  "id": "subway-map",
+  "name": "Subway Map",
+  "description": "Transit-map lines and station-node accents over charcoal.",
+  "category": "Urban",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "urban enamel",
+  "tags": [
+    "urban",
+    "urban enamel",
+    "route-lines",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "route-lines",
+    "intensity": 0.69,
+    "glow": true,
+    "particleDensity": 0.54,
+    "preferredMotion": "adaptive"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "northern-lights",
+  "name": "Northern Lights",
+  "description": "Aurora ribbons over dark arctic terrain.",
+  "category": "Nature",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "polar glass",
+  "tags": [
+    "nature",
+    "polar glass",
+    "aurora",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "aurora",
+    "intensity": 0.75,
+    "glow": true,
+    "particleDensity": 0.66,
+    "preferredMotion": "adaptive"
+  }
+}

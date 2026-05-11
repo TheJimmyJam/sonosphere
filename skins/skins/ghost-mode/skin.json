@@ -1,0 +1,29 @@
+{
+  "id": "ghost-mode",
+  "name": "Ghost Mode",
+  "description": "Ultra-subtle translucent ghost panels for album-art-first layouts.",
+  "category": "Minimal",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "license": "Proprietary / app-internal starter skin",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "tags": [
+    "minimal",
+    "line"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true
+  },
+  "visualizer": {
+    "mode": "line",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.65
+  }
+}

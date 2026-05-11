@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Boardroom
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "boardroom" */
+
+:root[data-skin="boardroom"] {
+  color-scheme: dark;
+  --skin-id: "boardroom";
+  --skin-name: "Boardroom";
+  --skin-category: "Executive";
+  --skin-material: "charcoal wool";
+
+  --app-bg: #111318;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #3b82f6 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #9ca3af 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #111318 92%, #3b82f6 8%), color-mix(in srgb, #111318 90%, #9ca3af 10%));
+
+  --panel-bg: rgba(29,32,40,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(29,32,40,.92) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(29,32,40,.92) 64%, transparent);
+  --panel-border: rgba(59,130,246,.18);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #c2c7d0;
+  --text-muted: color-mix(in srgb, #c2c7d0 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #3b82f6;
+  --accent-secondary: #9ca3af;
+  --accent-tertiary: color-mix(in srgb, #3b82f6 48%, #9ca3af 52%);
+  --accent-soft: color-mix(in srgb, #3b82f6 13%, transparent);
+  --accent-glow-color: rgba(59,130,246,.20);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(29,32,40,.92) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(29,32,40,.92) 65%, #3b82f6 12%);
+  --button-active-bg: linear-gradient(135deg, #3b82f6, #9ca3af);
+  --button-border: color-mix(in srgb, #3b82f6 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #c2c7d0 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #3b82f6, #9ca3af);
+  --scrubber-thumb: #f8fafc;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #3b82f6 76%, black 10%), color-mix(in srgb, #9ca3af 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(29,32,40,.92) 84%, transparent);
+  --album-border: color-mix(in srgb, #3b82f6 22%, white 5%);
+
+  --visualizer-primary: #3b82f6;
+  --visualizer-secondary: #9ca3af;
+  --visualizer-mode: "executive-meters";
+  --visualizer-density: 0.22;
+  --visualizer-glow: rgba(59,130,246,.20);
+
+  --app-radius: 24px;
+  --panel-radius: 12px;
+  --card-radius: 8px;
+  --album-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="boardroom"],
+:root[data-skin="boardroom"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="boardroom"] .panel,
+:root[data-skin="boardroom"] .sidebar,
+:root[data-skin="boardroom"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="boardroom"] .active-room,
+:root[data-skin="boardroom"] .primary-button,
+:root[data-skin="boardroom"] .play-button,
+:root[data-skin="boardroom"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="boardroom"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Marble Gallery
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "marble-gallery" */
+
+:root[data-skin="marble-gallery"] {
+  color-scheme: light;
+  --skin-id: "marble-gallery";
+  --skin-name: "Marble Gallery";
+  --skin-category: "Luxury Materials";
+  --skin-material: "carrara marble";
+
+  --app-bg: #f7f5f0;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #0f172a 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #3b82f6 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #f7f5f0 92%, #0f172a 8%), color-mix(in srgb, #f7f5f0 90%, #3b82f6 10%));
+
+  --panel-bg: rgba(255,255,255,.74);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.74) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,255,255,.74) 64%, transparent);
+  --panel-border: rgba(15,23,42,.12);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: color-mix(in srgb, #6b7280 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #0f172a;
+  --accent-secondary: #3b82f6;
+  --accent-tertiary: color-mix(in srgb, #0f172a 48%, #3b82f6 52%);
+  --accent-soft: color-mix(in srgb, #0f172a 13%, transparent);
+  --accent-glow-color: rgba(59,130,246,.16);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.74) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.74) 65%, #0f172a 12%);
+  --button-active-bg: linear-gradient(135deg, #0f172a, #3b82f6);
+  --button-border: color-mix(in srgb, #0f172a 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #6b7280 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #0f172a, #3b82f6);
+  --scrubber-thumb: #111827;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #0f172a 76%, black 10%), color-mix(in srgb, #3b82f6 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,255,255,.74) 84%, transparent);
+  --album-border: color-mix(in srgb, #0f172a 22%, white 5%);
+
+  --visualizer-primary: #0f172a;
+  --visualizer-secondary: #3b82f6;
+  --visualizer-mode: "gallery-line";
+  --visualizer-density: 0.18;
+  --visualizer-glow: rgba(59,130,246,.16);
+
+  --app-radius: 34px;
+  --panel-radius: 22px;
+  --card-radius: 18px;
+  --album-radius: 24px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="marble-gallery"],
+:root[data-skin="marble-gallery"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="marble-gallery"] .panel,
+:root[data-skin="marble-gallery"] .sidebar,
+:root[data-skin="marble-gallery"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="marble-gallery"] .active-room,
+:root[data-skin="marble-gallery"] .primary-button,
+:root[data-skin="marble-gallery"] .play-button,
+:root[data-skin="marble-gallery"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="marble-gallery"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

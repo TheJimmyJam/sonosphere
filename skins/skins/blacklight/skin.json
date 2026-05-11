@@ -1,0 +1,29 @@
+{
+  "id": "blacklight",
+  "name": "Blacklight",
+  "description": "UV club aesthetic with purple glow and saturated controls.",
+  "category": "Retro",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "license": "Proprietary / app-internal starter skin",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "tags": [
+    "retro",
+    "tunnel"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true
+  },
+  "visualizer": {
+    "mode": "tunnel",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.65
+  }
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Blood Moon
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="blood-moon"> */
+
+:root[data-skin="blood-moon"] {
+  color-scheme: dark;
+
+  --skin-id: "blood-moon";
+  --skin-name: "Blood Moon";
+
+  --app-bg: #120304;
+  --app-bg-elevated: color-mix(in srgb, #120304 72%, white 8%);
+  --panel-bg: rgba(33,8,9,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(33,8,9,.90) 82%, black 12%);
+  --panel-border: rgba(239,68,68,.28);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff1f2;
+  --text-secondary: #fca5a5;
+  --text-muted: color-mix(in srgb, #fca5a5 72%, transparent);
+
+  --accent-primary: #ef4444;
+  --accent-secondary: #f97316;
+  --accent-tertiary: color-mix(in srgb, #ef4444 45%, #f97316 55%);
+  --accent-glow: 0 0 24px rgba(239,68,68,.48);
+  --accent-soft: color-mix(in srgb, #ef4444 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(33,8,9,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(33,8,9,.90) 64%, #ef4444 16%);
+  --button-active-bg: linear-gradient(135deg, #ef4444, #f97316);
+
+  --slider-track: color-mix(in srgb, #fca5a5 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #ef4444, #f97316);
+  --scrubber-thumb: #fff1f2;
+
+  --visualizer-primary: #ef4444;
+  --visualizer-secondary: #f97316;
+  --visualizer-glow: rgba(239,68,68,.48);
+  --visualizer-mode: "radial";
+
+  --album-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="blood-moon"],
+:root[data-skin="blood-moon"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #ef4444 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #f97316 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="blood-moon"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="blood-moon"] .primary-button,
+:root[data-skin="blood-moon"] .active-room,
+:root[data-skin="blood-moon"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="blood-moon"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

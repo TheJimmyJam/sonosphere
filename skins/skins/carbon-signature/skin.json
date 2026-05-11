@@ -1,0 +1,37 @@
+{
+  "id": "carbon-signature",
+  "name": "Carbon Signature",
+  "description": "Woven carbon fiber with subdued cobalt glass controls.",
+  "category": "Ultra Premium",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "satin carbon fiber",
+  "tags": [
+    "ultra premium",
+    "super-premium",
+    "satin carbon fiber",
+    "tach-line",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "tach-line",
+    "intensity": 0.63,
+    "glow": true,
+    "particleDensity": 0.46,
+    "preferredMotion": "premium-subtle"
+  }
+}

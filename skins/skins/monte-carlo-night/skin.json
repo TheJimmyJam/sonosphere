@@ -1,0 +1,37 @@
+{
+  "id": "monte-carlo-night",
+  "name": "Monte Carlo Night",
+  "description": "Casino-night black, polished gold, and deep sea navy.",
+  "category": "Resort Premium",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "casino lacquer",
+  "tags": [
+    "resort premium",
+    "super-premium",
+    "casino lacquer",
+    "roulette-wave",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "roulette-wave",
+    "intensity": 0.57,
+    "glow": true,
+    "particleDensity": 0.34,
+    "preferredMotion": "premium-subtle"
+  }
+}

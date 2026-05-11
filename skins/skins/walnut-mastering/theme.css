@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Walnut Mastering
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "walnut-mastering" */
+
+:root[data-skin="walnut-mastering"] {
+  color-scheme: dark;
+  --skin-id: "walnut-mastering";
+  --skin-name: "Walnut Mastering";
+  --skin-category: "Luxury Materials";
+  --skin-material: "oiled walnut";
+
+  --app-bg: #100905;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #a16207 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #fef3c7 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #100905 92%, #a16207 8%), color-mix(in srgb, #100905 90%, #fef3c7 10%));
+
+  --panel-bg: rgba(38,24,14,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(38,24,14,.92) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(38,24,14,.92) 64%, transparent);
+  --panel-border: rgba(161,98,7,.25);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fff9ec;
+  --text-secondary: #cdb38c;
+  --text-muted: color-mix(in srgb, #cdb38c 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #a16207;
+  --accent-secondary: #fef3c7;
+  --accent-tertiary: color-mix(in srgb, #a16207 48%, #fef3c7 52%);
+  --accent-soft: color-mix(in srgb, #a16207 13%, transparent);
+  --accent-glow-color: rgba(254,243,199,.20);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(38,24,14,.92) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(38,24,14,.92) 65%, #a16207 12%);
+  --button-active-bg: linear-gradient(135deg, #a16207, #fef3c7);
+  --button-border: color-mix(in srgb, #a16207 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #cdb38c 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #a16207, #fef3c7);
+  --scrubber-thumb: #fff9ec;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #a16207 76%, black 10%), color-mix(in srgb, #fef3c7 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(38,24,14,.92) 84%, transparent);
+  --album-border: color-mix(in srgb, #a16207 22%, white 5%);
+
+  --visualizer-primary: #a16207;
+  --visualizer-secondary: #fef3c7;
+  --visualizer-mode: "mastering-vu";
+  --visualizer-density: 0.36;
+  --visualizer-glow: rgba(254,243,199,.20);
+
+  --app-radius: 26px;
+  --panel-radius: 14px;
+  --card-radius: 10px;
+  --album-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 5px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="walnut-mastering"],
+:root[data-skin="walnut-mastering"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="walnut-mastering"] .panel,
+:root[data-skin="walnut-mastering"] .sidebar,
+:root[data-skin="walnut-mastering"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="walnut-mastering"] .active-room,
+:root[data-skin="walnut-mastering"] .primary-button,
+:root[data-skin="walnut-mastering"] .play-button,
+:root[data-skin="walnut-mastering"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="walnut-mastering"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

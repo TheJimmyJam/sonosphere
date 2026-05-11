@@ -1,0 +1,29 @@
+{
+  "id": "hologram",
+  "name": "Hologram",
+  "description": "Transparent holographic panels with cyan-violet refraction.",
+  "category": "Futuristic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "license": "Proprietary / app-internal starter skin",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "tags": [
+    "futuristic",
+    "holo"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true
+  },
+  "visualizer": {
+    "mode": "holo",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.65
+  }
+}

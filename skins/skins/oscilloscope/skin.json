@@ -1,0 +1,35 @@
+{
+  "id": "oscilloscope",
+  "name": "Oscilloscope",
+  "description": "Lab instrument green trace with black phosphor glow.",
+  "category": "Technical",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "lab instrument",
+  "tags": [
+    "technical",
+    "lab instrument",
+    "scope-trace",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "scope-trace",
+    "intensity": 0.77,
+    "glow": true,
+    "particleDensity": 0.7,
+    "preferredMotion": "adaptive"
+  }
+}

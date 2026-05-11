@@ -1,0 +1,81 @@
+/* Sonosphere skin: Laser Grid
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="laser-grid"> */
+
+:root[data-skin="laser-grid"] {
+  color-scheme: dark;
+
+  --skin-id: "laser-grid";
+  --skin-name: "Laser Grid";
+
+  --app-bg: #060719;
+  --app-bg-elevated: color-mix(in srgb, #060719 72%, white 8%);
+  --panel-bg: rgba(9,12,39,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(9,12,39,.88) 82%, black 12%);
+  --panel-border: rgba(37,99,235,.32);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #eef2ff;
+  --text-secondary: #a5b4fc;
+  --text-muted: color-mix(in srgb, #a5b4fc 72%, transparent);
+
+  --accent-primary: #2563eb;
+  --accent-secondary: #22d3ee;
+  --accent-tertiary: color-mix(in srgb, #2563eb 45%, #22d3ee 55%);
+  --accent-glow: 0 0 24px rgba(37,99,235,.55);
+  --accent-soft: color-mix(in srgb, #2563eb 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(9,12,39,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(9,12,39,.88) 64%, #2563eb 16%);
+  --button-active-bg: linear-gradient(135deg, #2563eb, #22d3ee);
+
+  --slider-track: color-mix(in srgb, #a5b4fc 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #2563eb, #22d3ee);
+  --scrubber-thumb: #eef2ff;
+
+  --visualizer-primary: #2563eb;
+  --visualizer-secondary: #22d3ee;
+  --visualizer-glow: rgba(37,99,235,.55);
+  --visualizer-mode: "grid-tunnel";
+
+  --album-radius: 12px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Orbitron, Inter, sans-serif;
+  --font-display: Orbitron, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="laser-grid"],
+:root[data-skin="laser-grid"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #2563eb 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #22d3ee 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="laser-grid"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="laser-grid"] .primary-button,
+:root[data-skin="laser-grid"] .active-room,
+:root[data-skin="laser-grid"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="laser-grid"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

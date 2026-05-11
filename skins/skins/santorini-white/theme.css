@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Santorini White
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "santorini-white" */
+
+:root[data-skin="santorini-white"] {
+  color-scheme: light;
+  --skin-id: "santorini-white";
+  --skin-name: "Santorini White";
+  --skin-category: "Resort Premium";
+  --skin-material: "limewashed stone";
+
+  --app-bg: #f8fbff;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #0ea5e9 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #0369a1 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #f8fbff 92%, #0ea5e9 8%), color-mix(in srgb, #f8fbff 90%, #0369a1 10%));
+
+  --panel-bg: rgba(255,255,255,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.86) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,255,255,.86) 64%, transparent);
+  --panel-border: rgba(14,165,233,.18);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #082f49;
+  --text-secondary: #64748b;
+  --text-muted: color-mix(in srgb, #64748b 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #0369a1;
+  --accent-tertiary: color-mix(in srgb, #0ea5e9 48%, #0369a1 52%);
+  --accent-soft: color-mix(in srgb, #0ea5e9 13%, transparent);
+  --accent-glow-color: rgba(3,105,161,.16);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.86) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.86) 65%, #0ea5e9 12%);
+  --button-active-bg: linear-gradient(135deg, #0ea5e9, #0369a1);
+  --button-border: color-mix(in srgb, #0ea5e9 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #64748b 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #0ea5e9, #0369a1);
+  --scrubber-thumb: #082f49;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #0ea5e9 76%, black 10%), color-mix(in srgb, #0369a1 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,255,255,.86) 84%, transparent);
+  --album-border: color-mix(in srgb, #0ea5e9 22%, white 5%);
+
+  --visualizer-primary: #0ea5e9;
+  --visualizer-secondary: #0369a1;
+  --visualizer-mode: "aegean-line";
+  --visualizer-density: 0.16;
+  --visualizer-glow: rgba(3,105,161,.16);
+
+  --app-radius: 32px;
+  --panel-radius: 20px;
+  --card-radius: 16px;
+  --album-radius: 22px;
+  --control-radius: 999px;
+  --app-blur: 12px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="santorini-white"],
+:root[data-skin="santorini-white"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="santorini-white"] .panel,
+:root[data-skin="santorini-white"] .sidebar,
+:root[data-skin="santorini-white"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="santorini-white"] .active-room,
+:root[data-skin="santorini-white"] .primary-button,
+:root[data-skin="santorini-white"] .play-button,
+:root[data-skin="santorini-white"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="santorini-white"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Apollo Gold
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "apollo-gold" */
+
+:root[data-skin="apollo-gold"] {
+  color-scheme: dark;
+  --skin-id: "apollo-gold";
+  --skin-name: "Apollo Gold";
+  --skin-category: "Aerospace Luxury";
+  --skin-material: "gold thermal foil";
+
+  --app-bg: #070604;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #f7c948 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #9ca3af 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #070604 92%, #f7c948 8%), color-mix(in srgb, #070604 90%, #9ca3af 10%));
+
+  --panel-bg: rgba(23,20,14,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(23,20,14,.92) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(23,20,14,.92) 64%, transparent);
+  --panel-border: rgba(247,201,72,.24);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fefce8;
+  --text-secondary: #c9be91;
+  --text-muted: color-mix(in srgb, #c9be91 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #f7c948;
+  --accent-secondary: #9ca3af;
+  --accent-tertiary: color-mix(in srgb, #f7c948 48%, #9ca3af 52%);
+  --accent-soft: color-mix(in srgb, #f7c948 13%, transparent);
+  --accent-glow-color: rgba(247,201,72,.25);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(23,20,14,.92) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(23,20,14,.92) 65%, #f7c948 12%);
+  --button-active-bg: linear-gradient(135deg, #f7c948, #9ca3af);
+  --button-border: color-mix(in srgb, #f7c948 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #c9be91 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #f7c948, #9ca3af);
+  --scrubber-thumb: #fefce8;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #f7c948 76%, black 10%), color-mix(in srgb, #9ca3af 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(23,20,14,.92) 84%, transparent);
+  --album-border: color-mix(in srgb, #f7c948 22%, white 5%);
+
+  --visualizer-primary: #f7c948;
+  --visualizer-secondary: #9ca3af;
+  --visualizer-mode: "mission-vu";
+  --visualizer-density: 0.42;
+  --visualizer-glow: rgba(247,201,72,.25);
+
+  --app-radius: 24px;
+  --panel-radius: 12px;
+  --card-radius: 8px;
+  --album-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="apollo-gold"],
+:root[data-skin="apollo-gold"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="apollo-gold"] .panel,
+:root[data-skin="apollo-gold"] .sidebar,
+:root[data-skin="apollo-gold"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="apollo-gold"] .active-room,
+:root[data-skin="apollo-gold"] .primary-button,
+:root[data-skin="apollo-gold"] .play-button,
+:root[data-skin="apollo-gold"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="apollo-gold"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

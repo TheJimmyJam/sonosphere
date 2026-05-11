@@ -1,0 +1,35 @@
+{
+  "id": "midnight-blueprint",
+  "name": "Midnight Blueprint",
+  "description": "Dark engineering draft grid with technical cyan annotations.",
+  "category": "Technical",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "drafting glass",
+  "tags": [
+    "technical",
+    "drafting glass",
+    "schematic",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "schematic",
+    "intensity": 0.75,
+    "glow": true,
+    "particleDensity": 0.66,
+    "preferredMotion": "adaptive"
+  }
+}

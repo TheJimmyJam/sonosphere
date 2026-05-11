@@ -1,0 +1,29 @@
+{
+  "id": "neon-pulse",
+  "name": "Neon Pulse",
+  "description": "Electric blue/violet visualizer skin with glowing controls.",
+  "category": "Futuristic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "license": "Proprietary / app-internal starter skin",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "tags": [
+    "futuristic",
+    "bars"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true
+  },
+  "visualizer": {
+    "mode": "bars",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.65
+  }
+}

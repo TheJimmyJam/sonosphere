@@ -1,0 +1,35 @@
+{
+  "id": "datacenter",
+  "name": "Datacenter",
+  "description": "Server rack blacks, status LEDs, and blue cooling accents.",
+  "category": "Technical",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "server metal",
+  "tags": [
+    "technical",
+    "server metal",
+    "led-rack",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "led-rack",
+    "intensity": 0.79,
+    "glow": true,
+    "particleDensity": 0.76,
+    "preferredMotion": "adaptive"
+  }
+}

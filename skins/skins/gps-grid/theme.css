@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — GPS Grid
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "gps-grid" */
+
+:root[data-skin="gps-grid"] {
+  color-scheme: dark;
+  --skin-id: "gps-grid";
+  --skin-name: "GPS Grid";
+  --skin-category: "Technical";
+  --skin-material: "navigation glass";
+
+  --app-bg: #061521;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #0ea5e9 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #84cc16 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #061521 92%, #0ea5e9 8%), color-mix(in srgb, #061521 88%, #84cc16 12%));
+
+  --panel-bg: rgba(8,31,47,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(8,31,47,.88) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(8,31,47,.88) 72%, transparent);
+  --panel-border: rgba(14,165,233,.24);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #e0f2fe;
+  --text-secondary: #9cc8d9;
+  --text-muted: color-mix(in srgb, #9cc8d9 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #84cc16;
+  --accent-tertiary: color-mix(in srgb, #0ea5e9 46%, #84cc16 54%);
+  --accent-soft: color-mix(in srgb, #0ea5e9 15%, transparent);
+  --accent-glow-color: rgba(132,204,22,.25);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(8,31,47,.88) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(8,31,47,.88) 64%, #0ea5e9 14%);
+  --button-active-bg: linear-gradient(135deg, #0ea5e9, #84cc16);
+  --button-border: color-mix(in srgb, #0ea5e9 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #9cc8d9 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #0ea5e9, #84cc16);
+  --scrubber-thumb: #e0f2fe;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #0ea5e9 82%, black 10%), color-mix(in srgb, #84cc16 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(8,31,47,.88) 82%, transparent);
+  --album-border: color-mix(in srgb, #0ea5e9 24%, white 6%);
+
+  --visualizer-primary: #0ea5e9;
+  --visualizer-secondary: #84cc16;
+  --visualizer-mode: "geo-pulse";
+  --visualizer-density: 0.58;
+  --visualizer-glow: rgba(132,204,22,.25);
+
+  --app-radius: 20px;
+  --panel-radius: 10px;
+  --card-radius: 8px;
+  --album-radius: 12px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="gps-grid"],
+:root[data-skin="gps-grid"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="gps-grid"] .panel,
+:root[data-skin="gps-grid"] .sidebar,
+:root[data-skin="gps-grid"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="gps-grid"] .active-room,
+:root[data-skin="gps-grid"] .primary-button,
+:root[data-skin="gps-grid"] .play-button,
+:root[data-skin="gps-grid"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="gps-grid"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

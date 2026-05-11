@@ -1,0 +1,309 @@
+{
+  "name": "Sonosphere Expansion Skin Pack 03 \u2014 Super Premium",
+  "version": "1.0.0",
+  "skinCount": 50,
+  "architecture": "JSON + CSS variables",
+  "note": "Third pack: 50 premium skins designed to be distinct from the first 100.",
+  "skins": [
+    {
+      "id": "obsidian-couture",
+      "name": "Obsidian Couture",
+      "category": "Ultra Premium",
+      "path": "obsidian-couture/skin.json"
+    },
+    {
+      "id": "platinum-atelier",
+      "name": "Platinum Atelier",
+      "category": "Ultra Premium",
+      "path": "platinum-atelier/skin.json"
+    },
+    {
+      "id": "rose-gold-studio",
+      "name": "Rose Gold Studio",
+      "category": "Ultra Premium",
+      "path": "rose-gold-studio/skin.json"
+    },
+    {
+      "id": "champagne-noir",
+      "name": "Champagne Noir",
+      "category": "Ultra Premium",
+      "path": "champagne-noir/skin.json"
+    },
+    {
+      "id": "carbon-signature",
+      "name": "Carbon Signature",
+      "category": "Ultra Premium",
+      "path": "carbon-signature/skin.json"
+    },
+    {
+      "id": "cognac-leather",
+      "name": "Cognac Leather",
+      "category": "Luxury Materials",
+      "path": "cognac-leather/skin.json"
+    },
+    {
+      "id": "walnut-mastering",
+      "name": "Walnut Mastering",
+      "category": "Luxury Materials",
+      "path": "walnut-mastering/skin.json"
+    },
+    {
+      "id": "marble-gallery",
+      "name": "Marble Gallery",
+      "category": "Luxury Materials",
+      "path": "marble-gallery/skin.json"
+    },
+    {
+      "id": "travertine-room",
+      "name": "Travertine Room",
+      "category": "Luxury Materials",
+      "path": "travertine-room/skin.json"
+    },
+    {
+      "id": "onyx-emerald",
+      "name": "Onyx Emerald",
+      "category": "Luxury Materials",
+      "path": "onyx-emerald/skin.json"
+    },
+    {
+      "id": "sable-silk",
+      "name": "Sable Silk",
+      "category": "Luxury Materials",
+      "path": "sable-silk/skin.json"
+    },
+    {
+      "id": "ivory-piano",
+      "name": "Ivory Piano",
+      "category": "Luxury Materials",
+      "path": "ivory-piano/skin.json"
+    },
+    {
+      "id": "haute-hologram",
+      "name": "Haute Hologram",
+      "category": "High Fashion Tech",
+      "path": "haute-hologram/skin.json"
+    },
+    {
+      "id": "runway-neon",
+      "name": "Runway Neon",
+      "category": "High Fashion Tech",
+      "path": "runway-neon/skin.json"
+    },
+    {
+      "id": "monochrome-editorial",
+      "name": "Monochrome Editorial",
+      "category": "High Fashion Tech",
+      "path": "monochrome-editorial/skin.json"
+    },
+    {
+      "id": "satin-lilac",
+      "name": "Satin Lilac",
+      "category": "High Fashion Tech",
+      "path": "satin-lilac/skin.json"
+    },
+    {
+      "id": "couture-crimson",
+      "name": "Couture Crimson",
+      "category": "High Fashion Tech",
+      "path": "couture-crimson/skin.json"
+    },
+    {
+      "id": "arctic-resort",
+      "name": "Arctic Resort",
+      "category": "Resort Premium",
+      "path": "arctic-resort/skin.json"
+    },
+    {
+      "id": "amalfi-hour",
+      "name": "Amalfi Hour",
+      "category": "Resort Premium",
+      "path": "amalfi-hour/skin.json"
+    },
+    {
+      "id": "kyoto-ryokan",
+      "name": "Kyoto Ryokan",
+      "category": "Resort Premium",
+      "path": "kyoto-ryokan/skin.json"
+    },
+    {
+      "id": "bali-rain",
+      "name": "Bali Rain",
+      "category": "Resort Premium",
+      "path": "bali-rain/skin.json"
+    },
+    {
+      "id": "santorini-white",
+      "name": "Santorini White",
+      "category": "Resort Premium",
+      "path": "santorini-white/skin.json"
+    },
+    {
+      "id": "monte-carlo-night",
+      "name": "Monte Carlo Night",
+      "category": "Resort Premium",
+      "path": "monte-carlo-night/skin.json"
+    },
+    {
+      "id": "private-jet",
+      "name": "Private Jet",
+      "category": "Aerospace Luxury",
+      "path": "private-jet/skin.json"
+    },
+    {
+      "id": "orbital-lounge",
+      "name": "Orbital Lounge",
+      "category": "Aerospace Luxury",
+      "path": "orbital-lounge/skin.json"
+    },
+    {
+      "id": "stratosphere",
+      "name": "Stratosphere",
+      "category": "Aerospace Luxury",
+      "path": "stratosphere/skin.json"
+    },
+    {
+      "id": "apollo-gold",
+      "name": "Apollo Gold",
+      "category": "Aerospace Luxury",
+      "path": "apollo-gold/skin.json"
+    },
+    {
+      "id": "deep-space-black",
+      "name": "Deep Space Black",
+      "category": "Aerospace Luxury",
+      "path": "deep-space-black/skin.json"
+    },
+    {
+      "id": "f1-paddock",
+      "name": "F1 Paddock",
+      "category": "Performance Luxury",
+      "path": "f1-paddock/skin.json"
+    },
+    {
+      "id": "gt-silver",
+      "name": "GT Silver",
+      "category": "Performance Luxury",
+      "path": "gt-silver/skin.json"
+    },
+    {
+      "id": "mclaren-amber",
+      "name": "McLaren Amber",
+      "category": "Performance Luxury",
+      "path": "mclaren-amber/skin.json"
+    },
+    {
+      "id": "tesla-white",
+      "name": "Tesla White",
+      "category": "Performance Luxury",
+      "path": "tesla-white/skin.json"
+    },
+    {
+      "id": "racing-british",
+      "name": "Racing British",
+      "category": "Performance Luxury",
+      "path": "racing-british/skin.json"
+    },
+    {
+      "id": "nordic-hifi",
+      "name": "Nordic Hi-Fi",
+      "category": "Audiophile",
+      "path": "nordic-hifi/skin.json"
+    },
+    {
+      "id": "tube-amp",
+      "name": "Tube Amp",
+      "category": "Audiophile",
+      "path": "tube-amp/skin.json"
+    },
+    {
+      "id": "electrostatic",
+      "name": "Electrostatic",
+      "category": "Audiophile",
+      "path": "electrostatic/skin.json"
+    },
+    {
+      "id": "reel-to-reel-lux",
+      "name": "Reel-to-Reel Lux",
+      "category": "Audiophile",
+      "path": "reel-to-reel-lux/skin.json"
+    },
+    {
+      "id": "reference-monitor",
+      "name": "Reference Monitor",
+      "category": "Audiophile",
+      "path": "reference-monitor/skin.json"
+    },
+    {
+      "id": "boutique-synth",
+      "name": "Boutique Synth",
+      "category": "Boutique Electronic",
+      "path": "boutique-synth/skin.json"
+    },
+    {
+      "id": "modular-eurorack",
+      "name": "Modular Eurorack",
+      "category": "Boutique Electronic",
+      "path": "modular-eurorack/skin.json"
+    },
+    {
+      "id": "granular-cloud",
+      "name": "Granular Cloud",
+      "category": "Boutique Electronic",
+      "path": "granular-cloud/skin.json"
+    },
+    {
+      "id": "fm-operator",
+      "name": "FM Operator",
+      "category": "Boutique Electronic",
+      "path": "fm-operator/skin.json"
+    },
+    {
+      "id": "sequencer-grid",
+      "name": "Sequencer Grid",
+      "category": "Boutique Electronic",
+      "path": "sequencer-grid/skin.json"
+    },
+    {
+      "id": "crystal-palace",
+      "name": "Architectural Premium",
+      "category": "Architectural Premium",
+      "path": "crystal-palace/skin.json"
+    },
+    {
+      "id": "brutalist-audio",
+      "name": "Brutalist Audio",
+      "category": "Architectural Premium",
+      "path": "brutalist-audio/skin.json"
+    },
+    {
+      "id": "bauhaus-wave",
+      "name": "Bauhaus Wave",
+      "category": "Architectural Premium",
+      "path": "bauhaus-wave/skin.json"
+    },
+    {
+      "id": "art-deco-radio",
+      "name": "Art Deco Radio",
+      "category": "Architectural Premium",
+      "path": "art-deco-radio/skin.json"
+    },
+    {
+      "id": "glass-tower",
+      "name": "Glass Tower",
+      "category": "Architectural Premium",
+      "path": "glass-tower/skin.json"
+    },
+    {
+      "id": "diplomat",
+      "name": "Executive",
+      "category": "Executive",
+      "path": "diplomat/skin.json"
+    },
+    {
+      "id": "boardroom",
+      "name": "Boardroom",
+      "category": "Executive",
+      "path": "boardroom/skin.json"
+    }
+  ]
+}

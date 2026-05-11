@@ -1,0 +1,81 @@
+/* Sonosphere skin: Paper White
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="paper-white"> */
+
+:root[data-skin="paper-white"] {
+  color-scheme: light;
+
+  --skin-id: "paper-white";
+  --skin-name: "Paper White";
+
+  --app-bg: #f8fafc;
+  --app-bg-elevated: color-mix(in srgb, #f8fafc 72%, white 8%);
+  --panel-bg: rgba(255,255,255,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.92) 82%, black 12%);
+  --panel-border: rgba(17,24,39,.12);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: color-mix(in srgb, #6b7280 72%, transparent);
+
+  --accent-primary: #2563eb;
+  --accent-secondary: #60a5fa;
+  --accent-tertiary: color-mix(in srgb, #2563eb 45%, #60a5fa 55%);
+  --accent-glow: 0 0 24px rgba(37,99,235,.18);
+  --accent-soft: color-mix(in srgb, #2563eb 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.92) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.92) 64%, #2563eb 16%);
+  --button-active-bg: linear-gradient(135deg, #2563eb, #60a5fa);
+
+  --slider-track: color-mix(in srgb, #6b7280 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #2563eb, #60a5fa);
+  --scrubber-thumb: #111827;
+
+  --visualizer-primary: #2563eb;
+  --visualizer-secondary: #60a5fa;
+  --visualizer-glow: rgba(37,99,235,.18);
+  --visualizer-mode: "line";
+
+  --album-radius: 12px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 4px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="paper-white"],
+:root[data-skin="paper-white"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #2563eb 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #60a5fa 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="paper-white"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="paper-white"] .primary-button,
+:root[data-skin="paper-white"] .active-room,
+:root[data-skin="paper-white"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="paper-white"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

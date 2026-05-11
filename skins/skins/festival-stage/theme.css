@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Festival Stage
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "festival-stage" */
+
+:root[data-skin="festival-stage"] {
+  color-scheme: dark;
+  --skin-id: "festival-stage";
+  --skin-name: "Festival Stage";
+  --skin-category: "Lifestyle";
+  --skin-material: "LED haze";
+
+  --app-bg: #120914;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #f43f5e 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #22d3ee 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #120914 92%, #f43f5e 8%), color-mix(in srgb, #120914 88%, #22d3ee 12%));
+
+  --panel-bg: rgba(36,18,40,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(36,18,40,.86) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(36,18,40,.86) 72%, transparent);
+  --panel-border: rgba(244,63,94,.28);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #fff7fb;
+  --text-secondary: #f0a9c0;
+  --text-muted: color-mix(in srgb, #f0a9c0 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #f43f5e;
+  --accent-secondary: #22d3ee;
+  --accent-tertiary: color-mix(in srgb, #f43f5e 46%, #22d3ee 54%);
+  --accent-soft: color-mix(in srgb, #f43f5e 15%, transparent);
+  --accent-glow-color: rgba(34,211,238,.46);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(36,18,40,.86) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(36,18,40,.86) 64%, #f43f5e 14%);
+  --button-active-bg: linear-gradient(135deg, #f43f5e, #22d3ee);
+  --button-border: color-mix(in srgb, #f43f5e 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #f0a9c0 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #f43f5e, #22d3ee);
+  --scrubber-thumb: #fff7fb;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #f43f5e 82%, black 10%), color-mix(in srgb, #22d3ee 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(36,18,40,.86) 82%, transparent);
+  --album-border: color-mix(in srgb, #f43f5e 24%, white 6%);
+
+  --visualizer-primary: #f43f5e;
+  --visualizer-secondary: #22d3ee;
+  --visualizer-mode: "stage-lights";
+  --visualizer-density: 0.86;
+  --visualizer-glow: rgba(34,211,238,.46);
+
+  --app-radius: 30px;
+  --panel-radius: 20px;
+  --card-radius: 18px;
+  --album-radius: 22px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="festival-stage"],
+:root[data-skin="festival-stage"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="festival-stage"] .panel,
+:root[data-skin="festival-stage"] .sidebar,
+:root[data-skin="festival-stage"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="festival-stage"] .active-room,
+:root[data-skin="festival-stage"] .primary-button,
+:root[data-skin="festival-stage"] .play-button,
+:root[data-skin="festival-stage"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="festival-stage"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

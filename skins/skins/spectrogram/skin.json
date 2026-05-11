@@ -1,0 +1,35 @@
+{
+  "id": "spectrogram",
+  "name": "Spectrogram",
+  "description": "Scientific spectrogram heat-map palette in a dark lab UI.",
+  "category": "Technical",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "analysis console",
+  "tags": [
+    "technical",
+    "analysis console",
+    "spectrogram",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "spectrogram",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.82,
+    "preferredMotion": "adaptive"
+  }
+}

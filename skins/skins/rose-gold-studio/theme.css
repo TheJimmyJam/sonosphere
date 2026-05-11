@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Rose Gold Studio
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "rose-gold-studio" */
+
+:root[data-skin="rose-gold-studio"] {
+  color-scheme: dark;
+  --skin-id: "rose-gold-studio";
+  --skin-name: "Rose Gold Studio";
+  --skin-category: "Ultra Premium";
+  --skin-material: "rose-gold satin";
+
+  --app-bg: #1a0e10;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #f4a7a1 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #f8d7c5 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #1a0e10 92%, #f4a7a1 8%), color-mix(in srgb, #1a0e10 90%, #f8d7c5 10%));
+
+  --panel-bg: rgba(46,27,29,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(46,27,29,.88) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(46,27,29,.88) 64%, transparent);
+  --panel-border: rgba(244,167,161,.25);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fff7f5;
+  --text-secondary: #d9aaa5;
+  --text-muted: color-mix(in srgb, #d9aaa5 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #f4a7a1;
+  --accent-secondary: #f8d7c5;
+  --accent-tertiary: color-mix(in srgb, #f4a7a1 48%, #f8d7c5 52%);
+  --accent-soft: color-mix(in srgb, #f4a7a1 13%, transparent);
+  --accent-glow-color: rgba(248,215,197,.24);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(46,27,29,.88) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(46,27,29,.88) 65%, #f4a7a1 12%);
+  --button-active-bg: linear-gradient(135deg, #f4a7a1, #f8d7c5);
+  --button-border: color-mix(in srgb, #f4a7a1 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #d9aaa5 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #f4a7a1, #f8d7c5);
+  --scrubber-thumb: #fff7f5;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #f4a7a1 76%, black 10%), color-mix(in srgb, #f8d7c5 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(46,27,29,.88) 84%, transparent);
+  --album-border: color-mix(in srgb, #f4a7a1 22%, white 5%);
+
+  --visualizer-primary: #f4a7a1;
+  --visualizer-secondary: #f8d7c5;
+  --visualizer-mode: "soft-vu";
+  --visualizer-density: 0.38;
+  --visualizer-glow: rgba(248,215,197,.24);
+
+  --app-radius: 34px;
+  --panel-radius: 22px;
+  --card-radius: 18px;
+  --album-radius: 24px;
+  --control-radius: 999px;
+  --app-blur: 14px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="rose-gold-studio"],
+:root[data-skin="rose-gold-studio"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="rose-gold-studio"] .panel,
+:root[data-skin="rose-gold-studio"] .sidebar,
+:root[data-skin="rose-gold-studio"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="rose-gold-studio"] .active-room,
+:root[data-skin="rose-gold-studio"] .primary-button,
+:root[data-skin="rose-gold-studio"] .play-button,
+:root[data-skin="rose-gold-studio"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="rose-gold-studio"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Quantum Dot
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="quantum-dot"> */
+
+:root[data-skin="quantum-dot"] {
+  color-scheme: dark;
+
+  --skin-id: "quantum-dot";
+  --skin-name: "Quantum Dot";
+
+  --app-bg: #050816;
+  --app-bg-elevated: color-mix(in srgb, #050816 72%, white 8%);
+  --panel-bg: rgba(11,18,38,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(11,18,38,.88) 82%, black 12%);
+  --panel-border: rgba(6,182,212,.26);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #f0f9ff;
+  --text-secondary: #a5b4fc;
+  --text-muted: color-mix(in srgb, #a5b4fc 72%, transparent);
+
+  --accent-primary: #06b6d4;
+  --accent-secondary: #8b5cf6;
+  --accent-tertiary: color-mix(in srgb, #06b6d4 45%, #8b5cf6 55%);
+  --accent-glow: 0 0 24px rgba(6,182,212,.50);
+  --accent-soft: color-mix(in srgb, #06b6d4 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(11,18,38,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(11,18,38,.88) 64%, #06b6d4 16%);
+  --button-active-bg: linear-gradient(135deg, #06b6d4, #8b5cf6);
+
+  --slider-track: color-mix(in srgb, #a5b4fc 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #06b6d4, #8b5cf6);
+  --scrubber-thumb: #f0f9ff;
+
+  --visualizer-primary: #06b6d4;
+  --visualizer-secondary: #8b5cf6;
+  --visualizer-glow: rgba(6,182,212,.50);
+  --visualizer-mode: "particles";
+
+  --album-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 16px;
+
+  --font-ui: IBM Plex Sans, Inter, sans-serif;
+  --font-display: IBM Plex Sans, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="quantum-dot"],
+:root[data-skin="quantum-dot"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #06b6d4 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #8b5cf6 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="quantum-dot"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="quantum-dot"] .primary-button,
+:root[data-skin="quantum-dot"] .active-room,
+:root[data-skin="quantum-dot"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="quantum-dot"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

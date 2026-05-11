@@ -1,0 +1,35 @@
+{
+  "id": "mission-control",
+  "name": "Mission Control",
+  "description": "Houston-style command panels with amber status indicators.",
+  "category": "Technical",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "command console",
+  "tags": [
+    "technical",
+    "command console",
+    "meters",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "meters",
+    "intensity": 0.77,
+    "glow": true,
+    "particleDensity": 0.7,
+    "preferredMotion": "adaptive"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "vinyl-wood",
+  "name": "Vinyl Wood",
+  "description": "Warm walnut panels, brass highlights, and hi-fi stereo nostalgia.",
+  "category": "Classic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "license": "Proprietary / app-internal starter skin",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "tags": [
+    "classic",
+    "vinyl"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true
+  },
+  "visualizer": {
+    "mode": "vinyl",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.65
+  }
+}

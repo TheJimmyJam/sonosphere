@@ -1,0 +1,37 @@
+{
+  "id": "electrostatic",
+  "name": "Electrostatic",
+  "description": "Transparent electrostatic speaker panels with blue-white precision.",
+  "category": "Audiophile",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "transparent stator",
+  "tags": [
+    "audiophile",
+    "super-premium",
+    "transparent stator",
+    "electro-line",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "electro-line",
+    "intensity": 0.56,
+    "glow": true,
+    "particleDensity": 0.32,
+    "preferredMotion": "premium-subtle"
+  }
+}

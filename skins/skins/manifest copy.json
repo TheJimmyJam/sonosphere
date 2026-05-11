@@ -1,0 +1,308 @@
+{
+  "name": "Sonosphere Expansion Skin Pack 02",
+  "version": "1.0.0",
+  "skinCount": 50,
+  "architecture": "JSON + CSS variables",
+  "skins": [
+    {
+      "id": "lunar-relay",
+      "name": "Lunar Relay",
+      "category": "Space",
+      "path": "lunar-relay/skin.json"
+    },
+    {
+      "id": "mission-control",
+      "name": "Mission Control",
+      "category": "Technical",
+      "path": "mission-control/skin.json"
+    },
+    {
+      "id": "ion-drive",
+      "name": "Ion Drive",
+      "category": "Futuristic",
+      "path": "ion-drive/skin.json"
+    },
+    {
+      "id": "satellite-array",
+      "name": "Satellite Array",
+      "category": "Technical",
+      "path": "satellite-array/skin.json"
+    },
+    {
+      "id": "broadcast-tower",
+      "name": "Broadcast Tower",
+      "category": "Retro",
+      "path": "broadcast-tower/skin.json"
+    },
+    {
+      "id": "shortwave",
+      "name": "Shortwave",
+      "category": "Retro",
+      "path": "shortwave/skin.json"
+    },
+    {
+      "id": "cassette-deck",
+      "name": "Cassette Deck",
+      "category": "Retro",
+      "path": "cassette-deck/skin.json"
+    },
+    {
+      "id": "minidisc",
+      "name": "MiniDisc",
+      "category": "Retro",
+      "path": "minidisc/skin.json"
+    },
+    {
+      "id": "boombox-chrome",
+      "name": "Boombox Chrome",
+      "category": "Retro",
+      "path": "boombox-chrome/skin.json"
+    },
+    {
+      "id": "studio-rack",
+      "name": "Studio Rack",
+      "category": "Classic",
+      "path": "studio-rack/skin.json"
+    },
+    {
+      "id": "mixing-desk",
+      "name": "Mixing Desk",
+      "category": "Classic",
+      "path": "mixing-desk/skin.json"
+    },
+    {
+      "id": "mastering-suite",
+      "name": "Mastering Suite",
+      "category": "Professional",
+      "path": "mastering-suite/skin.json"
+    },
+    {
+      "id": "jazz-club",
+      "name": "Jazz Club",
+      "category": "Lifestyle",
+      "path": "jazz-club/skin.json"
+    },
+    {
+      "id": "opera-house",
+      "name": "Opera House",
+      "category": "Classic",
+      "path": "opera-house/skin.json"
+    },
+    {
+      "id": "festival-stage",
+      "name": "Festival Stage",
+      "category": "Lifestyle",
+      "path": "festival-stage/skin.json"
+    },
+    {
+      "id": "club-strobe",
+      "name": "Club Strobe",
+      "category": "Futuristic",
+      "path": "club-strobe/skin.json"
+    },
+    {
+      "id": "ambient-room",
+      "name": "Ambient Room",
+      "category": "Minimal",
+      "path": "ambient-room/skin.json"
+    },
+    {
+      "id": "lofi-study",
+      "name": "LoFi Study",
+      "category": "Lifestyle",
+      "path": "lofi-study/skin.json"
+    },
+    {
+      "id": "rainy-window",
+      "name": "Rainy Window",
+      "category": "Lifestyle",
+      "path": "rainy-window/skin.json"
+    },
+    {
+      "id": "coffeehouse",
+      "name": "Coffeehouse",
+      "category": "Lifestyle",
+      "path": "coffeehouse/skin.json"
+    },
+    {
+      "id": "alpine-lodge",
+      "name": "Alpine Lodge",
+      "category": "Lifestyle",
+      "path": "alpine-lodge/skin.json"
+    },
+    {
+      "id": "desert-mirage",
+      "name": "Desert Mirage",
+      "category": "Lifestyle",
+      "path": "desert-mirage/skin.json"
+    },
+    {
+      "id": "coral-reef",
+      "name": "Coral Reef",
+      "category": "Nature",
+      "path": "coral-reef/skin.json"
+    },
+    {
+      "id": "northern-lights",
+      "name": "Northern Lights",
+      "category": "Nature",
+      "path": "northern-lights/skin.json"
+    },
+    {
+      "id": "volcanic-glass",
+      "name": "Volcanic Glass",
+      "category": "Nature",
+      "path": "volcanic-glass/skin.json"
+    },
+    {
+      "id": "thunderhead",
+      "name": "Thunderhead",
+      "category": "Nature",
+      "path": "thunderhead/skin.json"
+    },
+    {
+      "id": "tidepool",
+      "name": "Tidepool",
+      "category": "Nature",
+      "path": "tidepool/skin.json"
+    },
+    {
+      "id": "forest-canopy",
+      "name": "Forest Canopy",
+      "category": "Nature",
+      "path": "forest-canopy/skin.json"
+    },
+    {
+      "id": "paper-ink",
+      "name": "Paper Ink",
+      "category": "Minimal",
+      "path": "paper-ink/skin.json"
+    },
+    {
+      "id": "museum-white",
+      "name": "Museum White",
+      "category": "Minimal",
+      "path": "museum-white/skin.json"
+    },
+    {
+      "id": "clay-minimal",
+      "name": "Clay Minimal",
+      "category": "Minimal",
+      "path": "clay-minimal/skin.json"
+    },
+    {
+      "id": "mint-interface",
+      "name": "Mint Interface",
+      "category": "Minimal",
+      "path": "mint-interface/skin.json"
+    },
+    {
+      "id": "pearl-glass",
+      "name": "Pearl Glass",
+      "category": "Minimal",
+      "path": "pearl-glass/skin.json"
+    },
+    {
+      "id": "midnight-blueprint",
+      "name": "Midnight Blueprint",
+      "category": "Technical",
+      "path": "midnight-blueprint/skin.json"
+    },
+    {
+      "id": "oscilloscope",
+      "name": "Oscilloscope",
+      "category": "Technical",
+      "path": "oscilloscope/skin.json"
+    },
+    {
+      "id": "spectrogram",
+      "name": "Spectrogram",
+      "category": "Technical",
+      "path": "spectrogram/skin.json"
+    },
+    {
+      "id": "neural-audio",
+      "name": "Neural Audio",
+      "category": "Technical",
+      "path": "neural-audio/skin.json"
+    },
+    {
+      "id": "datacenter",
+      "name": "Datacenter",
+      "category": "Technical",
+      "path": "datacenter/skin.json"
+    },
+    {
+      "id": "gps-grid",
+      "name": "GPS Grid",
+      "category": "Technical",
+      "path": "gps-grid/skin.json"
+    },
+    {
+      "id": "subway-map",
+      "name": "Subway Map",
+      "category": "Urban",
+      "path": "subway-map/skin.json"
+    },
+    {
+      "id": "night-city",
+      "name": "Night City",
+      "category": "Urban",
+      "path": "night-city/skin.json"
+    },
+    {
+      "id": "miami-neon",
+      "name": "Miami Neon",
+      "category": "Urban",
+      "path": "miami-neon/skin.json"
+    },
+    {
+      "id": "berlin-industrial",
+      "name": "Berlin Industrial",
+      "category": "Urban",
+      "path": "berlin-industrial/skin.json"
+    },
+    {
+      "id": "parisian-night",
+      "name": "Parisian Night",
+      "category": "Urban",
+      "path": "parisian-night/skin.json"
+    },
+    {
+      "id": "albanian-red",
+      "name": "Albanian Red",
+      "category": "Cultural",
+      "path": "albanian-red/skin.json"
+    },
+    {
+      "id": "tokyo-holograph",
+      "name": "Tokyo Holograph",
+      "category": "Urban",
+      "path": "tokyo-holograph/skin.json"
+    },
+    {
+      "id": "monaco-carbon",
+      "name": "Monaco Carbon",
+      "category": "Luxury",
+      "path": "monaco-carbon/skin.json"
+    },
+    {
+      "id": "black-gold",
+      "name": "Black Gold",
+      "category": "Luxury",
+      "path": "black-gold/skin.json"
+    },
+    {
+      "id": "sapphire-lux",
+      "name": "Sapphire Lux",
+      "category": "Luxury",
+      "path": "sapphire-lux/skin.json"
+    },
+    {
+      "id": "amethyst-lux",
+      "name": "Amethyst Lux",
+      "category": "Luxury",
+      "path": "amethyst-lux/skin.json"
+    }
+  ]
+}

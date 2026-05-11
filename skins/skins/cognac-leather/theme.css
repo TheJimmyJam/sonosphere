@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Cognac Leather
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "cognac-leather" */
+
+:root[data-skin="cognac-leather"] {
+  color-scheme: dark;
+  --skin-id: "cognac-leather";
+  --skin-name: "Cognac Leather";
+  --skin-category: "Luxury Materials";
+  --skin-material: "stitched cognac leather";
+
+  --app-bg: #160c06;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #b86b2b 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #f5c16c 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #160c06 92%, #b86b2b 8%), color-mix(in srgb, #160c06 90%, #f5c16c 10%));
+
+  --panel-bg: rgba(47,28,15,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(47,28,15,.92) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(47,28,15,.92) 64%, transparent);
+  --panel-border: rgba(184,107,43,.27);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fff4e6;
+  --text-secondary: #d3aa78;
+  --text-muted: color-mix(in srgb, #d3aa78 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #b86b2b;
+  --accent-secondary: #f5c16c;
+  --accent-tertiary: color-mix(in srgb, #b86b2b 48%, #f5c16c 52%);
+  --accent-soft: color-mix(in srgb, #b86b2b 13%, transparent);
+  --accent-glow-color: rgba(245,193,108,.23);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(47,28,15,.92) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(47,28,15,.92) 65%, #b86b2b 12%);
+  --button-active-bg: linear-gradient(135deg, #b86b2b, #f5c16c);
+  --button-border: color-mix(in srgb, #b86b2b 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #d3aa78 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #b86b2b, #f5c16c);
+  --scrubber-thumb: #fff4e6;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #b86b2b 76%, black 10%), color-mix(in srgb, #f5c16c 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(47,28,15,.92) 84%, transparent);
+  --album-border: color-mix(in srgb, #b86b2b 22%, white 5%);
+
+  --visualizer-primary: #b86b2b;
+  --visualizer-secondary: #f5c16c;
+  --visualizer-mode: "leather-vu";
+  --visualizer-density: 0.34;
+  --visualizer-glow: rgba(245,193,108,.23);
+
+  --app-radius: 30px;
+  --panel-radius: 18px;
+  --card-radius: 14px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 7px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="cognac-leather"],
+:root[data-skin="cognac-leather"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="cognac-leather"] .panel,
+:root[data-skin="cognac-leather"] .sidebar,
+:root[data-skin="cognac-leather"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="cognac-leather"] .active-room,
+:root[data-skin="cognac-leather"] .primary-button,
+:root[data-skin="cognac-leather"] .play-button,
+:root[data-skin="cognac-leather"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="cognac-leather"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,37 @@
+{
+  "id": "crystal-palace",
+  "name": "Architectural Premium",
+  "description": "Transparent architecture, crystalline panels, and radiant white-blue geometry.",
+  "category": "Architectural Premium",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "architectural glass",
+  "tags": [
+    "architectural premium",
+    "super-premium",
+    "architectural glass",
+    "crystal-line",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "crystal-line",
+    "intensity": 0.55,
+    "glow": true,
+    "particleDensity": 0.3,
+    "preferredMotion": "premium-subtle"
+  }
+}

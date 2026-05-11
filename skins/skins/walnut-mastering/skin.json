@@ -1,0 +1,37 @@
+{
+  "id": "walnut-mastering",
+  "name": "Walnut Mastering",
+  "description": "Walnut veneer, cream labels, and mastering console calm.",
+  "category": "Luxury Materials",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "oiled walnut",
+  "tags": [
+    "luxury materials",
+    "super-premium",
+    "oiled walnut",
+    "mastering-vu",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "mastering-vu",
+    "intensity": 0.58,
+    "glow": true,
+    "particleDensity": 0.36,
+    "preferredMotion": "premium-subtle"
+  }
+}

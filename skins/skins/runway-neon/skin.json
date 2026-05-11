@@ -1,0 +1,37 @@
+{
+  "id": "runway-neon",
+  "name": "Runway Neon",
+  "description": "Editorial black runway interface with hot magenta light rails.",
+  "category": "High Fashion Tech",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "gloss runway acrylic",
+  "tags": [
+    "high fashion tech",
+    "super-premium",
+    "gloss runway acrylic",
+    "runway-bars",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "runway-bars",
+    "intensity": 0.72,
+    "glow": true,
+    "particleDensity": 0.62,
+    "preferredMotion": "premium-subtle"
+  }
+}

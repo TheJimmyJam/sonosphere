@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Sable Silk
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "sable-silk" */
+
+:root[data-skin="sable-silk"] {
+  color-scheme: dark;
+  --skin-id: "sable-silk";
+  --skin-name: "Sable Silk";
+  --skin-category: "Luxury Materials";
+  --skin-material: "black silk";
+
+  --app-bg: #07060a;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #c4b5fd 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #e5e7eb 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #07060a 92%, #c4b5fd 8%), color-mix(in srgb, #07060a 90%, #e5e7eb 10%));
+
+  --panel-bg: rgba(18,16,24,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(18,16,24,.90) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(18,16,24,.90) 64%, transparent);
+  --panel-border: rgba(196,181,253,.20);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #faf5ff;
+  --text-secondary: #b8b1c6;
+  --text-muted: color-mix(in srgb, #b8b1c6 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #c4b5fd;
+  --accent-secondary: #e5e7eb;
+  --accent-tertiary: color-mix(in srgb, #c4b5fd 48%, #e5e7eb 52%);
+  --accent-soft: color-mix(in srgb, #c4b5fd 13%, transparent);
+  --accent-glow-color: rgba(196,181,253,.28);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(18,16,24,.90) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(18,16,24,.90) 65%, #c4b5fd 12%);
+  --button-active-bg: linear-gradient(135deg, #c4b5fd, #e5e7eb);
+  --button-border: color-mix(in srgb, #c4b5fd 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #b8b1c6 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #c4b5fd, #e5e7eb);
+  --scrubber-thumb: #faf5ff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #c4b5fd 76%, black 10%), color-mix(in srgb, #e5e7eb 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(18,16,24,.90) 84%, transparent);
+  --album-border: color-mix(in srgb, #c4b5fd 22%, white 5%);
+
+  --visualizer-primary: #c4b5fd;
+  --visualizer-secondary: #e5e7eb;
+  --visualizer-mode: "silk-wave";
+  --visualizer-density: 0.28;
+  --visualizer-glow: rgba(196,181,253,.28);
+
+  --app-radius: 36px;
+  --panel-radius: 24px;
+  --card-radius: 20px;
+  --album-radius: 26px;
+  --control-radius: 999px;
+  --app-blur: 20px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="sable-silk"],
+:root[data-skin="sable-silk"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="sable-silk"] .panel,
+:root[data-skin="sable-silk"] .sidebar,
+:root[data-skin="sable-silk"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="sable-silk"] .active-room,
+:root[data-skin="sable-silk"] .primary-button,
+:root[data-skin="sable-silk"] .play-button,
+:root[data-skin="sable-silk"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="sable-silk"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Royal Indigo
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="royal-indigo"> */
+
+:root[data-skin="royal-indigo"] {
+  color-scheme: dark;
+
+  --skin-id: "royal-indigo";
+  --skin-name: "Royal Indigo";
+
+  --app-bg: #0f1028;
+  --app-bg-elevated: color-mix(in srgb, #0f1028 72%, white 8%);
+  --panel-bg: rgba(28,29,64,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(28,29,64,.86) 82%, black 12%);
+  --panel-border: rgba(99,102,241,.28);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #eef2ff;
+  --text-secondary: #c4c7ff;
+  --text-muted: color-mix(in srgb, #c4c7ff 72%, transparent);
+
+  --accent-primary: #6366f1;
+  --accent-secondary: #a78bfa;
+  --accent-tertiary: color-mix(in srgb, #6366f1 45%, #a78bfa 55%);
+  --accent-glow: 0 0 24px rgba(99,102,241,.48);
+  --accent-soft: color-mix(in srgb, #6366f1 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(28,29,64,.86) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(28,29,64,.86) 64%, #6366f1 16%);
+  --button-active-bg: linear-gradient(135deg, #6366f1, #a78bfa);
+
+  --slider-track: color-mix(in srgb, #c4c7ff 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #6366f1, #a78bfa);
+  --scrubber-thumb: #eef2ff;
+
+  --visualizer-primary: #6366f1;
+  --visualizer-secondary: #a78bfa;
+  --visualizer-glow: rgba(99,102,241,.48);
+  --visualizer-mode: "orbit";
+
+  --album-radius: 20px;
+  --panel-radius: 20px;
+  --card-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Avenir Next, Inter, sans-serif;
+  --font-display: Avenir Next, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="royal-indigo"],
+:root[data-skin="royal-indigo"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #6366f1 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #a78bfa 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="royal-indigo"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="royal-indigo"] .primary-button,
+:root[data-skin="royal-indigo"] .active-room,
+:root[data-skin="royal-indigo"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="royal-indigo"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

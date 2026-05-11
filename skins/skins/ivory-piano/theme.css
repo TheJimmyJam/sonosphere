@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Ivory Piano
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "ivory-piano" */
+
+:root[data-skin="ivory-piano"] {
+  color-scheme: light;
+  --skin-id: "ivory-piano";
+  --skin-name: "Ivory Piano";
+  --skin-category: "Luxury Materials";
+  --skin-material: "polished ivory";
+
+  --app-bg: #faf7ef;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #111827 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #d4af37 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #faf7ef 92%, #111827 8%), color-mix(in srgb, #faf7ef 90%, #d4af37 10%));
+
+  --panel-bg: rgba(255,253,248,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,253,248,.88) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,253,248,.88) 64%, transparent);
+  --panel-border: rgba(17,24,39,.13);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: color-mix(in srgb, #6b7280 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #111827;
+  --accent-secondary: #d4af37;
+  --accent-tertiary: color-mix(in srgb, #111827 48%, #d4af37 52%);
+  --accent-soft: color-mix(in srgb, #111827 13%, transparent);
+  --accent-glow-color: rgba(212,175,55,.17);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,253,248,.88) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,253,248,.88) 65%, #111827 12%);
+  --button-active-bg: linear-gradient(135deg, #111827, #d4af37);
+  --button-border: color-mix(in srgb, #111827 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #6b7280 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #111827, #d4af37);
+  --scrubber-thumb: #111827;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #111827 76%, black 10%), color-mix(in srgb, #d4af37 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,253,248,.88) 84%, transparent);
+  --album-border: color-mix(in srgb, #111827 22%, white 5%);
+
+  --visualizer-primary: #111827;
+  --visualizer-secondary: #d4af37;
+  --visualizer-mode: "key-line";
+  --visualizer-density: 0.2;
+  --visualizer-glow: rgba(212,175,55,.17);
+
+  --app-radius: 30px;
+  --panel-radius: 18px;
+  --card-radius: 14px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="ivory-piano"],
+:root[data-skin="ivory-piano"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="ivory-piano"] .panel,
+:root[data-skin="ivory-piano"] .sidebar,
+:root[data-skin="ivory-piano"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="ivory-piano"] .active-room,
+:root[data-skin="ivory-piano"] .primary-button,
+:root[data-skin="ivory-piano"] .play-button,
+:root[data-skin="ivory-piano"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="ivory-piano"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Retro WMP
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="retro-wmp"> */
+
+:root[data-skin="retro-wmp"] {
+  color-scheme: dark;
+
+  --skin-id: "retro-wmp";
+  --skin-name: "Retro WMP";
+
+  --app-bg: #101827;
+  --app-bg-elevated: color-mix(in srgb, #101827 72%, white 8%);
+  --panel-bg: rgba(42,52,69,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(42,52,69,.90) 82%, black 12%);
+  --panel-border: rgba(155,174,196,.35);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #eef6ff;
+  --text-secondary: #b7c7d8;
+  --text-muted: color-mix(in srgb, #b7c7d8 72%, transparent);
+
+  --accent-primary: #2f80ed;
+  --accent-secondary: #00b4ff;
+  --accent-tertiary: color-mix(in srgb, #2f80ed 45%, #00b4ff 55%);
+  --accent-glow: 0 0 24px rgba(47,128,237,.50);
+  --accent-soft: color-mix(in srgb, #2f80ed 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(42,52,69,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(42,52,69,.90) 64%, #2f80ed 16%);
+  --button-active-bg: linear-gradient(135deg, #2f80ed, #00b4ff);
+
+  --slider-track: color-mix(in srgb, #b7c7d8 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #2f80ed, #00b4ff);
+  --scrubber-thumb: #eef6ff;
+
+  --visualizer-primary: #2f80ed;
+  --visualizer-secondary: #00b4ff;
+  --visualizer-glow: rgba(47,128,237,.50);
+  --visualizer-mode: "classic-bars";
+
+  --album-radius: 8px;
+  --panel-radius: 8px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Tahoma, Verdana, sans-serif;
+  --font-display: Tahoma, Verdana, sans-serif;
+}
+
+.sonosphere-app[data-skin="retro-wmp"],
+:root[data-skin="retro-wmp"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #2f80ed 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #00b4ff 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="retro-wmp"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="retro-wmp"] .primary-button,
+:root[data-skin="retro-wmp"] .active-room,
+:root[data-skin="retro-wmp"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="retro-wmp"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

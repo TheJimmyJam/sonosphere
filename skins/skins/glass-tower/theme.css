@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Glass Tower
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "glass-tower" */
+
+:root[data-skin="glass-tower"] {
+  color-scheme: dark;
+  --skin-id: "glass-tower";
+  --skin-name: "Glass Tower";
+  --skin-category: "Architectural Premium";
+  --skin-material: "curtain-wall glass";
+
+  --app-bg: #07111f;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #38bdf8 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #94a3b8 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #07111f 92%, #38bdf8 8%), color-mix(in srgb, #07111f 90%, #94a3b8 10%));
+
+  --panel-bg: rgba(14,25,39,.58);
+  --panel-bg-strong: color-mix(in srgb, rgba(14,25,39,.58) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(14,25,39,.58) 64%, transparent);
+  --panel-border: rgba(56,189,248,.22);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #eff6ff;
+  --text-secondary: #b7c8da;
+  --text-muted: color-mix(in srgb, #b7c8da 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #38bdf8;
+  --accent-secondary: #94a3b8;
+  --accent-tertiary: color-mix(in srgb, #38bdf8 48%, #94a3b8 52%);
+  --accent-soft: color-mix(in srgb, #38bdf8 13%, transparent);
+  --accent-glow-color: rgba(148,163,184,.18);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(14,25,39,.58) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(14,25,39,.58) 65%, #38bdf8 12%);
+  --button-active-bg: linear-gradient(135deg, #38bdf8, #94a3b8);
+  --button-border: color-mix(in srgb, #38bdf8 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #b7c8da 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #38bdf8, #94a3b8);
+  --scrubber-thumb: #eff6ff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #38bdf8 76%, black 10%), color-mix(in srgb, #94a3b8 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(14,25,39,.58) 84%, transparent);
+  --album-border: color-mix(in srgb, #38bdf8 22%, white 5%);
+
+  --visualizer-primary: #38bdf8;
+  --visualizer-secondary: #94a3b8;
+  --visualizer-mode: "tower-lines";
+  --visualizer-density: 0.42;
+  --visualizer-glow: rgba(148,163,184,.18);
+
+  --app-radius: 32px;
+  --panel-radius: 20px;
+  --card-radius: 16px;
+  --album-radius: 22px;
+  --control-radius: 999px;
+  --app-blur: 28px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="glass-tower"],
+:root[data-skin="glass-tower"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="glass-tower"] .panel,
+:root[data-skin="glass-tower"] .sidebar,
+:root[data-skin="glass-tower"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="glass-tower"] .active-room,
+:root[data-skin="glass-tower"] .primary-button,
+:root[data-skin="glass-tower"] .play-button,
+:root[data-skin="glass-tower"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="glass-tower"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

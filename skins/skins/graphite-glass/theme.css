@@ -1,0 +1,81 @@
+/* Sonosphere skin: Graphite Glass
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="graphite-glass"> */
+
+:root[data-skin="graphite-glass"] {
+  color-scheme: dark;
+
+  --skin-id: "graphite-glass";
+  --skin-name: "Graphite Glass";
+
+  --app-bg: #0b0f14;
+  --app-bg-elevated: color-mix(in srgb, #0b0f14 72%, white 8%);
+  --panel-bg: rgba(26,31,39,.74);
+  --panel-bg-strong: color-mix(in srgb, rgba(26,31,39,.74) 82%, black 12%);
+  --panel-border: rgba(148,163,184,.22);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: color-mix(in srgb, #94a3b8 72%, transparent);
+
+  --accent-primary: #94a3b8;
+  --accent-secondary: #38bdf8;
+  --accent-tertiary: color-mix(in srgb, #94a3b8 45%, #38bdf8 55%);
+  --accent-glow: 0 0 24px rgba(56,189,248,.25);
+  --accent-soft: color-mix(in srgb, #94a3b8 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(26,31,39,.74) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(26,31,39,.74) 64%, #94a3b8 16%);
+  --button-active-bg: linear-gradient(135deg, #94a3b8, #38bdf8);
+
+  --slider-track: color-mix(in srgb, #94a3b8 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #94a3b8, #38bdf8);
+  --scrubber-thumb: #f1f5f9;
+
+  --visualizer-primary: #94a3b8;
+  --visualizer-secondary: #38bdf8;
+  --visualizer-glow: rgba(56,189,248,.25);
+  --visualizer-mode: "line";
+
+  --album-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 22px;
+
+  --font-ui: SF Pro Text, Inter, sans-serif;
+  --font-display: SF Pro Text, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="graphite-glass"],
+:root[data-skin="graphite-glass"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #94a3b8 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #38bdf8 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="graphite-glass"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="graphite-glass"] .primary-button,
+:root[data-skin="graphite-glass"] .active-room,
+:root[data-skin="graphite-glass"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="graphite-glass"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

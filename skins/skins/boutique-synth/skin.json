@@ -1,0 +1,37 @@
+{
+  "id": "boutique-synth",
+  "name": "Boutique Synth",
+  "description": "Small-batch synth panel with teal knobs and purple patch lights.",
+  "category": "Boutique Electronic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "anodized synth panel",
+  "tags": [
+    "boutique electronic",
+    "super-premium",
+    "anodized synth panel",
+    "patch-cables",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "patch-cables",
+    "intensity": 0.69,
+    "glow": true,
+    "particleDensity": 0.56,
+    "preferredMotion": "premium-subtle"
+  }
+}

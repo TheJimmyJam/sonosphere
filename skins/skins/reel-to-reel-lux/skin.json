@@ -1,0 +1,37 @@
+{
+  "id": "reel-to-reel-lux",
+  "name": "Reel-to-Reel Lux",
+  "description": "High-end tape machine, champagne reels, and warm analog detail.",
+  "category": "Audiophile",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "machined aluminum",
+  "tags": [
+    "audiophile",
+    "super-premium",
+    "machined aluminum",
+    "reel-meter",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "reel-meter",
+    "intensity": 0.6,
+    "glow": true,
+    "particleDensity": 0.4,
+    "preferredMotion": "premium-subtle"
+  }
+}

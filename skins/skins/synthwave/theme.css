@@ -1,0 +1,81 @@
+/* Sonosphere skin: Synthwave
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="synthwave"> */
+
+:root[data-skin="synthwave"] {
+  color-scheme: dark;
+
+  --skin-id: "synthwave";
+  --skin-name: "Synthwave";
+
+  --app-bg: #14051f;
+  --app-bg-elevated: color-mix(in srgb, #14051f 72%, white 8%);
+  --panel-bg: rgba(34,10,49,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(34,10,49,.86) 82%, black 12%);
+  --panel-border: rgba(255,78,205,.32);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff4ff;
+  --text-secondary: #d8a8ff;
+  --text-muted: color-mix(in srgb, #d8a8ff 72%, transparent);
+
+  --accent-primary: #ff4ecd;
+  --accent-secondary: #7c3aed;
+  --accent-tertiary: color-mix(in srgb, #ff4ecd 45%, #7c3aed 55%);
+  --accent-glow: 0 0 24px rgba(255,78,205,.60);
+  --accent-soft: color-mix(in srgb, #ff4ecd 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(34,10,49,.86) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(34,10,49,.86) 64%, #ff4ecd 16%);
+  --button-active-bg: linear-gradient(135deg, #ff4ecd, #7c3aed);
+
+  --slider-track: color-mix(in srgb, #d8a8ff 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #ff4ecd, #7c3aed);
+  --scrubber-thumb: #fff4ff;
+
+  --visualizer-primary: #ff4ecd;
+  --visualizer-secondary: #7c3aed;
+  --visualizer-glow: rgba(255,78,205,.60);
+  --visualizer-mode: "tunnel";
+
+  --album-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Orbitron, Inter, sans-serif;
+  --font-display: Orbitron, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="synthwave"],
+:root[data-skin="synthwave"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #ff4ecd 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #7c3aed 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="synthwave"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="synthwave"] .primary-button,
+:root[data-skin="synthwave"] .active-room,
+:root[data-skin="synthwave"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="synthwave"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

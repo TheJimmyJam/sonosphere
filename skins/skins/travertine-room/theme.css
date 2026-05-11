@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Travertine Room
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "travertine-room" */
+
+:root[data-skin="travertine-room"] {
+  color-scheme: light;
+  --skin-id: "travertine-room";
+  --skin-name: "Travertine Room";
+  --skin-category: "Luxury Materials";
+  --skin-material: "honed travertine";
+
+  --app-bg: #eee3d2;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #a8793d 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #e7c58d 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #eee3d2 92%, #a8793d 8%), color-mix(in srgb, #eee3d2 90%, #e7c58d 10%));
+
+  --panel-bg: rgba(255,248,236,.78);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,248,236,.78) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,248,236,.78) 64%, transparent);
+  --panel-border: rgba(168,121,61,.18);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #292524;
+  --text-secondary: #7c6b57;
+  --text-muted: color-mix(in srgb, #7c6b57 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #a8793d;
+  --accent-secondary: #e7c58d;
+  --accent-tertiary: color-mix(in srgb, #a8793d 48%, #e7c58d 52%);
+  --accent-soft: color-mix(in srgb, #a8793d 13%, transparent);
+  --accent-glow-color: rgba(231,197,141,.18);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,248,236,.78) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,248,236,.78) 65%, #a8793d 12%);
+  --button-active-bg: linear-gradient(135deg, #a8793d, #e7c58d);
+  --button-border: color-mix(in srgb, #a8793d 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #7c6b57 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #a8793d, #e7c58d);
+  --scrubber-thumb: #292524;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #a8793d 76%, black 10%), color-mix(in srgb, #e7c58d 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,248,236,.78) 84%, transparent);
+  --album-border: color-mix(in srgb, #a8793d 22%, white 5%);
+
+  --visualizer-primary: #a8793d;
+  --visualizer-secondary: #e7c58d;
+  --visualizer-mode: "stone-ripple";
+  --visualizer-density: 0.22;
+  --visualizer-glow: rgba(231,197,141,.18);
+
+  --app-radius: 34px;
+  --panel-radius: 22px;
+  --card-radius: 18px;
+  --album-radius: 24px;
+  --control-radius: 999px;
+  --app-blur: 14px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="travertine-room"],
+:root[data-skin="travertine-room"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="travertine-room"] .panel,
+:root[data-skin="travertine-room"] .sidebar,
+:root[data-skin="travertine-room"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="travertine-room"] .active-room,
+:root[data-skin="travertine-room"] .primary-button,
+:root[data-skin="travertine-room"] .play-button,
+:root[data-skin="travertine-room"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="travertine-room"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

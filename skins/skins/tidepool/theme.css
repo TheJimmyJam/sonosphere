@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Tidepool
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "tidepool" */
+
+:root[data-skin="tidepool"] {
+  color-scheme: dark;
+  --skin-id: "tidepool";
+  --skin-name: "Tidepool";
+  --skin-category: "Nature";
+  --skin-material: "sea glass";
+
+  --app-bg: #082f49;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #0ea5e9 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #67e8f9 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #082f49 92%, #0ea5e9 8%), color-mix(in srgb, #082f49 88%, #67e8f9 12%));
+
+  --panel-bg: rgba(9,47,73,.80);
+  --panel-bg-strong: color-mix(in srgb, rgba(9,47,73,.80) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(9,47,73,.80) 72%, transparent);
+  --panel-border: rgba(14,165,233,.24);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #f0f9ff;
+  --text-secondary: #a5d8ec;
+  --text-muted: color-mix(in srgb, #a5d8ec 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #67e8f9;
+  --accent-tertiary: color-mix(in srgb, #0ea5e9 46%, #67e8f9 54%);
+  --accent-soft: color-mix(in srgb, #0ea5e9 15%, transparent);
+  --accent-glow-color: rgba(103,232,249,.28);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(9,47,73,.80) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(9,47,73,.80) 64%, #0ea5e9 14%);
+  --button-active-bg: linear-gradient(135deg, #0ea5e9, #67e8f9);
+  --button-border: color-mix(in srgb, #0ea5e9 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #a5d8ec 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #0ea5e9, #67e8f9);
+  --scrubber-thumb: #f0f9ff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #0ea5e9 82%, black 10%), color-mix(in srgb, #67e8f9 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(9,47,73,.80) 82%, transparent);
+  --album-border: color-mix(in srgb, #0ea5e9 24%, white 6%);
+
+  --visualizer-primary: #0ea5e9;
+  --visualizer-secondary: #67e8f9;
+  --visualizer-mode: "ripples";
+  --visualizer-density: 0.4;
+  --visualizer-glow: rgba(103,232,249,.28);
+
+  --app-radius: 32px;
+  --panel-radius: 22px;
+  --card-radius: 20px;
+  --album-radius: 24px;
+  --control-radius: 999px;
+  --app-blur: 20px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="tidepool"],
+:root[data-skin="tidepool"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="tidepool"] .panel,
+:root[data-skin="tidepool"] .sidebar,
+:root[data-skin="tidepool"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="tidepool"] .active-room,
+:root[data-skin="tidepool"] .primary-button,
+:root[data-skin="tidepool"] .play-button,
+:root[data-skin="tidepool"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="tidepool"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

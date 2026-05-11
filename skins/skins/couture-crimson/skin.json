@@ -1,0 +1,37 @@
+{
+  "id": "couture-crimson",
+  "name": "Couture Crimson",
+  "description": "Crimson silk, black glass, and restrained gold UI accents.",
+  "category": "High Fashion Tech",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "crimson silk",
+  "tags": [
+    "high fashion tech",
+    "super-premium",
+    "crimson silk",
+    "crimson-wave",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "crimson-wave",
+    "intensity": 0.57,
+    "glow": true,
+    "particleDensity": 0.34,
+    "preferredMotion": "premium-subtle"
+  }
+}

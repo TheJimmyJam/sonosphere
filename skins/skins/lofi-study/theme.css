@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — LoFi Study
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "lofi-study" */
+
+:root[data-skin="lofi-study"] {
+  color-scheme: dark;
+  --skin-id: "lofi-study";
+  --skin-name: "LoFi Study";
+  --skin-category: "Lifestyle";
+  --skin-material: "paper and walnut";
+
+  --app-bg: #211617;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #fb7185 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #fbbf24 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #211617 92%, #fb7185 8%), color-mix(in srgb, #211617 88%, #fbbf24 12%));
+
+  --panel-bg: rgba(50,36,34,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(50,36,34,.88) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(50,36,34,.88) 72%, transparent);
+  --panel-border: rgba(251,113,133,.22);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #d9afa2;
+  --text-muted: color-mix(in srgb, #d9afa2 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #fb7185;
+  --accent-secondary: #fbbf24;
+  --accent-tertiary: color-mix(in srgb, #fb7185 46%, #fbbf24 54%);
+  --accent-soft: color-mix(in srgb, #fb7185 15%, transparent);
+  --accent-glow-color: rgba(251,191,36,.26);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(50,36,34,.88) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(50,36,34,.88) 64%, #fb7185 14%);
+  --button-active-bg: linear-gradient(135deg, #fb7185, #fbbf24);
+  --button-border: color-mix(in srgb, #fb7185 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #d9afa2 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #fb7185, #fbbf24);
+  --scrubber-thumb: #fff7ed;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #fb7185 82%, black 10%), color-mix(in srgb, #fbbf24 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(50,36,34,.88) 82%, transparent);
+  --album-border: color-mix(in srgb, #fb7185 24%, white 6%);
+
+  --visualizer-primary: #fb7185;
+  --visualizer-secondary: #fbbf24;
+  --visualizer-mode: "dust-wave";
+  --visualizer-density: 0.36;
+  --visualizer-glow: rgba(251,191,36,.26);
+
+  --app-radius: 26px;
+  --panel-radius: 16px;
+  --card-radius: 14px;
+  --album-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="lofi-study"],
+:root[data-skin="lofi-study"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="lofi-study"] .panel,
+:root[data-skin="lofi-study"] .sidebar,
+:root[data-skin="lofi-study"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="lofi-study"] .active-room,
+:root[data-skin="lofi-study"] .primary-button,
+:root[data-skin="lofi-study"] .play-button,
+:root[data-skin="lofi-study"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="lofi-study"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

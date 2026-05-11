@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Obsidian Couture
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "obsidian-couture" */
+
+:root[data-skin="obsidian-couture"] {
+  color-scheme: dark;
+  --skin-id: "obsidian-couture";
+  --skin-name: "Obsidian Couture";
+  --skin-category: "Ultra Premium";
+  --skin-material: "polished obsidian";
+
+  --app-bg: #020204;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #f5f7fb 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #8b5cf6 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #020204 92%, #f5f7fb 8%), color-mix(in srgb, #020204 90%, #8b5cf6 10%));
+
+  --panel-bg: rgba(10,10,15,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(10,10,15,.92) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(10,10,15,.92) 64%, transparent);
+  --panel-border: rgba(245,247,251,.18);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #a1a1aa;
+  --text-muted: color-mix(in srgb, #a1a1aa 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #f5f7fb;
+  --accent-secondary: #8b5cf6;
+  --accent-tertiary: color-mix(in srgb, #f5f7fb 48%, #8b5cf6 52%);
+  --accent-soft: color-mix(in srgb, #f5f7fb 13%, transparent);
+  --accent-glow-color: rgba(139,92,246,.28);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(10,10,15,.92) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(10,10,15,.92) 65%, #f5f7fb 12%);
+  --button-active-bg: linear-gradient(135deg, #f5f7fb, #8b5cf6);
+  --button-border: color-mix(in srgb, #f5f7fb 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #a1a1aa 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #f5f7fb, #8b5cf6);
+  --scrubber-thumb: #f8fafc;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #f5f7fb 76%, black 10%), color-mix(in srgb, #8b5cf6 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(10,10,15,.92) 84%, transparent);
+  --album-border: color-mix(in srgb, #f5f7fb 22%, white 5%);
+
+  --visualizer-primary: #f5f7fb;
+  --visualizer-secondary: #8b5cf6;
+  --visualizer-mode: "jewelry-line";
+  --visualizer-density: 0.32;
+  --visualizer-glow: rgba(139,92,246,.28);
+
+  --app-radius: 30px;
+  --panel-radius: 18px;
+  --card-radius: 14px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="obsidian-couture"],
+:root[data-skin="obsidian-couture"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="obsidian-couture"] .panel,
+:root[data-skin="obsidian-couture"] .sidebar,
+:root[data-skin="obsidian-couture"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="obsidian-couture"] .active-room,
+:root[data-skin="obsidian-couture"] .primary-button,
+:root[data-skin="obsidian-couture"] .play-button,
+:root[data-skin="obsidian-couture"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="obsidian-couture"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

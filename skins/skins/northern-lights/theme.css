@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Northern Lights
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "northern-lights" */
+
+:root[data-skin="northern-lights"] {
+  color-scheme: dark;
+  --skin-id: "northern-lights";
+  --skin-name: "Northern Lights";
+  --skin-category: "Nature";
+  --skin-material: "polar glass";
+
+  --app-bg: #05110f;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #22c55e 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #a78bfa 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #05110f 92%, #22c55e 8%), color-mix(in srgb, #05110f 88%, #a78bfa 12%));
+
+  --panel-bg: rgba(8,28,25,.84);
+  --panel-bg-strong: color-mix(in srgb, rgba(8,28,25,.84) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(8,28,25,.84) 72%, transparent);
+  --panel-border: rgba(34,197,94,.24);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #f0fdf4;
+  --text-secondary: #a7d7c3;
+  --text-muted: color-mix(in srgb, #a7d7c3 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #22c55e;
+  --accent-secondary: #a78bfa;
+  --accent-tertiary: color-mix(in srgb, #22c55e 46%, #a78bfa 54%);
+  --accent-soft: color-mix(in srgb, #22c55e 15%, transparent);
+  --accent-glow-color: rgba(167,139,250,.38);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(8,28,25,.84) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(8,28,25,.84) 64%, #22c55e 14%);
+  --button-active-bg: linear-gradient(135deg, #22c55e, #a78bfa);
+  --button-border: color-mix(in srgb, #22c55e 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #a7d7c3 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #22c55e, #a78bfa);
+  --scrubber-thumb: #f0fdf4;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #22c55e 82%, black 10%), color-mix(in srgb, #a78bfa 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(8,28,25,.84) 82%, transparent);
+  --album-border: color-mix(in srgb, #22c55e 24%, white 6%);
+
+  --visualizer-primary: #22c55e;
+  --visualizer-secondary: #a78bfa;
+  --visualizer-mode: "aurora";
+  --visualizer-density: 0.66;
+  --visualizer-glow: rgba(167,139,250,.38);
+
+  --app-radius: 34px;
+  --panel-radius: 24px;
+  --card-radius: 22px;
+  --album-radius: 26px;
+  --control-radius: 999px;
+  --app-blur: 24px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="northern-lights"],
+:root[data-skin="northern-lights"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="northern-lights"] .panel,
+:root[data-skin="northern-lights"] .sidebar,
+:root[data-skin="northern-lights"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="northern-lights"] .active-room,
+:root[data-skin="northern-lights"] .primary-button,
+:root[data-skin="northern-lights"] .play-button,
+:root[data-skin="northern-lights"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="northern-lights"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

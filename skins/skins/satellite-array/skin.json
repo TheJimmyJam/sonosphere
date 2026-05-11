@@ -1,0 +1,35 @@
+{
+  "id": "satellite-array",
+  "name": "Satellite Array",
+  "description": "Orbital dish network with precise dotted signal paths.",
+  "category": "Technical",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "aerospace alloy",
+  "tags": [
+    "technical",
+    "aerospace alloy",
+    "radar",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "radar",
+    "intensity": 0.74,
+    "glow": true,
+    "particleDensity": 0.64,
+    "preferredMotion": "adaptive"
+  }
+}

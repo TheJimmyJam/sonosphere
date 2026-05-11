@@ -1,0 +1,37 @@
+{
+  "id": "boardroom",
+  "name": "Boardroom",
+  "description": "Charcoal boardroom skin with clean graphs and understated blue highlights.",
+  "category": "Executive",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "charcoal wool",
+  "tags": [
+    "executive",
+    "super-premium",
+    "charcoal wool",
+    "executive-meters",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": true
+  },
+  "visualizer": {
+    "mode": "executive-meters",
+    "intensity": 0.5,
+    "glow": true,
+    "particleDensity": 0.22,
+    "preferredMotion": "premium-subtle"
+  }
+}

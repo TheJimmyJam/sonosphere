@@ -1,0 +1,35 @@
+{
+  "id": "festival-stage",
+  "name": "Festival Stage",
+  "description": "Outdoor festival lighting, bold color wash, and big-stage energy.",
+  "category": "Lifestyle",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "LED haze",
+  "tags": [
+    "lifestyle",
+    "LED haze",
+    "stage-lights",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "stage-lights",
+    "intensity": 0.84,
+    "glow": true,
+    "particleDensity": 0.86,
+    "preferredMotion": "adaptive"
+  }
+}

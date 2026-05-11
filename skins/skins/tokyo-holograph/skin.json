@@ -1,0 +1,35 @@
+{
+  "id": "tokyo-holograph",
+  "name": "Tokyo Holograph",
+  "description": "Clean Japanese neon signs as floating holographic panels.",
+  "category": "Urban",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "holographic glass",
+  "tags": [
+    "urban",
+    "holographic glass",
+    "holo-sign",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "holo-sign",
+    "intensity": 0.77,
+    "glow": true,
+    "particleDensity": 0.7,
+    "preferredMotion": "adaptive"
+  }
+}

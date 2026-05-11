@@ -1,0 +1,37 @@
+{
+  "id": "modular-eurorack",
+  "name": "Modular Eurorack",
+  "description": "Eurorack patch-bay skin with cables, LEDs, and dense creative controls.",
+  "category": "Boutique Electronic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "eurorack aluminum",
+  "tags": [
+    "boutique electronic",
+    "super-premium",
+    "eurorack aluminum",
+    "modular-leds",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "modular-leds",
+    "intensity": 0.77,
+    "glow": true,
+    "particleDensity": 0.7,
+    "preferredMotion": "premium-subtle"
+  }
+}

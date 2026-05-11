@@ -1,0 +1,35 @@
+{
+  "id": "studio-rack",
+  "name": "Studio Rack",
+  "description": "Outboard studio rack gear with VU meters and dense controls.",
+  "category": "Classic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "rack brushed metal",
+  "tags": [
+    "classic",
+    "rack brushed metal",
+    "vu-meters",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "vu-meters",
+    "intensity": 0.81,
+    "glow": true,
+    "particleDensity": 0.8,
+    "preferredMotion": "adaptive"
+  }
+}

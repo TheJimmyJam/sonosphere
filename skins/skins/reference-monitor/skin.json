@@ -1,0 +1,37 @@
+{
+  "id": "reference-monitor",
+  "name": "Reference Monitor",
+  "description": "Studio monitor black with neutral gray and calibration-blue marks.",
+  "category": "Audiophile",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "monitor graphite",
+  "tags": [
+    "audiophile",
+    "super-premium",
+    "monitor graphite",
+    "calibration-line",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "calibration-line",
+    "intensity": 0.52,
+    "glow": true,
+    "particleDensity": 0.26,
+    "preferredMotion": "premium-subtle"
+  }
+}

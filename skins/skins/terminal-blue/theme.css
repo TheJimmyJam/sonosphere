@@ -1,0 +1,81 @@
+/* Sonosphere skin: Terminal Blue
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="terminal-blue"> */
+
+:root[data-skin="terminal-blue"] {
+  color-scheme: dark;
+
+  --skin-id: "terminal-blue";
+  --skin-name: "Terminal Blue";
+
+  --app-bg: #030b12;
+  --app-bg-elevated: color-mix(in srgb, #030b12 72%, white 8%);
+  --panel-bg: rgba(4,21,35,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(4,21,35,.92) 82%, black 12%);
+  --panel-border: rgba(14,165,233,.25);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #dff9ff;
+  --text-secondary: #86c8de;
+  --text-muted: color-mix(in srgb, #86c8de 72%, transparent);
+
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #67e8f9;
+  --accent-tertiary: color-mix(in srgb, #0ea5e9 45%, #67e8f9 55%);
+  --accent-glow: 0 0 24px rgba(14,165,233,.46);
+  --accent-soft: color-mix(in srgb, #0ea5e9 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(4,21,35,.92) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(4,21,35,.92) 64%, #0ea5e9 16%);
+  --button-active-bg: linear-gradient(135deg, #0ea5e9, #67e8f9);
+
+  --slider-track: color-mix(in srgb, #86c8de 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #0ea5e9, #67e8f9);
+  --scrubber-thumb: #dff9ff;
+
+  --visualizer-primary: #0ea5e9;
+  --visualizer-secondary: #67e8f9;
+  --visualizer-glow: rgba(14,165,233,.46);
+  --visualizer-mode: "oscilloscope";
+
+  --album-radius: 6px;
+  --panel-radius: 6px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: JetBrains Mono, ui-monospace, monospace;
+  --font-display: JetBrains Mono, ui-monospace, monospace;
+}
+
+.sonosphere-app[data-skin="terminal-blue"],
+:root[data-skin="terminal-blue"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #0ea5e9 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #67e8f9 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="terminal-blue"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="terminal-blue"] .primary-button,
+:root[data-skin="terminal-blue"] .active-room,
+:root[data-skin="terminal-blue"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="terminal-blue"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

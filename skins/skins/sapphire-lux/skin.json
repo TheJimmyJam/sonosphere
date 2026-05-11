@@ -1,0 +1,35 @@
+{
+  "id": "sapphire-lux",
+  "name": "Sapphire Lux",
+  "description": "Deep sapphire glass with silver typography and gemlike controls.",
+  "category": "Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "sapphire glass",
+  "tags": [
+    "luxury",
+    "sapphire glass",
+    "gem-wave",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "gem-wave",
+    "intensity": 0.64,
+    "glow": true,
+    "particleDensity": 0.42,
+    "preferredMotion": "adaptive"
+  }
+}

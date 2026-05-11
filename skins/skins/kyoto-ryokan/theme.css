@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Kyoto Ryokan
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "kyoto-ryokan" */
+
+:root[data-skin="kyoto-ryokan"] {
+  color-scheme: dark;
+  --skin-id: "kyoto-ryokan";
+  --skin-name: "Kyoto Ryokan";
+  --skin-category: "Resort Premium";
+  --skin-material: "hinoki wood";
+
+  --app-bg: #18140d;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #4d7c0f 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #d6b56d 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #18140d 92%, #4d7c0f 8%), color-mix(in srgb, #18140d 90%, #d6b56d 10%));
+
+  --panel-bg: rgba(39,32,21,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(39,32,21,.88) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(39,32,21,.88) 64%, transparent);
+  --panel-border: rgba(77,124,15,.22);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fafaf0;
+  --text-secondary: #bfb89e;
+  --text-muted: color-mix(in srgb, #bfb89e 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #4d7c0f;
+  --accent-secondary: #d6b56d;
+  --accent-tertiary: color-mix(in srgb, #4d7c0f 48%, #d6b56d 52%);
+  --accent-soft: color-mix(in srgb, #4d7c0f 13%, transparent);
+  --accent-glow-color: rgba(214,181,109,.20);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(39,32,21,.88) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(39,32,21,.88) 65%, #4d7c0f 12%);
+  --button-active-bg: linear-gradient(135deg, #4d7c0f, #d6b56d);
+  --button-border: color-mix(in srgb, #4d7c0f 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #bfb89e 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #4d7c0f, #d6b56d);
+  --scrubber-thumb: #fafaf0;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #4d7c0f 76%, black 10%), color-mix(in srgb, #d6b56d 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(39,32,21,.88) 84%, transparent);
+  --album-border: color-mix(in srgb, #4d7c0f 22%, white 5%);
+
+  --visualizer-primary: #4d7c0f;
+  --visualizer-secondary: #d6b56d;
+  --visualizer-mode: "zen-line";
+  --visualizer-density: 0.2;
+  --visualizer-glow: rgba(214,181,109,.20);
+
+  --app-radius: 28px;
+  --panel-radius: 16px;
+  --card-radius: 12px;
+  --album-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="kyoto-ryokan"],
+:root[data-skin="kyoto-ryokan"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="kyoto-ryokan"] .panel,
+:root[data-skin="kyoto-ryokan"] .sidebar,
+:root[data-skin="kyoto-ryokan"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="kyoto-ryokan"] .active-room,
+:root[data-skin="kyoto-ryokan"] .primary-button,
+:root[data-skin="kyoto-ryokan"] .play-button,
+:root[data-skin="kyoto-ryokan"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="kyoto-ryokan"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

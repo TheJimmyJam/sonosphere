@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Deep Space Black
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "deep-space-black" */
+
+:root[data-skin="deep-space-black"] {
+  color-scheme: dark;
+  --skin-id: "deep-space-black";
+  --skin-name: "Deep Space Black";
+  --skin-category: "Aerospace Luxury";
+  --skin-material: "void glass";
+
+  --app-bg: #000103;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #3b82f6 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #e5e7eb 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #000103 92%, #3b82f6 8%), color-mix(in srgb, #000103 90%, #e5e7eb 10%));
+
+  --panel-bg: rgba(5,8,14,.94);
+  --panel-bg-strong: color-mix(in srgb, rgba(5,8,14,.94) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(5,8,14,.94) 64%, transparent);
+  --panel-border: rgba(59,130,246,.20);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #b9c1d0;
+  --text-muted: color-mix(in srgb, #b9c1d0 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #3b82f6;
+  --accent-secondary: #e5e7eb;
+  --accent-tertiary: color-mix(in srgb, #3b82f6 48%, #e5e7eb 52%);
+  --accent-soft: color-mix(in srgb, #3b82f6 13%, transparent);
+  --accent-glow-color: rgba(59,130,246,.25);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(5,8,14,.94) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(5,8,14,.94) 65%, #3b82f6 12%);
+  --button-active-bg: linear-gradient(135deg, #3b82f6, #e5e7eb);
+  --button-border: color-mix(in srgb, #3b82f6 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #b9c1d0 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #3b82f6, #e5e7eb);
+  --scrubber-thumb: #f8fafc;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #3b82f6 76%, black 10%), color-mix(in srgb, #e5e7eb 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(5,8,14,.94) 84%, transparent);
+  --album-border: color-mix(in srgb, #3b82f6 22%, white 5%);
+
+  --visualizer-primary: #3b82f6;
+  --visualizer-secondary: #e5e7eb;
+  --visualizer-mode: "star-signal";
+  --visualizer-density: 0.3;
+  --visualizer-glow: rgba(59,130,246,.25);
+
+  --app-radius: 30px;
+  --panel-radius: 18px;
+  --card-radius: 14px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="deep-space-black"],
+:root[data-skin="deep-space-black"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="deep-space-black"] .panel,
+:root[data-skin="deep-space-black"] .sidebar,
+:root[data-skin="deep-space-black"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="deep-space-black"] .active-room,
+:root[data-skin="deep-space-black"] .primary-button,
+:root[data-skin="deep-space-black"] .play-button,
+:root[data-skin="deep-space-black"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="deep-space-black"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

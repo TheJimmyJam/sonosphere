@@ -1,0 +1,81 @@
+/* Sonosphere skin: Studio Console
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="studio-console"> */
+
+:root[data-skin="studio-console"] {
+  color-scheme: dark;
+
+  --skin-id: "studio-console";
+  --skin-name: "Studio Console";
+
+  --app-bg: #121212;
+  --app-bg-elevated: color-mix(in srgb, #121212 72%, white 8%);
+  --panel-bg: rgba(36,36,36,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(36,36,36,.92) 82%, black 12%);
+  --panel-border: rgba(245,158,11,.20);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #f7f7f7;
+  --text-secondary: #bdbdbd;
+  --text-muted: color-mix(in srgb, #bdbdbd 72%, transparent);
+
+  --accent-primary: #f59e0b;
+  --accent-secondary: #22c55e;
+  --accent-tertiary: color-mix(in srgb, #f59e0b 45%, #22c55e 55%);
+  --accent-glow: 0 0 24px rgba(34,197,94,.30);
+  --accent-soft: color-mix(in srgb, #f59e0b 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(36,36,36,.92) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(36,36,36,.92) 64%, #f59e0b 16%);
+  --button-active-bg: linear-gradient(135deg, #f59e0b, #22c55e);
+
+  --slider-track: color-mix(in srgb, #bdbdbd 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #f59e0b, #22c55e);
+  --scrubber-thumb: #f7f7f7;
+
+  --visualizer-primary: #f59e0b;
+  --visualizer-secondary: #22c55e;
+  --visualizer-glow: rgba(34,197,94,.30);
+  --visualizer-mode: "meters";
+
+  --album-radius: 8px;
+  --panel-radius: 8px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: IBM Plex Sans, Inter, sans-serif;
+  --font-display: IBM Plex Sans, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="studio-console"],
+:root[data-skin="studio-console"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #f59e0b 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #22c55e 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="studio-console"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="studio-console"] .primary-button,
+:root[data-skin="studio-console"] .active-room,
+:root[data-skin="studio-console"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="studio-console"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

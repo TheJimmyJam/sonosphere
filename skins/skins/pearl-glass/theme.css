@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Pearl Glass
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "pearl-glass" */
+
+:root[data-skin="pearl-glass"] {
+  color-scheme: light;
+  --skin-id: "pearl-glass";
+  --skin-name: "Pearl Glass";
+  --skin-category: "Minimal";
+  --skin-material: "pearl glass";
+
+  --app-bg: #f8fafc;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #8b5cf6 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #38bdf8 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #f8fafc 92%, #8b5cf6 8%), color-mix(in srgb, #f8fafc 88%, #38bdf8 12%));
+
+  --panel-bg: rgba(255,255,255,.62);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.62) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,255,255,.62) 72%, transparent);
+  --panel-border: rgba(139,92,246,.18);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #111827;
+  --text-secondary: #64748b;
+  --text-muted: color-mix(in srgb, #64748b 70%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #8b5cf6;
+  --accent-secondary: #38bdf8;
+  --accent-tertiary: color-mix(in srgb, #8b5cf6 46%, #38bdf8 54%);
+  --accent-soft: color-mix(in srgb, #8b5cf6 15%, transparent);
+  --accent-glow-color: rgba(56,189,248,.20);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.62) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.62) 64%, #8b5cf6 14%);
+  --button-active-bg: linear-gradient(135deg, #8b5cf6, #38bdf8);
+  --button-border: color-mix(in srgb, #8b5cf6 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #64748b 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #8b5cf6, #38bdf8);
+  --scrubber-thumb: #111827;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #8b5cf6 82%, black 10%), color-mix(in srgb, #38bdf8 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,255,255,.62) 82%, transparent);
+  --album-border: color-mix(in srgb, #8b5cf6 24%, white 6%);
+
+  --visualizer-primary: #8b5cf6;
+  --visualizer-secondary: #38bdf8;
+  --visualizer-mode: "holo-line";
+  --visualizer-density: 0.28;
+  --visualizer-glow: rgba(56,189,248,.20);
+
+  --app-radius: 34px;
+  --panel-radius: 24px;
+  --card-radius: 22px;
+  --album-radius: 26px;
+  --control-radius: 999px;
+  --app-blur: 28px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="pearl-glass"],
+:root[data-skin="pearl-glass"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="pearl-glass"] .panel,
+:root[data-skin="pearl-glass"] .sidebar,
+:root[data-skin="pearl-glass"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="pearl-glass"] .active-room,
+:root[data-skin="pearl-glass"] .primary-button,
+:root[data-skin="pearl-glass"] .play-button,
+:root[data-skin="pearl-glass"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="pearl-glass"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

@@ -1,0 +1,35 @@
+{
+  "id": "tidepool",
+  "name": "Tidepool",
+  "description": "Sea-glass blues, sandy edges, and gentle circular ripples.",
+  "category": "Nature",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "sea glass",
+  "tags": [
+    "nature",
+    "sea glass",
+    "ripples",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "ripples",
+    "intensity": 0.63,
+    "glow": true,
+    "particleDensity": 0.4,
+    "preferredMotion": "adaptive"
+  }
+}

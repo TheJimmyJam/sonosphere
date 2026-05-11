@@ -1,0 +1,35 @@
+{
+  "id": "cassette-deck",
+  "name": "Cassette Deck",
+  "description": "Tape deck nostalgia with twin reels and orange LEDs.",
+  "category": "Retro",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "smoked plastic",
+  "tags": [
+    "retro",
+    "smoked plastic",
+    "tape-reels",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "tape-reels",
+    "intensity": 0.72,
+    "glow": true,
+    "particleDensity": 0.6,
+    "preferredMotion": "adaptive"
+  }
+}

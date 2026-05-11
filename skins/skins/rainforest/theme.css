@@ -1,0 +1,81 @@
+/* Sonosphere skin: Rainforest
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="rainforest"> */
+
+:root[data-skin="rainforest"] {
+  color-scheme: dark;
+
+  --skin-id: "rainforest";
+  --skin-name: "Rainforest";
+
+  --app-bg: #04130b;
+  --app-bg-elevated: color-mix(in srgb, #04130b 72%, white 8%);
+  --panel-bg: rgba(9,34,22,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(9,34,22,.86) 82%, black 12%);
+  --panel-border: rgba(34,197,94,.24);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #ecfdf5;
+  --text-secondary: #86efac;
+  --text-muted: color-mix(in srgb, #86efac 72%, transparent);
+
+  --accent-primary: #22c55e;
+  --accent-secondary: #14b8a6;
+  --accent-tertiary: color-mix(in srgb, #22c55e 45%, #14b8a6 55%);
+  --accent-glow: 0 0 24px rgba(20,184,166,.35);
+  --accent-soft: color-mix(in srgb, #22c55e 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(9,34,22,.86) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(9,34,22,.86) 64%, #22c55e 16%);
+  --button-active-bg: linear-gradient(135deg, #22c55e, #14b8a6);
+
+  --slider-track: color-mix(in srgb, #86efac 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #22c55e, #14b8a6);
+  --scrubber-thumb: #ecfdf5;
+
+  --visualizer-primary: #22c55e;
+  --visualizer-secondary: #14b8a6;
+  --visualizer-glow: rgba(20,184,166,.35);
+  --visualizer-mode: "waveform";
+
+  --album-radius: 20px;
+  --panel-radius: 20px;
+  --card-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="rainforest"],
+:root[data-skin="rainforest"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #22c55e 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #14b8a6 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="rainforest"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="rainforest"] .primary-button,
+:root[data-skin="rainforest"] .active-room,
+:root[data-skin="rainforest"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="rainforest"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

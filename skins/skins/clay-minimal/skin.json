@@ -1,0 +1,35 @@
+{
+  "id": "clay-minimal",
+  "name": "Clay Minimal",
+  "description": "Earthy clay neutrals with soft terracotta accent.",
+  "category": "Minimal",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "ceramic matte",
+  "tags": [
+    "minimal",
+    "ceramic matte",
+    "soft-line",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "soft-line",
+    "intensity": 0.55,
+    "glow": true,
+    "particleDensity": 0.22,
+    "preferredMotion": "adaptive"
+  }
+}

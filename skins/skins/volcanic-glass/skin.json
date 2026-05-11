@@ -1,0 +1,35 @@
+{
+  "id": "volcanic-glass",
+  "name": "Volcanic Glass",
+  "description": "Black volcanic rock with molten orange seams.",
+  "category": "Nature",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "obsidian rock",
+  "tags": [
+    "nature",
+    "obsidian rock",
+    "lava-bars",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "lava-bars",
+    "intensity": 0.73,
+    "glow": true,
+    "particleDensity": 0.62,
+    "preferredMotion": "adaptive"
+  }
+}

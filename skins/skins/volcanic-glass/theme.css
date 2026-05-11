@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Volcanic Glass
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "volcanic-glass" */
+
+:root[data-skin="volcanic-glass"] {
+  color-scheme: dark;
+  --skin-id: "volcanic-glass";
+  --skin-name: "Volcanic Glass";
+  --skin-category: "Nature";
+  --skin-material: "obsidian rock";
+
+  --app-bg: #050303;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #f97316 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #ef4444 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #050303 92%, #f97316 8%), color-mix(in srgb, #050303 88%, #ef4444 12%));
+
+  --panel-bg: rgba(20,10,8,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(20,10,8,.92) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(20,10,8,.92) 72%, transparent);
+  --panel-border: rgba(249,115,22,.30);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #d99a83;
+  --text-muted: color-mix(in srgb, #d99a83 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #f97316;
+  --accent-secondary: #ef4444;
+  --accent-tertiary: color-mix(in srgb, #f97316 46%, #ef4444 54%);
+  --accent-soft: color-mix(in srgb, #f97316 15%, transparent);
+  --accent-glow-color: rgba(239,68,68,.42);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(20,10,8,.92) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(20,10,8,.92) 64%, #f97316 14%);
+  --button-active-bg: linear-gradient(135deg, #f97316, #ef4444);
+  --button-border: color-mix(in srgb, #f97316 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #d99a83 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #f97316, #ef4444);
+  --scrubber-thumb: #fff7ed;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #f97316 82%, black 10%), color-mix(in srgb, #ef4444 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(20,10,8,.92) 82%, transparent);
+  --album-border: color-mix(in srgb, #f97316 24%, white 6%);
+
+  --visualizer-primary: #f97316;
+  --visualizer-secondary: #ef4444;
+  --visualizer-mode: "lava-bars";
+  --visualizer-density: 0.62;
+  --visualizer-glow: rgba(239,68,68,.42);
+
+  --app-radius: 24px;
+  --panel-radius: 14px;
+  --card-radius: 12px;
+  --album-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="volcanic-glass"],
+:root[data-skin="volcanic-glass"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="volcanic-glass"] .panel,
+:root[data-skin="volcanic-glass"] .sidebar,
+:root[data-skin="volcanic-glass"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="volcanic-glass"] .active-room,
+:root[data-skin="volcanic-glass"] .primary-button,
+:root[data-skin="volcanic-glass"] .play-button,
+:root[data-skin="volcanic-glass"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="volcanic-glass"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

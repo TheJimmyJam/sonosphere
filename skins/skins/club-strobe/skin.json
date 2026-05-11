@@ -1,0 +1,35 @@
+{
+  "id": "club-strobe",
+  "name": "Club Strobe",
+  "description": "Sharp black club UI with white strobes and cobalt edge light.",
+  "category": "Futuristic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "black acrylic",
+  "tags": [
+    "futuristic",
+    "black acrylic",
+    "strobe",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "strobe",
+    "intensity": 0.77,
+    "glow": true,
+    "particleDensity": 0.72,
+    "preferredMotion": "adaptive"
+  }
+}

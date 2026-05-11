@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Stratosphere
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "stratosphere" */
+
+:root[data-skin="stratosphere"] {
+  color-scheme: dark;
+  --skin-id: "stratosphere";
+  --skin-name: "Stratosphere";
+  --skin-category: "Aerospace Luxury";
+  --skin-material: "aero glass";
+
+  --app-bg: #071726;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #38bdf8 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #e0f2fe 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #071726 92%, #38bdf8 8%), color-mix(in srgb, #071726 90%, #e0f2fe 10%));
+
+  --panel-bg: rgba(12,35,53,.78);
+  --panel-bg-strong: color-mix(in srgb, rgba(12,35,53,.78) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(12,35,53,.78) 64%, transparent);
+  --panel-border: rgba(56,189,248,.23);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #f0f9ff;
+  --text-secondary: #a7c9dc;
+  --text-muted: color-mix(in srgb, #a7c9dc 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #38bdf8;
+  --accent-secondary: #e0f2fe;
+  --accent-tertiary: color-mix(in srgb, #38bdf8 48%, #e0f2fe 52%);
+  --accent-soft: color-mix(in srgb, #38bdf8 13%, transparent);
+  --accent-glow-color: rgba(224,242,254,.18);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(12,35,53,.78) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(12,35,53,.78) 65%, #38bdf8 12%);
+  --button-active-bg: linear-gradient(135deg, #38bdf8, #e0f2fe);
+  --button-border: color-mix(in srgb, #38bdf8 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #a7c9dc 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #38bdf8, #e0f2fe);
+  --scrubber-thumb: #f0f9ff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #38bdf8 76%, black 10%), color-mix(in srgb, #e0f2fe 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(12,35,53,.78) 84%, transparent);
+  --album-border: color-mix(in srgb, #38bdf8 22%, white 5%);
+
+  --visualizer-primary: #38bdf8;
+  --visualizer-secondary: #e0f2fe;
+  --visualizer-mode: "altitude-bars";
+  --visualizer-density: 0.36;
+  --visualizer-glow: rgba(224,242,254,.18);
+
+  --app-radius: 36px;
+  --panel-radius: 24px;
+  --card-radius: 20px;
+  --album-radius: 26px;
+  --control-radius: 999px;
+  --app-blur: 22px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="stratosphere"],
+:root[data-skin="stratosphere"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="stratosphere"] .panel,
+:root[data-skin="stratosphere"] .sidebar,
+:root[data-skin="stratosphere"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="stratosphere"] .active-room,
+:root[data-skin="stratosphere"] .primary-button,
+:root[data-skin="stratosphere"] .play-button,
+:root[data-skin="stratosphere"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="stratosphere"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

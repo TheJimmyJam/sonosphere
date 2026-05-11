@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Mixing Desk
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "mixing-desk" */
+
+:root[data-skin="mixing-desk"] {
+  color-scheme: dark;
+  --skin-id: "mixing-desk";
+  --skin-name: "Mixing Desk";
+  --skin-category: "Classic";
+  --skin-material: "console surface";
+
+  --app-bg: #0b1110;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #22c55e 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #60a5fa 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #0b1110 92%, #22c55e 8%), color-mix(in srgb, #0b1110 88%, #60a5fa 12%));
+
+  --panel-bg: rgba(19,30,28,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(19,30,28,.92) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(19,30,28,.92) 72%, transparent);
+  --panel-border: rgba(34,197,94,.24);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #f0fdf4;
+  --text-secondary: #a7d7bd;
+  --text-muted: color-mix(in srgb, #a7d7bd 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #22c55e;
+  --accent-secondary: #60a5fa;
+  --accent-tertiary: color-mix(in srgb, #22c55e 46%, #60a5fa 54%);
+  --accent-soft: color-mix(in srgb, #22c55e 15%, transparent);
+  --accent-glow-color: rgba(34,197,94,.34);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(19,30,28,.92) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(19,30,28,.92) 64%, #22c55e 14%);
+  --button-active-bg: linear-gradient(135deg, #22c55e, #60a5fa);
+  --button-border: color-mix(in srgb, #22c55e 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #a7d7bd 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #22c55e, #60a5fa);
+  --scrubber-thumb: #f0fdf4;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #22c55e 82%, black 10%), color-mix(in srgb, #60a5fa 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(19,30,28,.92) 82%, transparent);
+  --album-border: color-mix(in srgb, #22c55e 24%, white 6%);
+
+  --visualizer-primary: #22c55e;
+  --visualizer-secondary: #60a5fa;
+  --visualizer-mode: "faders";
+  --visualizer-density: 0.78;
+  --visualizer-glow: rgba(34,197,94,.34);
+
+  --app-radius: 18px;
+  --panel-radius: 8px;
+  --card-radius: 6px;
+  --album-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 5px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="mixing-desk"],
+:root[data-skin="mixing-desk"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="mixing-desk"] .panel,
+:root[data-skin="mixing-desk"] .sidebar,
+:root[data-skin="mixing-desk"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="mixing-desk"] .active-room,
+:root[data-skin="mixing-desk"] .primary-button,
+:root[data-skin="mixing-desk"] .play-button,
+:root[data-skin="mixing-desk"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="mixing-desk"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

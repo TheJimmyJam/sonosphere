@@ -1,0 +1,81 @@
+/* Sonosphere skin: Clean Room
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="clean-room"> */
+
+:root[data-skin="clean-room"] {
+  color-scheme: light;
+
+  --skin-id: "clean-room";
+  --skin-name: "Clean Room";
+
+  --app-bg: #ffffff;
+  --app-bg-elevated: color-mix(in srgb, #ffffff 72%, white 8%);
+  --panel-bg: rgba(248,250,252,.94);
+  --panel-bg-strong: color-mix(in srgb, rgba(248,250,252,.94) 82%, black 12%);
+  --panel-border: rgba(2,132,199,.18);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: color-mix(in srgb, #64748b 72%, transparent);
+
+  --accent-primary: #0284c7;
+  --accent-secondary: #0ea5e9;
+  --accent-tertiary: color-mix(in srgb, #0284c7 45%, #0ea5e9 55%);
+  --accent-glow: 0 0 24px rgba(2,132,199,.18);
+  --accent-soft: color-mix(in srgb, #0284c7 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(248,250,252,.94) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(248,250,252,.94) 64%, #0284c7 16%);
+  --button-active-bg: linear-gradient(135deg, #0284c7, #0ea5e9);
+
+  --slider-track: color-mix(in srgb, #64748b 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #0284c7, #0ea5e9);
+  --scrubber-thumb: #0f172a;
+
+  --visualizer-primary: #0284c7;
+  --visualizer-secondary: #0ea5e9;
+  --visualizer-glow: rgba(2,132,199,.18);
+  --visualizer-mode: "line";
+
+  --album-radius: 10px;
+  --panel-radius: 10px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 4px;
+
+  --font-ui: SF Pro Text, Inter, sans-serif;
+  --font-display: SF Pro Text, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="clean-room"],
+:root[data-skin="clean-room"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #0284c7 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #0ea5e9 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="clean-room"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="clean-room"] .primary-button,
+:root[data-skin="clean-room"] .active-room,
+:root[data-skin="clean-room"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="clean-room"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

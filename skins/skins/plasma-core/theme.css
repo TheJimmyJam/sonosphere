@@ -1,0 +1,81 @@
+/* Sonosphere skin: Plasma Core
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="plasma-core"> */
+
+:root[data-skin="plasma-core"] {
+  color-scheme: dark;
+
+  --skin-id: "plasma-core";
+  --skin-name: "Plasma Core";
+
+  --app-bg: #100617;
+  --app-bg-elevated: color-mix(in srgb, #100617 72%, white 8%);
+  --panel-bg: rgba(32,13,43,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(32,13,43,.88) 82%, black 12%);
+  --panel-border: rgba(249,115,22,.30);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #d8b4fe;
+  --text-muted: color-mix(in srgb, #d8b4fe 72%, transparent);
+
+  --accent-primary: #f97316;
+  --accent-secondary: #8b5cf6;
+  --accent-tertiary: color-mix(in srgb, #f97316 45%, #8b5cf6 55%);
+  --accent-glow: 0 0 24px rgba(139,92,246,.55);
+  --accent-soft: color-mix(in srgb, #f97316 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(32,13,43,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(32,13,43,.88) 64%, #f97316 16%);
+  --button-active-bg: linear-gradient(135deg, #f97316, #8b5cf6);
+
+  --slider-track: color-mix(in srgb, #d8b4fe 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #f97316, #8b5cf6);
+  --scrubber-thumb: #fff7ed;
+
+  --visualizer-primary: #f97316;
+  --visualizer-secondary: #8b5cf6;
+  --visualizer-glow: rgba(139,92,246,.55);
+  --visualizer-mode: "plasma";
+
+  --album-radius: 20px;
+  --panel-radius: 20px;
+  --card-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 20px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="plasma-core"],
+:root[data-skin="plasma-core"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #f97316 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #8b5cf6 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="plasma-core"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="plasma-core"] .primary-button,
+:root[data-skin="plasma-core"] .active-room,
+:root[data-skin="plasma-core"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="plasma-core"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

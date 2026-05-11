@@ -1,0 +1,37 @@
+{
+  "id": "haute-hologram",
+  "name": "Haute Hologram",
+  "description": "Iridescent translucent glass with fashion-week holographic sheen.",
+  "category": "High Fashion Tech",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "iridescent glass",
+  "tags": [
+    "high fashion tech",
+    "super-premium",
+    "iridescent glass",
+    "holo-ribbon",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "holo-ribbon",
+    "intensity": 0.68,
+    "glow": true,
+    "particleDensity": 0.54,
+    "preferredMotion": "premium-subtle"
+  }
+}

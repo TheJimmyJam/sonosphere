@@ -1,0 +1,37 @@
+{
+  "id": "cognac-leather",
+  "name": "Cognac Leather",
+  "description": "Hand-stitched cognac leather with warm hi-fi meters.",
+  "category": "Luxury Materials",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "stitched cognac leather",
+  "tags": [
+    "luxury materials",
+    "super-premium",
+    "stitched cognac leather",
+    "leather-vu",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "leather-vu",
+    "intensity": 0.57,
+    "glow": true,
+    "particleDensity": 0.34,
+    "preferredMotion": "premium-subtle"
+  }
+}

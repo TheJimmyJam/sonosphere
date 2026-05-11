@@ -1,0 +1,307 @@
+{
+  "name": "Sonosphere Starter Skin Pack",
+  "version": "1.0.0",
+  "skinCount": 50,
+  "skins": [
+    {
+      "id": "neon-pulse",
+      "name": "Neon Pulse",
+      "category": "Futuristic",
+      "path": "skins/neon-pulse/skin.json"
+    },
+    {
+      "id": "aurora-glass",
+      "name": "Aurora Glass",
+      "category": "Futuristic",
+      "path": "skins/aurora-glass/skin.json"
+    },
+    {
+      "id": "silver-aluminum",
+      "name": "Silver Aluminum",
+      "category": "Classic",
+      "path": "skins/silver-aluminum/skin.json"
+    },
+    {
+      "id": "midnight-minimal",
+      "name": "Midnight Minimal",
+      "category": "Minimal",
+      "path": "skins/midnight-minimal/skin.json"
+    },
+    {
+      "id": "retro-wmp",
+      "name": "Retro WMP",
+      "category": "Retro",
+      "path": "skins/retro-wmp/skin.json"
+    },
+    {
+      "id": "synthwave",
+      "name": "Synthwave",
+      "category": "Retro",
+      "path": "skins/synthwave/skin.json"
+    },
+    {
+      "id": "crt-amber",
+      "name": "CRT Amber",
+      "category": "Retro",
+      "path": "skins/crt-amber/skin.json"
+    },
+    {
+      "id": "matrix-green",
+      "name": "Matrix Green",
+      "category": "Retro",
+      "path": "skins/matrix-green/skin.json"
+    },
+    {
+      "id": "vinyl-wood",
+      "name": "Vinyl Wood",
+      "category": "Classic",
+      "path": "skins/vinyl-wood/skin.json"
+    },
+    {
+      "id": "arctic-frost",
+      "name": "Arctic Frost",
+      "category": "Minimal",
+      "path": "skins/arctic-frost/skin.json"
+    },
+    {
+      "id": "sunset-gradient",
+      "name": "Sunset Gradient",
+      "category": "Futuristic",
+      "path": "skins/sunset-gradient/skin.json"
+    },
+    {
+      "id": "monochrome-pro",
+      "name": "Monochrome Pro",
+      "category": "Minimal",
+      "path": "skins/monochrome-pro/skin.json"
+    },
+    {
+      "id": "deep-space",
+      "name": "Deep Space",
+      "category": "Futuristic",
+      "path": "skins/deep-space/skin.json"
+    },
+    {
+      "id": "oceanic-sonar",
+      "name": "Oceanic Sonar",
+      "category": "Futuristic",
+      "path": "skins/oceanic-sonar/skin.json"
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "category": "Minimal",
+      "path": "skins/obsidian/skin.json"
+    },
+    {
+      "id": "copper-circuit",
+      "name": "Copper Circuit",
+      "category": "Classic",
+      "path": "skins/copper-circuit/skin.json"
+    },
+    {
+      "id": "blueprint",
+      "name": "Blueprint",
+      "category": "Technical",
+      "path": "skins/blueprint/skin.json"
+    },
+    {
+      "id": "terminal-blue",
+      "name": "Terminal Blue",
+      "category": "Retro",
+      "path": "skins/terminal-blue/skin.json"
+    },
+    {
+      "id": "cyber-lime",
+      "name": "Cyber Lime",
+      "category": "Futuristic",
+      "path": "skins/cyber-lime/skin.json"
+    },
+    {
+      "id": "laser-grid",
+      "name": "Laser Grid",
+      "category": "Futuristic",
+      "path": "skins/laser-grid/skin.json"
+    },
+    {
+      "id": "rose-gold",
+      "name": "Rose Gold",
+      "category": "Classic",
+      "path": "skins/rose-gold/skin.json"
+    },
+    {
+      "id": "graphite-glass",
+      "name": "Graphite Glass",
+      "category": "Minimal",
+      "path": "skins/graphite-glass/skin.json"
+    },
+    {
+      "id": "purple-haze",
+      "name": "Purple Haze",
+      "category": "Futuristic",
+      "path": "skins/purple-haze/skin.json"
+    },
+    {
+      "id": "solar-flare",
+      "name": "Solar Flare",
+      "category": "Futuristic",
+      "path": "skins/solar-flare/skin.json"
+    },
+    {
+      "id": "nordic-night",
+      "name": "Nordic Night",
+      "category": "Minimal",
+      "path": "skins/nordic-night/skin.json"
+    },
+    {
+      "id": "tokyo-night",
+      "name": "Tokyo Night",
+      "category": "Futuristic",
+      "path": "skins/tokyo-night/skin.json"
+    },
+    {
+      "id": "desert-radio",
+      "name": "Desert Radio",
+      "category": "Retro",
+      "path": "skins/desert-radio/skin.json"
+    },
+    {
+      "id": "iceberg",
+      "name": "Iceberg",
+      "category": "Minimal",
+      "path": "skins/iceberg/skin.json"
+    },
+    {
+      "id": "blood-moon",
+      "name": "Blood Moon",
+      "category": "Retro",
+      "path": "skins/blood-moon/skin.json"
+    },
+    {
+      "id": "emerald-studio",
+      "name": "Emerald Studio",
+      "category": "Classic",
+      "path": "skins/emerald-studio/skin.json"
+    },
+    {
+      "id": "royal-indigo",
+      "name": "Royal Indigo",
+      "category": "Classic",
+      "path": "skins/royal-indigo/skin.json"
+    },
+    {
+      "id": "paper-white",
+      "name": "Paper White",
+      "category": "Minimal",
+      "path": "skins/paper-white/skin.json"
+    },
+    {
+      "id": "hologram",
+      "name": "Hologram",
+      "category": "Futuristic",
+      "path": "skins/hologram/skin.json"
+    },
+    {
+      "id": "blacklight",
+      "name": "Blacklight",
+      "category": "Retro",
+      "path": "skins/blacklight/skin.json"
+    },
+    {
+      "id": "quantum-dot",
+      "name": "Quantum Dot",
+      "category": "Technical",
+      "path": "skins/quantum-dot/skin.json"
+    },
+    {
+      "id": "mars-colony",
+      "name": "Mars Colony",
+      "category": "Futuristic",
+      "path": "skins/mars-colony/skin.json"
+    },
+    {
+      "id": "rainforest",
+      "name": "Rainforest",
+      "category": "Classic",
+      "path": "skins/rainforest/skin.json"
+    },
+    {
+      "id": "night-drive",
+      "name": "Night Drive",
+      "category": "Retro",
+      "path": "skins/night-drive/skin.json"
+    },
+    {
+      "id": "glass-candy",
+      "name": "Glass Candy",
+      "category": "Futuristic",
+      "path": "skins/glass-candy/skin.json"
+    },
+    {
+      "id": "studio-console",
+      "name": "Studio Console",
+      "category": "Classic",
+      "path": "skins/studio-console/skin.json"
+    },
+    {
+      "id": "clean-room",
+      "name": "Clean Room",
+      "category": "Minimal",
+      "path": "skins/clean-room/skin.json"
+    },
+    {
+      "id": "starship",
+      "name": "Starship",
+      "category": "Futuristic",
+      "path": "skins/starship/skin.json"
+    },
+    {
+      "id": "vaporwave-pastel",
+      "name": "Vaporwave Pastel",
+      "category": "Retro",
+      "path": "skins/vaporwave-pastel/skin.json"
+    },
+    {
+      "id": "carbon-fiber",
+      "name": "Carbon Fiber",
+      "category": "Classic",
+      "path": "skins/carbon-fiber/skin.json"
+    },
+    {
+      "id": "golden-age",
+      "name": "Golden Age",
+      "category": "Classic",
+      "path": "skins/golden-age/skin.json"
+    },
+    {
+      "id": "storm-cloud",
+      "name": "Storm Cloud",
+      "category": "Minimal",
+      "path": "skins/storm-cloud/skin.json"
+    },
+    {
+      "id": "plasma-core",
+      "name": "Plasma Core",
+      "category": "Futuristic",
+      "path": "skins/plasma-core/skin.json"
+    },
+    {
+      "id": "blue-steel",
+      "name": "Blue Steel",
+      "category": "Classic",
+      "path": "skins/blue-steel/skin.json"
+    },
+    {
+      "id": "ghost-mode",
+      "name": "Ghost Mode",
+      "category": "Minimal",
+      "path": "skins/ghost-mode/skin.json"
+    },
+    {
+      "id": "signal-red",
+      "name": "Signal Red",
+      "category": "Technical",
+      "path": "skins/signal-red/skin.json"
+    }
+  ]
+}

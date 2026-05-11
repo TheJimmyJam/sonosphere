@@ -1,0 +1,37 @@
+{
+  "id": "sequencer-grid",
+  "name": "Sequencer Grid",
+  "description": "Premium step sequencer grid with ruby and cyan running lights.",
+  "category": "Boutique Electronic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "sequencer enamel",
+  "tags": [
+    "boutique electronic",
+    "super-premium",
+    "sequencer enamel",
+    "step-grid",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "step-grid",
+    "intensity": 0.74,
+    "glow": true,
+    "particleDensity": 0.66,
+    "preferredMotion": "premium-subtle"
+  }
+}

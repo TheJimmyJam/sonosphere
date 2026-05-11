@@ -1,0 +1,29 @@
+{
+  "id": "paper-white",
+  "name": "Paper White",
+  "description": "Clean white theme with ink-dark text and subtle blue controls.",
+  "category": "Minimal",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "license": "Proprietary / app-internal starter skin",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "tags": [
+    "minimal",
+    "line"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true
+  },
+  "visualizer": {
+    "mode": "line",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.65
+  }
+}

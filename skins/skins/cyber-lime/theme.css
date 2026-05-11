@@ -1,0 +1,81 @@
+/* Sonosphere skin: Cyber Lime
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="cyber-lime"> */
+
+:root[data-skin="cyber-lime"] {
+  color-scheme: dark;
+
+  --skin-id: "cyber-lime";
+  --skin-name: "Cyber Lime";
+
+  --app-bg: #070a05;
+  --app-bg-elevated: color-mix(in srgb, #070a05 72%, white 8%);
+  --panel-bg: rgba(14,20,12,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(14,20,12,.90) 82%, black 12%);
+  --panel-border: rgba(163,230,53,.26);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #f7ffe7;
+  --text-secondary: #b9d890;
+  --text-muted: color-mix(in srgb, #b9d890 72%, transparent);
+
+  --accent-primary: #a3e635;
+  --accent-secondary: #22d3ee;
+  --accent-tertiary: color-mix(in srgb, #a3e635 45%, #22d3ee 55%);
+  --accent-glow: 0 0 24px rgba(163,230,53,.50);
+  --accent-soft: color-mix(in srgb, #a3e635 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(14,20,12,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(14,20,12,.90) 64%, #a3e635 16%);
+  --button-active-bg: linear-gradient(135deg, #a3e635, #22d3ee);
+
+  --slider-track: color-mix(in srgb, #b9d890 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #a3e635, #22d3ee);
+  --scrubber-thumb: #f7ffe7;
+
+  --visualizer-primary: #a3e635;
+  --visualizer-secondary: #22d3ee;
+  --visualizer-glow: rgba(163,230,53,.50);
+  --visualizer-mode: "pulse";
+
+  --album-radius: 14px;
+  --panel-radius: 14px;
+  --card-radius: 12px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="cyber-lime"],
+:root[data-skin="cyber-lime"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #a3e635 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #22d3ee 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="cyber-lime"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="cyber-lime"] .primary-button,
+:root[data-skin="cyber-lime"] .active-room,
+:root[data-skin="cyber-lime"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="cyber-lime"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

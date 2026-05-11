@@ -1,0 +1,35 @@
+{
+  "id": "parisian-night",
+  "name": "Parisian Night",
+  "description": "Deep navy Paris night with champagne-gold highlights.",
+  "category": "Urban",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "lacquered glass",
+  "tags": [
+    "urban",
+    "lacquered glass",
+    "elegant-wave",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "elegant-wave",
+    "intensity": 0.62,
+    "glow": true,
+    "particleDensity": 0.38,
+    "preferredMotion": "adaptive"
+  }
+}

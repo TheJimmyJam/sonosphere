@@ -1,0 +1,37 @@
+{
+  "id": "gt-silver",
+  "name": "GT Silver",
+  "description": "Grand-touring silver, navy leather, and analog speed elegance.",
+  "category": "Performance Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "brushed GT silver",
+  "tags": [
+    "performance luxury",
+    "super-premium",
+    "brushed GT silver",
+    "speedometer",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "speedometer",
+    "intensity": 0.58,
+    "glow": true,
+    "particleDensity": 0.36,
+    "preferredMotion": "premium-subtle"
+  }
+}

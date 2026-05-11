@@ -1,0 +1,81 @@
+/* Sonosphere skin: Copper Circuit
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="copper-circuit"> */
+
+:root[data-skin="copper-circuit"] {
+  color-scheme: dark;
+
+  --skin-id: "copper-circuit";
+  --skin-name: "Copper Circuit";
+
+  --app-bg: #120b06;
+  --app-bg-elevated: color-mix(in srgb, #120b06 72%, white 8%);
+  --panel-bg: rgba(33,20,10,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(33,20,10,.90) 82%, black 12%);
+  --panel-border: rgba(217,119,6,.30);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #c6a06c;
+  --text-muted: color-mix(in srgb, #c6a06c 72%, transparent);
+
+  --accent-primary: #d97706;
+  --accent-secondary: #f59e0b;
+  --accent-tertiary: color-mix(in srgb, #d97706 45%, #f59e0b 55%);
+  --accent-glow: 0 0 24px rgba(217,119,6,.45);
+  --accent-soft: color-mix(in srgb, #d97706 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(33,20,10,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(33,20,10,.90) 64%, #d97706 16%);
+  --button-active-bg: linear-gradient(135deg, #d97706, #f59e0b);
+
+  --slider-track: color-mix(in srgb, #c6a06c 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #d97706, #f59e0b);
+  --scrubber-thumb: #fff7ed;
+
+  --visualizer-primary: #d97706;
+  --visualizer-secondary: #f59e0b;
+  --visualizer-glow: rgba(217,119,6,.45);
+  --visualizer-mode: "circuit";
+
+  --album-radius: 12px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: IBM Plex Sans, Inter, sans-serif;
+  --font-display: IBM Plex Sans, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="copper-circuit"],
+:root[data-skin="copper-circuit"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #d97706 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #f59e0b 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="copper-circuit"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="copper-circuit"] .primary-button,
+:root[data-skin="copper-circuit"] .active-room,
+:root[data-skin="copper-circuit"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="copper-circuit"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

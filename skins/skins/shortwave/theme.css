@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Shortwave
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "shortwave" */
+
+:root[data-skin="shortwave"] {
+  color-scheme: dark;
+  --skin-id: "shortwave";
+  --skin-name: "Shortwave";
+  --skin-category: "Retro";
+  --skin-material: "aged bakelite";
+
+  --app-bg: #1b130b;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #d6a45f 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #fbbf24 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #1b130b 92%, #d6a45f 8%), color-mix(in srgb, #1b130b 88%, #fbbf24 12%));
+
+  --panel-bg: rgba(45,31,18,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(45,31,18,.90) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(45,31,18,.90) 72%, transparent);
+  --panel-border: rgba(214,164,95,.28);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #fff8e8;
+  --text-secondary: #d9b98a;
+  --text-muted: color-mix(in srgb, #d9b98a 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #d6a45f;
+  --accent-secondary: #fbbf24;
+  --accent-tertiary: color-mix(in srgb, #d6a45f 46%, #fbbf24 54%);
+  --accent-soft: color-mix(in srgb, #d6a45f 15%, transparent);
+  --accent-glow-color: rgba(214,164,95,.36);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(45,31,18,.90) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(45,31,18,.90) 64%, #d6a45f 14%);
+  --button-active-bg: linear-gradient(135deg, #d6a45f, #fbbf24);
+  --button-border: color-mix(in srgb, #d6a45f 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #d9b98a 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #d6a45f, #fbbf24);
+  --scrubber-thumb: #fff8e8;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #d6a45f 82%, black 10%), color-mix(in srgb, #fbbf24 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(45,31,18,.90) 82%, transparent);
+  --album-border: color-mix(in srgb, #d6a45f 24%, white 6%);
+
+  --visualizer-primary: #d6a45f;
+  --visualizer-secondary: #fbbf24;
+  --visualizer-mode: "radio-dial";
+  --visualizer-density: 0.58;
+  --visualizer-glow: rgba(214,164,95,.36);
+
+  --app-radius: 22px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --album-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 5px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="shortwave"],
+:root[data-skin="shortwave"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="shortwave"] .panel,
+:root[data-skin="shortwave"] .sidebar,
+:root[data-skin="shortwave"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="shortwave"] .active-room,
+:root[data-skin="shortwave"] .primary-button,
+:root[data-skin="shortwave"] .play-button,
+:root[data-skin="shortwave"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="shortwave"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

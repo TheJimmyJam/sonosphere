@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Reference Monitor
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "reference-monitor" */
+
+:root[data-skin="reference-monitor"] {
+  color-scheme: dark;
+  --skin-id: "reference-monitor";
+  --skin-name: "Reference Monitor";
+  --skin-category: "Audiophile";
+  --skin-material: "monitor graphite";
+
+  --app-bg: #090b0f;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #60a5fa 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #a3a3a3 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #090b0f 92%, #60a5fa 8%), color-mix(in srgb, #090b0f 90%, #a3a3a3 10%));
+
+  --panel-bg: rgba(18,21,27,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(18,21,27,.92) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(18,21,27,.92) 64%, transparent);
+  --panel-border: rgba(96,165,250,.20);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #f5f5f5;
+  --text-secondary: #b7bcc5;
+  --text-muted: color-mix(in srgb, #b7bcc5 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #60a5fa;
+  --accent-secondary: #a3a3a3;
+  --accent-tertiary: color-mix(in srgb, #60a5fa 48%, #a3a3a3 52%);
+  --accent-soft: color-mix(in srgb, #60a5fa 13%, transparent);
+  --accent-glow-color: rgba(96,165,250,.22);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(18,21,27,.92) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(18,21,27,.92) 65%, #60a5fa 12%);
+  --button-active-bg: linear-gradient(135deg, #60a5fa, #a3a3a3);
+  --button-border: color-mix(in srgb, #60a5fa 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #b7bcc5 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #60a5fa, #a3a3a3);
+  --scrubber-thumb: #f5f5f5;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #60a5fa 76%, black 10%), color-mix(in srgb, #a3a3a3 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(18,21,27,.92) 84%, transparent);
+  --album-border: color-mix(in srgb, #60a5fa 22%, white 5%);
+
+  --visualizer-primary: #60a5fa;
+  --visualizer-secondary: #a3a3a3;
+  --visualizer-mode: "calibration-line";
+  --visualizer-density: 0.26;
+  --visualizer-glow: rgba(96,165,250,.22);
+
+  --app-radius: 22px;
+  --panel-radius: 10px;
+  --card-radius: 6px;
+  --album-radius: 12px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="reference-monitor"],
+:root[data-skin="reference-monitor"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="reference-monitor"] .panel,
+:root[data-skin="reference-monitor"] .sidebar,
+:root[data-skin="reference-monitor"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="reference-monitor"] .active-room,
+:root[data-skin="reference-monitor"] .primary-button,
+:root[data-skin="reference-monitor"] .play-button,
+:root[data-skin="reference-monitor"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="reference-monitor"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

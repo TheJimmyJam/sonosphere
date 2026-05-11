@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Monochrome Editorial
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "monochrome-editorial" */
+
+:root[data-skin="monochrome-editorial"] {
+  color-scheme: light;
+  --skin-id: "monochrome-editorial";
+  --skin-name: "Monochrome Editorial";
+  --skin-category: "High Fashion Tech";
+  --skin-material: "coated paper";
+
+  --app-bg: #ffffff;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #050505 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #737373 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #ffffff 92%, #050505 8%), color-mix(in srgb, #ffffff 90%, #737373 10%));
+
+  --panel-bg: rgba(255,255,255,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.92) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,255,255,.92) 64%, transparent);
+  --panel-border: rgba(5,5,5,.10);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #050505;
+  --text-secondary: #737373;
+  --text-muted: color-mix(in srgb, #737373 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #050505;
+  --accent-secondary: #737373;
+  --accent-tertiary: color-mix(in srgb, #050505 48%, #737373 52%);
+  --accent-soft: color-mix(in srgb, #050505 13%, transparent);
+  --accent-glow-color: rgba(5,5,5,.14);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.92) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.92) 65%, #050505 12%);
+  --button-active-bg: linear-gradient(135deg, #050505, #737373);
+  --button-border: color-mix(in srgb, #050505 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #737373 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #050505, #737373);
+  --scrubber-thumb: #050505;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #050505 76%, black 10%), color-mix(in srgb, #737373 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,255,255,.92) 84%, transparent);
+  --album-border: color-mix(in srgb, #050505 22%, white 5%);
+
+  --visualizer-primary: #050505;
+  --visualizer-secondary: #737373;
+  --visualizer-mode: "editorial-line";
+  --visualizer-density: 0.12;
+  --visualizer-glow: rgba(5,5,5,.14);
+
+  --app-radius: 18px;
+  --panel-radius: 6px;
+  --card-radius: 4px;
+  --album-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 2px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="monochrome-editorial"],
+:root[data-skin="monochrome-editorial"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="monochrome-editorial"] .panel,
+:root[data-skin="monochrome-editorial"] .sidebar,
+:root[data-skin="monochrome-editorial"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="monochrome-editorial"] .active-room,
+:root[data-skin="monochrome-editorial"] .primary-button,
+:root[data-skin="monochrome-editorial"] .play-button,
+:root[data-skin="monochrome-editorial"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="monochrome-editorial"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

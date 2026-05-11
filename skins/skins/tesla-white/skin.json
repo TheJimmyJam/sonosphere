@@ -1,0 +1,37 @@
+{
+  "id": "tesla-white",
+  "name": "Tesla White",
+  "description": "Clean EV minimalism with white panels and electric blue lines.",
+  "category": "Performance Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "ceramic white",
+  "tags": [
+    "performance luxury",
+    "super-premium",
+    "ceramic white",
+    "ev-line",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": true
+  },
+  "visualizer": {
+    "mode": "ev-line",
+    "intensity": 0.5,
+    "glow": true,
+    "particleDensity": 0.22,
+    "preferredMotion": "premium-subtle"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "mastering-suite",
+  "name": "Mastering Suite",
+  "description": "Ultra-clean mastering-room interface with refined low-glare meters.",
+  "category": "Professional",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "acoustic slate",
+  "tags": [
+    "professional",
+    "acoustic slate",
+    "precision-line",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "precision-line",
+    "intensity": 0.67,
+    "glow": true,
+    "particleDensity": 0.48,
+    "preferredMotion": "adaptive"
+  }
+}

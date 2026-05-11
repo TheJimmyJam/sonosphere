@@ -1,0 +1,81 @@
+/* Sonosphere skin: Vaporwave Pastel
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="vaporwave-pastel"> */
+
+:root[data-skin="vaporwave-pastel"] {
+  color-scheme: dark;
+
+  --skin-id: "vaporwave-pastel";
+  --skin-name: "Vaporwave Pastel";
+
+  --app-bg: #241629;
+  --app-bg-elevated: color-mix(in srgb, #241629 72%, white 8%);
+  --panel-bg: rgba(58,35,70,.78);
+  --panel-bg-strong: color-mix(in srgb, rgba(58,35,70,.78) 82%, black 12%);
+  --panel-border: rgba(240,171,252,.30);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff7ff;
+  --text-secondary: #f5d0fe;
+  --text-muted: color-mix(in srgb, #f5d0fe 72%, transparent);
+
+  --accent-primary: #f0abfc;
+  --accent-secondary: #93c5fd;
+  --accent-tertiary: color-mix(in srgb, #f0abfc 45%, #93c5fd 55%);
+  --accent-glow: 0 0 24px rgba(147,197,253,.35);
+  --accent-soft: color-mix(in srgb, #f0abfc 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(58,35,70,.78) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(58,35,70,.78) 64%, #f0abfc 16%);
+  --button-active-bg: linear-gradient(135deg, #f0abfc, #93c5fd);
+
+  --slider-track: color-mix(in srgb, #f5d0fe 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #f0abfc, #93c5fd);
+  --scrubber-thumb: #fff7ff;
+
+  --visualizer-primary: #f0abfc;
+  --visualizer-secondary: #93c5fd;
+  --visualizer-glow: rgba(147,197,253,.35);
+  --visualizer-mode: "grid-tunnel";
+
+  --album-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="vaporwave-pastel"],
+:root[data-skin="vaporwave-pastel"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #f0abfc 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #93c5fd 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="vaporwave-pastel"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="vaporwave-pastel"] .primary-button,
+:root[data-skin="vaporwave-pastel"] .active-room,
+:root[data-skin="vaporwave-pastel"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="vaporwave-pastel"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

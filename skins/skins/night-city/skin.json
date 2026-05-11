@@ -1,0 +1,35 @@
+{
+  "id": "night-city",
+  "name": "Night City",
+  "description": "High-rise midnight blues with window-grid shimmer.",
+  "category": "Urban",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "tinted glass",
+  "tags": [
+    "urban",
+    "tinted glass",
+    "city-grid",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "city-grid",
+    "intensity": 0.68,
+    "glow": true,
+    "particleDensity": 0.5,
+    "preferredMotion": "adaptive"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "coffeehouse",
+  "name": "Coffeehouse",
+  "description": "Warm espresso leather panels with cream typography.",
+  "category": "Lifestyle",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "espresso leather",
+  "tags": [
+    "lifestyle",
+    "espresso leather",
+    "vinyl-soft",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "vinyl-soft",
+    "intensity": 0.6,
+    "glow": true,
+    "particleDensity": 0.34,
+    "preferredMotion": "adaptive"
+  }
+}

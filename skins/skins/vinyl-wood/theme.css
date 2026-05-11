@@ -1,0 +1,81 @@
+/* Sonosphere skin: Vinyl Wood
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="vinyl-wood"> */
+
+:root[data-skin="vinyl-wood"] {
+  color-scheme: dark;
+
+  --skin-id: "vinyl-wood";
+  --skin-name: "Vinyl Wood";
+
+  --app-bg: #21160d;
+  --app-bg-elevated: color-mix(in srgb, #21160d 72%, white 8%);
+  --panel-bg: rgba(54,34,18,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(54,34,18,.88) 82%, black 12%);
+  --panel-border: rgba(192,132,61,.32);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #d6b790;
+  --text-muted: color-mix(in srgb, #d6b790 72%, transparent);
+
+  --accent-primary: #c0843d;
+  --accent-secondary: #facc15;
+  --accent-tertiary: color-mix(in srgb, #c0843d 45%, #facc15 55%);
+  --accent-glow: 0 0 24px rgba(250,204,21,.28);
+  --accent-soft: color-mix(in srgb, #c0843d 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(54,34,18,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(54,34,18,.88) 64%, #c0843d 16%);
+  --button-active-bg: linear-gradient(135deg, #c0843d, #facc15);
+
+  --slider-track: color-mix(in srgb, #d6b790 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #c0843d, #facc15);
+  --scrubber-thumb: #fff7ed;
+
+  --visualizer-primary: #c0843d;
+  --visualizer-secondary: #facc15;
+  --visualizer-glow: rgba(250,204,21,.28);
+  --visualizer-mode: "vinyl";
+
+  --album-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: Avenir Next, Inter, sans-serif;
+  --font-display: Avenir Next, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="vinyl-wood"],
+:root[data-skin="vinyl-wood"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #c0843d 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #facc15 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="vinyl-wood"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="vinyl-wood"] .primary-button,
+:root[data-skin="vinyl-wood"] .active-room,
+:root[data-skin="vinyl-wood"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="vinyl-wood"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: CRT Amber
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="crt-amber"> */
+
+:root[data-skin="crt-amber"] {
+  color-scheme: dark;
+
+  --skin-id: "crt-amber";
+  --skin-name: "CRT Amber";
+
+  --app-bg: #120904;
+  --app-bg-elevated: color-mix(in srgb, #120904 72%, white 8%);
+  --panel-bg: rgba(32,17,8,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(32,17,8,.92) 82%, black 12%);
+  --panel-border: rgba(245,158,11,.26);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff3d0;
+  --text-secondary: #d6a95a;
+  --text-muted: color-mix(in srgb, #d6a95a 72%, transparent);
+
+  --accent-primary: #f59e0b;
+  --accent-secondary: #ffcc66;
+  --accent-tertiary: color-mix(in srgb, #f59e0b 45%, #ffcc66 55%);
+  --accent-glow: 0 0 24px rgba(245,158,11,.55);
+  --accent-soft: color-mix(in srgb, #f59e0b 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(32,17,8,.92) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(32,17,8,.92) 64%, #f59e0b 16%);
+  --button-active-bg: linear-gradient(135deg, #f59e0b, #ffcc66);
+
+  --slider-track: color-mix(in srgb, #d6a95a 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #f59e0b, #ffcc66);
+  --scrubber-thumb: #fff3d0;
+
+  --visualizer-primary: #f59e0b;
+  --visualizer-secondary: #ffcc66;
+  --visualizer-glow: rgba(245,158,11,.55);
+  --visualizer-mode: "oscilloscope";
+
+  --album-radius: 6px;
+  --panel-radius: 6px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 4px;
+
+  --font-ui: IBM Plex Mono, ui-monospace, monospace;
+  --font-display: IBM Plex Mono, ui-monospace, monospace;
+}
+
+.sonosphere-app[data-skin="crt-amber"],
+:root[data-skin="crt-amber"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #f59e0b 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #ffcc66 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="crt-amber"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="crt-amber"] .primary-button,
+:root[data-skin="crt-amber"] .active-room,
+:root[data-skin="crt-amber"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="crt-amber"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Paper Ink
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "paper-ink" */
+
+:root[data-skin="paper-ink"] {
+  color-scheme: light;
+  --skin-id: "paper-ink";
+  --skin-name: "Paper Ink";
+  --skin-category: "Minimal";
+  --skin-material: "paper stock";
+
+  --app-bg: #fbfbf8;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #111827 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #2563eb 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #fbfbf8 92%, #111827 8%), color-mix(in srgb, #fbfbf8 88%, #2563eb 12%));
+
+  --panel-bg: rgba(255,255,252,.94);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,252,.94) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,255,252,.94) 72%, transparent);
+  --panel-border: rgba(17,24,39,.12);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: color-mix(in srgb, #6b7280 70%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #111827;
+  --accent-secondary: #2563eb;
+  --accent-tertiary: color-mix(in srgb, #111827 46%, #2563eb 54%);
+  --accent-soft: color-mix(in srgb, #111827 15%, transparent);
+  --accent-glow-color: rgba(37,99,235,.15);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,252,.94) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,252,.94) 64%, #111827 14%);
+  --button-active-bg: linear-gradient(135deg, #111827, #2563eb);
+  --button-border: color-mix(in srgb, #111827 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #6b7280 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #111827, #2563eb);
+  --scrubber-thumb: #111827;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #111827 82%, black 10%), color-mix(in srgb, #2563eb 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,255,252,.94) 82%, transparent);
+  --album-border: color-mix(in srgb, #111827 24%, white 6%);
+
+  --visualizer-primary: #111827;
+  --visualizer-secondary: #2563eb;
+  --visualizer-mode: "thin-line";
+  --visualizer-density: 0.18;
+  --visualizer-glow: rgba(37,99,235,.15);
+
+  --app-radius: 16px;
+  --panel-radius: 6px;
+  --card-radius: 6px;
+  --album-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 2px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="paper-ink"],
+:root[data-skin="paper-ink"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="paper-ink"] .panel,
+:root[data-skin="paper-ink"] .sidebar,
+:root[data-skin="paper-ink"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="paper-ink"] .active-room,
+:root[data-skin="paper-ink"] .primary-button,
+:root[data-skin="paper-ink"] .play-button,
+:root[data-skin="paper-ink"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="paper-ink"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

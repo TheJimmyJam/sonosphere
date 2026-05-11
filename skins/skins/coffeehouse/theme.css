@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Coffeehouse
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "coffeehouse" */
+
+:root[data-skin="coffeehouse"] {
+  color-scheme: dark;
+  --skin-id: "coffeehouse";
+  --skin-name: "Coffeehouse";
+  --skin-category: "Lifestyle";
+  --skin-material: "espresso leather";
+
+  --app-bg: #1c120b;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #a16207 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #fef3c7 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #1c120b 92%, #a16207 8%), color-mix(in srgb, #1c120b 88%, #fef3c7 12%));
+
+  --panel-bg: rgba(54,36,22,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(54,36,22,.90) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(54,36,22,.90) 72%, transparent);
+  --panel-border: rgba(161,98,7,.24);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #d4b896;
+  --text-muted: color-mix(in srgb, #d4b896 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #a16207;
+  --accent-secondary: #fef3c7;
+  --accent-tertiary: color-mix(in srgb, #a16207 46%, #fef3c7 54%);
+  --accent-soft: color-mix(in srgb, #a16207 15%, transparent);
+  --accent-glow-color: rgba(254,243,199,.22);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(54,36,22,.90) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(54,36,22,.90) 64%, #a16207 14%);
+  --button-active-bg: linear-gradient(135deg, #a16207, #fef3c7);
+  --button-border: color-mix(in srgb, #a16207 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #d4b896 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #a16207, #fef3c7);
+  --scrubber-thumb: #fff7ed;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #a16207 82%, black 10%), color-mix(in srgb, #fef3c7 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(54,36,22,.90) 82%, transparent);
+  --album-border: color-mix(in srgb, #a16207 24%, white 6%);
+
+  --visualizer-primary: #a16207;
+  --visualizer-secondary: #fef3c7;
+  --visualizer-mode: "vinyl-soft";
+  --visualizer-density: 0.34;
+  --visualizer-glow: rgba(254,243,199,.22);
+
+  --app-radius: 24px;
+  --panel-radius: 14px;
+  --card-radius: 12px;
+  --album-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="coffeehouse"],
+:root[data-skin="coffeehouse"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="coffeehouse"] .panel,
+:root[data-skin="coffeehouse"] .sidebar,
+:root[data-skin="coffeehouse"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="coffeehouse"] .active-room,
+:root[data-skin="coffeehouse"] .primary-button,
+:root[data-skin="coffeehouse"] .play-button,
+:root[data-skin="coffeehouse"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="coffeehouse"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

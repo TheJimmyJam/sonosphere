@@ -1,0 +1,35 @@
+{
+  "id": "broadcast-tower",
+  "name": "Broadcast Tower",
+  "description": "FM broadcast tower energy with red beacon accents.",
+  "category": "Retro",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "warm analog metal",
+  "tags": [
+    "retro",
+    "warm analog metal",
+    "broadcast",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "broadcast",
+    "intensity": 0.78,
+    "glow": true,
+    "particleDensity": 0.74,
+    "preferredMotion": "adaptive"
+  }
+}

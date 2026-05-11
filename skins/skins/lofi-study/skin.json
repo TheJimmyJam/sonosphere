@@ -1,0 +1,35 @@
+{
+  "id": "lofi-study",
+  "name": "LoFi Study",
+  "description": "Cozy study desk palette with muted peach and dim lamp glow.",
+  "category": "Lifestyle",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "paper and walnut",
+  "tags": [
+    "lifestyle",
+    "paper and walnut",
+    "dust-wave",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "dust-wave",
+    "intensity": 0.61,
+    "glow": true,
+    "particleDensity": 0.36,
+    "preferredMotion": "adaptive"
+  }
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Golden Age
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="golden-age"> */
+
+:root[data-skin="golden-age"] {
+  color-scheme: dark;
+
+  --skin-id: "golden-age";
+  --skin-name: "Golden Age";
+
+  --app-bg: #080602;
+  --app-bg-elevated: color-mix(in srgb, #080602 72%, white 8%);
+  --panel-bg: rgba(21,17,8,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(21,17,8,.92) 82%, black 12%);
+  --panel-border: rgba(212,175,55,.28);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff8dc;
+  --text-secondary: #d6c27a;
+  --text-muted: color-mix(in srgb, #d6c27a 72%, transparent);
+
+  --accent-primary: #d4af37;
+  --accent-secondary: #facc15;
+  --accent-tertiary: color-mix(in srgb, #d4af37 45%, #facc15 55%);
+  --accent-glow: 0 0 24px rgba(212,175,55,.35);
+  --accent-soft: color-mix(in srgb, #d4af37 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(21,17,8,.92) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(21,17,8,.92) 64%, #d4af37 16%);
+  --button-active-bg: linear-gradient(135deg, #d4af37, #facc15);
+
+  --slider-track: color-mix(in srgb, #d6c27a 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #d4af37, #facc15);
+  --scrubber-thumb: #fff8dc;
+
+  --visualizer-primary: #d4af37;
+  --visualizer-secondary: #facc15;
+  --visualizer-glow: rgba(212,175,55,.35);
+  --visualizer-mode: "vinyl";
+
+  --album-radius: 14px;
+  --panel-radius: 14px;
+  --card-radius: 12px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: Avenir Next, Inter, sans-serif;
+  --font-display: Avenir Next, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="golden-age"],
+:root[data-skin="golden-age"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #d4af37 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #facc15 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="golden-age"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="golden-age"] .primary-button,
+:root[data-skin="golden-age"] .active-room,
+:root[data-skin="golden-age"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="golden-age"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

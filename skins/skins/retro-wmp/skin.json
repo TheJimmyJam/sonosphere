@@ -1,0 +1,29 @@
+{
+  "id": "retro-wmp",
+  "name": "Retro WMP",
+  "description": "Nostalgic early-2000s media player with steel panels and blue LEDs.",
+  "category": "Retro",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "license": "Proprietary / app-internal starter skin",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "tags": [
+    "retro",
+    "classic-bars"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true
+  },
+  "visualizer": {
+    "mode": "classic-bars",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.65
+  }
+}

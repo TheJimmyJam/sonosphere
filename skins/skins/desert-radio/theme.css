@@ -1,0 +1,81 @@
+/* Sonosphere skin: Desert Radio
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="desert-radio"> */
+
+:root[data-skin="desert-radio"] {
+  color-scheme: dark;
+
+  --skin-id: "desert-radio";
+  --skin-name: "Desert Radio";
+
+  --app-bg: #23160b;
+  --app-bg-elevated: color-mix(in srgb, #23160b 72%, white 8%);
+  --panel-bg: rgba(53,34,16,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(53,34,16,.88) 82%, black 12%);
+  --panel-border: rgba(234,179,8,.25);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff8e1;
+  --text-secondary: #d9b36d;
+  --text-muted: color-mix(in srgb, #d9b36d 72%, transparent);
+
+  --accent-primary: #eab308;
+  --accent-secondary: #f97316;
+  --accent-tertiary: color-mix(in srgb, #eab308 45%, #f97316 55%);
+  --accent-glow: 0 0 24px rgba(234,179,8,.38);
+  --accent-soft: color-mix(in srgb, #eab308 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(53,34,16,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(53,34,16,.88) 64%, #eab308 16%);
+  --button-active-bg: linear-gradient(135deg, #eab308, #f97316);
+
+  --slider-track: color-mix(in srgb, #d9b36d 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #eab308, #f97316);
+  --scrubber-thumb: #fff8e1;
+
+  --visualizer-primary: #eab308;
+  --visualizer-secondary: #f97316;
+  --visualizer-glow: rgba(234,179,8,.38);
+  --visualizer-mode: "radio";
+
+  --album-radius: 10px;
+  --panel-radius: 10px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: IBM Plex Sans, Inter, sans-serif;
+  --font-display: IBM Plex Sans, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="desert-radio"],
+:root[data-skin="desert-radio"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #eab308 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #f97316 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="desert-radio"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="desert-radio"] .primary-button,
+:root[data-skin="desert-radio"] .active-room,
+:root[data-skin="desert-radio"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="desert-radio"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

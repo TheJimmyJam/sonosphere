@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Champagne Noir
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "champagne-noir" */
+
+:root[data-skin="champagne-noir"] {
+  color-scheme: dark;
+  --skin-id: "champagne-noir";
+  --skin-name: "Champagne Noir";
+  --skin-category: "Ultra Premium";
+  --skin-material: "black lacquer";
+
+  --app-bg: #050403;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #e6c87a 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #fff3c4 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #050403 92%, #e6c87a 8%), color-mix(in srgb, #050403 90%, #fff3c4 10%));
+
+  --panel-bg: rgba(19,15,10,.94);
+  --panel-bg-strong: color-mix(in srgb, rgba(19,15,10,.94) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(19,15,10,.94) 64%, transparent);
+  --panel-border: rgba(230,200,122,.25);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fff8e1;
+  --text-secondary: #c9bb91;
+  --text-muted: color-mix(in srgb, #c9bb91 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #e6c87a;
+  --accent-secondary: #fff3c4;
+  --accent-tertiary: color-mix(in srgb, #e6c87a 48%, #fff3c4 52%);
+  --accent-soft: color-mix(in srgb, #e6c87a 13%, transparent);
+  --accent-glow-color: rgba(230,200,122,.26);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(19,15,10,.94) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(19,15,10,.94) 65%, #e6c87a 12%);
+  --button-active-bg: linear-gradient(135deg, #e6c87a, #fff3c4);
+  --button-border: color-mix(in srgb, #e6c87a 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #c9bb91 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #e6c87a, #fff3c4);
+  --scrubber-thumb: #fff8e1;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #e6c87a 76%, black 10%), color-mix(in srgb, #fff3c4 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(19,15,10,.94) 84%, transparent);
+  --album-border: color-mix(in srgb, #e6c87a 22%, white 5%);
+
+  --visualizer-primary: #e6c87a;
+  --visualizer-secondary: #fff3c4;
+  --visualizer-mode: "champagne-bars";
+  --visualizer-density: 0.3;
+  --visualizer-glow: rgba(230,200,122,.26);
+
+  --app-radius: 28px;
+  --panel-radius: 16px;
+  --card-radius: 12px;
+  --album-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="champagne-noir"],
+:root[data-skin="champagne-noir"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="champagne-noir"] .panel,
+:root[data-skin="champagne-noir"] .sidebar,
+:root[data-skin="champagne-noir"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="champagne-noir"] .active-room,
+:root[data-skin="champagne-noir"] .primary-button,
+:root[data-skin="champagne-noir"] .play-button,
+:root[data-skin="champagne-noir"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="champagne-noir"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

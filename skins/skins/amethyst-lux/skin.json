@@ -1,0 +1,35 @@
+{
+  "id": "amethyst-lux",
+  "name": "Amethyst Lux",
+  "description": "Purple gemstone interface with soft violet refractions.",
+  "category": "Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "amethyst glass",
+  "tags": [
+    "luxury",
+    "amethyst glass",
+    "crystal-bars",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "crystal-bars",
+    "intensity": 0.67,
+    "glow": true,
+    "particleDensity": 0.48,
+    "preferredMotion": "adaptive"
+  }
+}

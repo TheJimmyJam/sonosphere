@@ -1,0 +1,35 @@
+{
+  "id": "museum-white",
+  "name": "Museum White",
+  "description": "Gallery-grade white space with subtle neutral shadows.",
+  "category": "Minimal",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "gallery acrylic",
+  "tags": [
+    "minimal",
+    "gallery acrylic",
+    "calm-line",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "calm-line",
+    "intensity": 0.54,
+    "glow": true,
+    "particleDensity": 0.2,
+    "preferredMotion": "adaptive"
+  }
+}

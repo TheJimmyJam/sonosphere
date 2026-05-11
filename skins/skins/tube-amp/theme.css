@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Tube Amp
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "tube-amp" */
+
+:root[data-skin="tube-amp"] {
+  color-scheme: dark;
+  --skin-id: "tube-amp";
+  --skin-name: "Tube Amp";
+  --skin-category: "Audiophile";
+  --skin-material: "tube amp glass";
+
+  --app-bg: #0b0502;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #f59e0b 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #dc2626 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #0b0502 92%, #f59e0b 8%), color-mix(in srgb, #0b0502 90%, #dc2626 10%));
+
+  --panel-bg: rgba(28,15,8,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(28,15,8,.92) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(28,15,8,.92) 64%, transparent);
+  --panel-border: rgba(245,158,11,.27);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #d7a988;
+  --text-muted: color-mix(in srgb, #d7a988 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #f59e0b;
+  --accent-secondary: #dc2626;
+  --accent-tertiary: color-mix(in srgb, #f59e0b 48%, #dc2626 52%);
+  --accent-soft: color-mix(in srgb, #f59e0b 13%, transparent);
+  --accent-glow-color: rgba(220,38,38,.24);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(28,15,8,.92) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(28,15,8,.92) 65%, #f59e0b 12%);
+  --button-active-bg: linear-gradient(135deg, #f59e0b, #dc2626);
+  --button-border: color-mix(in srgb, #f59e0b 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #d7a988 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #f59e0b, #dc2626);
+  --scrubber-thumb: #fff7ed;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #f59e0b 76%, black 10%), color-mix(in srgb, #dc2626 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(28,15,8,.92) 84%, transparent);
+  --album-border: color-mix(in srgb, #f59e0b 22%, white 5%);
+
+  --visualizer-primary: #f59e0b;
+  --visualizer-secondary: #dc2626;
+  --visualizer-mode: "tube-glow";
+  --visualizer-density: 0.46;
+  --visualizer-glow: rgba(220,38,38,.24);
+
+  --app-radius: 28px;
+  --panel-radius: 16px;
+  --card-radius: 12px;
+  --album-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 7px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="tube-amp"],
+:root[data-skin="tube-amp"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="tube-amp"] .panel,
+:root[data-skin="tube-amp"] .sidebar,
+:root[data-skin="tube-amp"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="tube-amp"] .active-room,
+:root[data-skin="tube-amp"] .primary-button,
+:root[data-skin="tube-amp"] .play-button,
+:root[data-skin="tube-amp"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="tube-amp"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

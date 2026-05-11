@@ -1,0 +1,81 @@
+/* Sonosphere skin: Matrix Green
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="matrix-green"> */
+
+:root[data-skin="matrix-green"] {
+  color-scheme: dark;
+
+  --skin-id: "matrix-green";
+  --skin-name: "Matrix Green";
+
+  --app-bg: #020403;
+  --app-bg-elevated: color-mix(in srgb, #020403 72%, white 8%);
+  --panel-bg: rgba(3,18,10,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(3,18,10,.90) 82%, black 12%);
+  --panel-border: rgba(34,197,94,.26);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #ddffe7;
+  --text-secondary: #8fdba7;
+  --text-muted: color-mix(in srgb, #8fdba7 72%, transparent);
+
+  --accent-primary: #22c55e;
+  --accent-secondary: #84cc16;
+  --accent-tertiary: color-mix(in srgb, #22c55e 45%, #84cc16 55%);
+  --accent-glow: 0 0 24px rgba(34,197,94,.50);
+  --accent-soft: color-mix(in srgb, #22c55e 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(3,18,10,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(3,18,10,.90) 64%, #22c55e 16%);
+  --button-active-bg: linear-gradient(135deg, #22c55e, #84cc16);
+
+  --slider-track: color-mix(in srgb, #8fdba7 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #22c55e, #84cc16);
+  --scrubber-thumb: #ddffe7;
+
+  --visualizer-primary: #22c55e;
+  --visualizer-secondary: #84cc16;
+  --visualizer-glow: rgba(34,197,94,.50);
+  --visualizer-mode: "matrix";
+
+  --album-radius: 8px;
+  --panel-radius: 8px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: JetBrains Mono, ui-monospace, monospace;
+  --font-display: JetBrains Mono, ui-monospace, monospace;
+}
+
+.sonosphere-app[data-skin="matrix-green"],
+:root[data-skin="matrix-green"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #22c55e 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #84cc16 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="matrix-green"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="matrix-green"] .primary-button,
+:root[data-skin="matrix-green"] .active-room,
+:root[data-skin="matrix-green"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="matrix-green"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

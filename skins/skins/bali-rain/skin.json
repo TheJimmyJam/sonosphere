@@ -1,0 +1,37 @@
+{
+  "id": "bali-rain",
+  "name": "Bali Rain",
+  "description": "Lush rain, volcanic stone, tropical green, and spa-like transparency.",
+  "category": "Resort Premium",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "wet volcanic stone",
+  "tags": [
+    "resort premium",
+    "super-premium",
+    "wet volcanic stone",
+    "rain-pulse",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "rain-pulse",
+    "intensity": 0.61,
+    "glow": true,
+    "particleDensity": 0.42,
+    "preferredMotion": "premium-subtle"
+  }
+}

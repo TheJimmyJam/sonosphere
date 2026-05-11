@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Platinum Atelier
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "platinum-atelier" */
+
+:root[data-skin="platinum-atelier"] {
+  color-scheme: light;
+  --skin-id: "platinum-atelier";
+  --skin-name: "Platinum Atelier";
+  --skin-category: "Ultra Premium";
+  --skin-material: "brushed platinum";
+
+  --app-bg: #f3f5f7;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #94a3b8 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #38bdf8 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #f3f5f7 92%, #94a3b8 8%), color-mix(in srgb, #f3f5f7 90%, #38bdf8 10%));
+
+  --panel-bg: rgba(255,255,255,.76);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.76) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,255,255,.76) 64%, transparent);
+  --panel-border: rgba(148,163,184,.20);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #111827;
+  --text-secondary: #64748b;
+  --text-muted: color-mix(in srgb, #64748b 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #94a3b8;
+  --accent-secondary: #38bdf8;
+  --accent-tertiary: color-mix(in srgb, #94a3b8 48%, #38bdf8 52%);
+  --accent-soft: color-mix(in srgb, #94a3b8 13%, transparent);
+  --accent-glow-color: rgba(56,189,248,.16);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.76) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.76) 65%, #94a3b8 12%);
+  --button-active-bg: linear-gradient(135deg, #94a3b8, #38bdf8);
+  --button-border: color-mix(in srgb, #94a3b8 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #64748b 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #94a3b8, #38bdf8);
+  --scrubber-thumb: #111827;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #94a3b8 76%, black 10%), color-mix(in srgb, #38bdf8 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,255,255,.76) 84%, transparent);
+  --album-border: color-mix(in srgb, #94a3b8 22%, white 5%);
+
+  --visualizer-primary: #94a3b8;
+  --visualizer-secondary: #38bdf8;
+  --visualizer-mode: "precision-line";
+  --visualizer-density: 0.24;
+  --visualizer-glow: rgba(56,189,248,.16);
+
+  --app-radius: 32px;
+  --panel-radius: 20px;
+  --card-radius: 16px;
+  --album-radius: 22px;
+  --control-radius: 999px;
+  --app-blur: 24px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="platinum-atelier"],
+:root[data-skin="platinum-atelier"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="platinum-atelier"] .panel,
+:root[data-skin="platinum-atelier"] .sidebar,
+:root[data-skin="platinum-atelier"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="platinum-atelier"] .active-room,
+:root[data-skin="platinum-atelier"] .primary-button,
+:root[data-skin="platinum-atelier"] .play-button,
+:root[data-skin="platinum-atelier"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="platinum-atelier"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

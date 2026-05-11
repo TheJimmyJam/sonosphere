@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Mint Interface
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "mint-interface" */
+
+:root[data-skin="mint-interface"] {
+  color-scheme: light;
+  --skin-id: "mint-interface";
+  --skin-name: "Mint Interface";
+  --skin-category: "Minimal";
+  --skin-material: "frosted mint";
+
+  --app-bg: #f0fdf7;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #10b981 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #06b6d4 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #f0fdf7 92%, #10b981 8%), color-mix(in srgb, #f0fdf7 88%, #06b6d4 12%));
+
+  --panel-bg: rgba(255,255,255,.82);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.82) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,255,255,.82) 72%, transparent);
+  --panel-border: rgba(16,185,129,.18);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #064e3b;
+  --text-secondary: #64748b;
+  --text-muted: color-mix(in srgb, #64748b 70%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #10b981;
+  --accent-secondary: #06b6d4;
+  --accent-tertiary: color-mix(in srgb, #10b981 46%, #06b6d4 54%);
+  --accent-soft: color-mix(in srgb, #10b981 15%, transparent);
+  --accent-glow-color: rgba(6,182,212,.18);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.82) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.82) 64%, #10b981 14%);
+  --button-active-bg: linear-gradient(135deg, #10b981, #06b6d4);
+  --button-border: color-mix(in srgb, #10b981 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #64748b 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #10b981, #06b6d4);
+  --scrubber-thumb: #064e3b;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #10b981 82%, black 10%), color-mix(in srgb, #06b6d4 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,255,255,.82) 82%, transparent);
+  --album-border: color-mix(in srgb, #10b981 24%, white 6%);
+
+  --visualizer-primary: #10b981;
+  --visualizer-secondary: #06b6d4;
+  --visualizer-mode: "clean-bars";
+  --visualizer-density: 0.3;
+  --visualizer-glow: rgba(6,182,212,.18);
+
+  --app-radius: 28px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="mint-interface"],
+:root[data-skin="mint-interface"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="mint-interface"] .panel,
+:root[data-skin="mint-interface"] .sidebar,
+:root[data-skin="mint-interface"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="mint-interface"] .active-room,
+:root[data-skin="mint-interface"] .primary-button,
+:root[data-skin="mint-interface"] .play-button,
+:root[data-skin="mint-interface"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="mint-interface"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

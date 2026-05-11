@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Night City
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "night-city" */
+
+:root[data-skin="night-city"] {
+  color-scheme: dark;
+  --skin-id: "night-city";
+  --skin-name: "Night City";
+  --skin-category: "Urban";
+  --skin-material: "tinted glass";
+
+  --app-bg: #070a12;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #2563eb 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #f59e0b 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #070a12 92%, #2563eb 8%), color-mix(in srgb, #070a12 88%, #f59e0b 12%));
+
+  --panel-bg: rgba(14,19,34,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(14,19,34,.90) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(14,19,34,.90) 72%, transparent);
+  --panel-border: rgba(37,99,235,.22);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #eff6ff;
+  --text-secondary: #aeb9ce;
+  --text-muted: color-mix(in srgb, #aeb9ce 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #2563eb;
+  --accent-secondary: #f59e0b;
+  --accent-tertiary: color-mix(in srgb, #2563eb 46%, #f59e0b 54%);
+  --accent-soft: color-mix(in srgb, #2563eb 15%, transparent);
+  --accent-glow-color: rgba(245,158,11,.26);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(14,19,34,.90) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(14,19,34,.90) 64%, #2563eb 14%);
+  --button-active-bg: linear-gradient(135deg, #2563eb, #f59e0b);
+  --button-border: color-mix(in srgb, #2563eb 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #aeb9ce 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #2563eb, #f59e0b);
+  --scrubber-thumb: #eff6ff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #2563eb 82%, black 10%), color-mix(in srgb, #f59e0b 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(14,19,34,.90) 82%, transparent);
+  --album-border: color-mix(in srgb, #2563eb 24%, white 6%);
+
+  --visualizer-primary: #2563eb;
+  --visualizer-secondary: #f59e0b;
+  --visualizer-mode: "city-grid";
+  --visualizer-density: 0.5;
+  --visualizer-glow: rgba(245,158,11,.26);
+
+  --app-radius: 26px;
+  --panel-radius: 16px;
+  --card-radius: 14px;
+  --album-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 14px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="night-city"],
+:root[data-skin="night-city"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="night-city"] .panel,
+:root[data-skin="night-city"] .sidebar,
+:root[data-skin="night-city"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="night-city"] .active-room,
+:root[data-skin="night-city"] .primary-button,
+:root[data-skin="night-city"] .play-button,
+:root[data-skin="night-city"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="night-city"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

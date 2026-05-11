@@ -1,0 +1,35 @@
+{
+  "id": "forest-canopy",
+  "name": "Forest Canopy",
+  "description": "Deep green canopy with dappled sunlight accents.",
+  "category": "Nature",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "organic matte",
+  "tags": [
+    "nature",
+    "organic matte",
+    "leaf-pulse",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "leaf-pulse",
+    "intensity": 0.61,
+    "glow": true,
+    "particleDensity": 0.36,
+    "preferredMotion": "adaptive"
+  }
+}

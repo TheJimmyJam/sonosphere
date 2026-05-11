@@ -1,0 +1,81 @@
+/* Sonosphere skin: Silver Aluminum
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="silver-aluminum"> */
+
+:root[data-skin="silver-aluminum"] {
+  color-scheme: dark;
+
+  --skin-id: "silver-aluminum";
+  --skin-name: "Silver Aluminum";
+
+  --app-bg: #c7cbd3;
+  --app-bg-elevated: color-mix(in srgb, #c7cbd3 72%, white 8%);
+  --panel-bg: rgba(235,238,244,.82);
+  --panel-bg-strong: color-mix(in srgb, rgba(235,238,244,.82) 82%, black 12%);
+  --panel-border: rgba(28,42,68,.22);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #101827;
+  --text-secondary: #556070;
+  --text-muted: color-mix(in srgb, #556070 72%, transparent);
+
+  --accent-primary: #5aa9ff;
+  --accent-secondary: #c7d2fe;
+  --accent-tertiary: color-mix(in srgb, #5aa9ff 45%, #c7d2fe 55%);
+  --accent-glow: 0 0 24px rgba(90,169,255,.32);
+  --accent-soft: color-mix(in srgb, #5aa9ff 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(235,238,244,.82) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(235,238,244,.82) 64%, #5aa9ff 16%);
+  --button-active-bg: linear-gradient(135deg, #5aa9ff, #c7d2fe);
+
+  --slider-track: color-mix(in srgb, #556070 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #5aa9ff, #c7d2fe);
+  --scrubber-thumb: #101827;
+
+  --visualizer-primary: #5aa9ff;
+  --visualizer-secondary: #c7d2fe;
+  --visualizer-glow: rgba(90,169,255,.32);
+  --visualizer-mode: "spectrum";
+
+  --album-radius: 12px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: SF Pro Text, Inter, sans-serif;
+  --font-display: SF Pro Text, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="silver-aluminum"],
+:root[data-skin="silver-aluminum"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #5aa9ff 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #c7d2fe 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="silver-aluminum"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="silver-aluminum"] .primary-button,
+:root[data-skin="silver-aluminum"] .active-room,
+:root[data-skin="silver-aluminum"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="silver-aluminum"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

@@ -1,0 +1,35 @@
+{
+  "id": "paper-ink",
+  "name": "Paper Ink",
+  "description": "Editorial white skin with black ink, fine rules, and blue links.",
+  "category": "Minimal",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "paper stock",
+  "tags": [
+    "minimal",
+    "paper stock",
+    "thin-line",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "thin-line",
+    "intensity": 0.53,
+    "glow": true,
+    "particleDensity": 0.18,
+    "preferredMotion": "adaptive"
+  }
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Obsidian
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="obsidian"> */
+
+:root[data-skin="obsidian"] {
+  color-scheme: dark;
+
+  --skin-id: "obsidian";
+  --skin-name: "Obsidian";
+
+  --app-bg: #010104;
+  --app-bg-elevated: color-mix(in srgb, #010104 72%, white 8%);
+  --panel-bg: rgba(9,9,15,.92);
+  --panel-bg-strong: color-mix(in srgb, rgba(9,9,15,.92) 82%, black 12%);
+  --panel-border: rgba(139,92,246,.24);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #f4f4ff;
+  --text-secondary: #9f9ab8;
+  --text-muted: color-mix(in srgb, #9f9ab8 72%, transparent);
+
+  --accent-primary: #8b5cf6;
+  --accent-secondary: #c4b5fd;
+  --accent-tertiary: color-mix(in srgb, #8b5cf6 45%, #c4b5fd 55%);
+  --accent-glow: 0 0 24px rgba(139,92,246,.40);
+  --accent-soft: color-mix(in srgb, #8b5cf6 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(9,9,15,.92) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(9,9,15,.92) 64%, #8b5cf6 16%);
+  --button-active-bg: linear-gradient(135deg, #8b5cf6, #c4b5fd);
+
+  --slider-track: color-mix(in srgb, #9f9ab8 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #8b5cf6, #c4b5fd);
+  --scrubber-thumb: #f4f4ff;
+
+  --visualizer-primary: #8b5cf6;
+  --visualizer-secondary: #c4b5fd;
+  --visualizer-glow: rgba(139,92,246,.40);
+  --visualizer-mode: "bars";
+
+  --album-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 12px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="obsidian"],
+:root[data-skin="obsidian"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #8b5cf6 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #c4b5fd 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="obsidian"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="obsidian"] .primary-button,
+:root[data-skin="obsidian"] .active-room,
+:root[data-skin="obsidian"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="obsidian"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

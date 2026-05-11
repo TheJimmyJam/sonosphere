@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Bauhaus Wave
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "bauhaus-wave" */
+
+:root[data-skin="bauhaus-wave"] {
+  color-scheme: light;
+  --skin-id: "bauhaus-wave";
+  --skin-name: "Bauhaus Wave";
+  --skin-category: "Architectural Premium";
+  --skin-material: "painted enamel";
+
+  --app-bg: #f7f3e8;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #2563eb 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #facc15 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #f7f3e8 92%, #2563eb 8%), color-mix(in srgb, #f7f3e8 90%, #facc15 10%));
+
+  --panel-bg: rgba(255,251,242,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,251,242,.86) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,251,242,.86) 64%, transparent);
+  --panel-border: rgba(37,99,235,.16);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: color-mix(in srgb, #6b7280 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #2563eb;
+  --accent-secondary: #facc15;
+  --accent-tertiary: color-mix(in srgb, #2563eb 48%, #facc15 52%);
+  --accent-soft: color-mix(in srgb, #2563eb 13%, transparent);
+  --accent-glow-color: rgba(250,204,21,.15);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,251,242,.86) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,251,242,.86) 65%, #2563eb 12%);
+  --button-active-bg: linear-gradient(135deg, #2563eb, #facc15);
+  --button-border: color-mix(in srgb, #2563eb 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #6b7280 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #2563eb, #facc15);
+  --scrubber-thumb: #111827;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #2563eb 76%, black 10%), color-mix(in srgb, #facc15 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,251,242,.86) 84%, transparent);
+  --album-border: color-mix(in srgb, #2563eb 22%, white 5%);
+
+  --visualizer-primary: #2563eb;
+  --visualizer-secondary: #facc15;
+  --visualizer-mode: "bauhaus-grid";
+  --visualizer-density: 0.28;
+  --visualizer-glow: rgba(250,204,21,.15);
+
+  --app-radius: 20px;
+  --panel-radius: 8px;
+  --card-radius: 4px;
+  --album-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 4px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="bauhaus-wave"],
+:root[data-skin="bauhaus-wave"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="bauhaus-wave"] .panel,
+:root[data-skin="bauhaus-wave"] .sidebar,
+:root[data-skin="bauhaus-wave"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="bauhaus-wave"] .active-room,
+:root[data-skin="bauhaus-wave"] .primary-button,
+:root[data-skin="bauhaus-wave"] .play-button,
+:root[data-skin="bauhaus-wave"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="bauhaus-wave"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

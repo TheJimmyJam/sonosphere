@@ -1,0 +1,35 @@
+{
+  "id": "monaco-carbon",
+  "name": "Monaco Carbon",
+  "description": "Carbon fiber black with racing red and chrome highlights.",
+  "category": "Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "carbon fiber",
+  "tags": [
+    "luxury",
+    "carbon fiber",
+    "speed-lines",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "speed-lines",
+    "intensity": 0.72,
+    "glow": true,
+    "particleDensity": 0.6,
+    "preferredMotion": "adaptive"
+  }
+}

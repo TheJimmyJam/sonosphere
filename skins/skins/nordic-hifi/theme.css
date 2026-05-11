@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Nordic Hi-Fi
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "nordic-hifi" */
+
+:root[data-skin="nordic-hifi"] {
+  color-scheme: light;
+  --skin-id: "nordic-hifi";
+  --skin-name: "Nordic Hi-Fi";
+  --skin-category: "Audiophile";
+  --skin-material: "pale oak";
+
+  --app-bg: #f2eee6;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #111827 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #d6b56d 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #f2eee6 92%, #111827 8%), color-mix(in srgb, #f2eee6 90%, #d6b56d 10%));
+
+  --panel-bg: rgba(255,252,246,.80);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,252,246,.80) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,252,246,.80) 64%, transparent);
+  --panel-border: rgba(17,24,39,.12);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: color-mix(in srgb, #6b7280 68%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #111827;
+  --accent-secondary: #d6b56d;
+  --accent-tertiary: color-mix(in srgb, #111827 48%, #d6b56d 52%);
+  --accent-soft: color-mix(in srgb, #111827 13%, transparent);
+  --accent-glow-color: rgba(214,181,109,.15);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,252,246,.80) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,252,246,.80) 65%, #111827 12%);
+  --button-active-bg: linear-gradient(135deg, #111827, #d6b56d);
+  --button-border: color-mix(in srgb, #111827 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #6b7280 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #111827, #d6b56d);
+  --scrubber-thumb: #111827;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #111827 76%, black 10%), color-mix(in srgb, #d6b56d 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,252,246,.80) 84%, transparent);
+  --album-border: color-mix(in srgb, #111827 22%, white 5%);
+
+  --visualizer-primary: #111827;
+  --visualizer-secondary: #d6b56d;
+  --visualizer-mode: "audiophile-line";
+  --visualizer-density: 0.18;
+  --visualizer-glow: rgba(214,181,109,.15);
+
+  --app-radius: 32px;
+  --panel-radius: 20px;
+  --card-radius: 16px;
+  --album-radius: 22px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="nordic-hifi"],
+:root[data-skin="nordic-hifi"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="nordic-hifi"] .panel,
+:root[data-skin="nordic-hifi"] .sidebar,
+:root[data-skin="nordic-hifi"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="nordic-hifi"] .active-room,
+:root[data-skin="nordic-hifi"] .primary-button,
+:root[data-skin="nordic-hifi"] .play-button,
+:root[data-skin="nordic-hifi"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="nordic-hifi"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

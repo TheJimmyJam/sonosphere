@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Thunderhead
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "thunderhead" */
+
+:root[data-skin="thunderhead"] {
+  color-scheme: dark;
+  --skin-id: "thunderhead";
+  --skin-name: "Thunderhead";
+  --skin-category: "Nature";
+  --skin-material: "storm glass";
+
+  --app-bg: #111827;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #818cf8 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #38bdf8 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #111827 92%, #818cf8 8%), color-mix(in srgb, #111827 88%, #38bdf8 12%));
+
+  --panel-bg: rgba(31,41,55,.84);
+  --panel-bg-strong: color-mix(in srgb, rgba(31,41,55,.84) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(31,41,55,.84) 72%, transparent);
+  --panel-border: rgba(129,140,248,.26);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: color-mix(in srgb, #cbd5e1 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #818cf8;
+  --accent-secondary: #38bdf8;
+  --accent-tertiary: color-mix(in srgb, #818cf8 46%, #38bdf8 54%);
+  --accent-soft: color-mix(in srgb, #818cf8 15%, transparent);
+  --accent-glow-color: rgba(56,189,248,.32);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(31,41,55,.84) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(31,41,55,.84) 64%, #818cf8 14%);
+  --button-active-bg: linear-gradient(135deg, #818cf8, #38bdf8);
+  --button-border: color-mix(in srgb, #818cf8 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #cbd5e1 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #818cf8, #38bdf8);
+  --scrubber-thumb: #f8fafc;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #818cf8 82%, black 10%), color-mix(in srgb, #38bdf8 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(31,41,55,.84) 82%, transparent);
+  --album-border: color-mix(in srgb, #818cf8 24%, white 6%);
+
+  --visualizer-primary: #818cf8;
+  --visualizer-secondary: #38bdf8;
+  --visualizer-mode: "lightning";
+  --visualizer-density: 0.52;
+  --visualizer-glow: rgba(56,189,248,.32);
+
+  --app-radius: 28px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 16px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="thunderhead"],
+:root[data-skin="thunderhead"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="thunderhead"] .panel,
+:root[data-skin="thunderhead"] .sidebar,
+:root[data-skin="thunderhead"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="thunderhead"] .active-room,
+:root[data-skin="thunderhead"] .primary-button,
+:root[data-skin="thunderhead"] .play-button,
+:root[data-skin="thunderhead"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="thunderhead"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

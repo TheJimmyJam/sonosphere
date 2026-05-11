@@ -1,0 +1,81 @@
+/* Sonosphere skin: Storm Cloud
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="storm-cloud"> */
+
+:root[data-skin="storm-cloud"] {
+  color-scheme: dark;
+
+  --skin-id: "storm-cloud";
+  --skin-name: "Storm Cloud";
+
+  --app-bg: #111827;
+  --app-bg-elevated: color-mix(in srgb, #111827 72%, white 8%);
+  --panel-bg: rgba(31,41,55,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(31,41,55,.88) 82%, black 12%);
+  --panel-border: rgba(56,189,248,.24);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #f9fafb;
+  --text-secondary: #cbd5e1;
+  --text-muted: color-mix(in srgb, #cbd5e1 72%, transparent);
+
+  --accent-primary: #38bdf8;
+  --accent-secondary: #818cf8;
+  --accent-tertiary: color-mix(in srgb, #38bdf8 45%, #818cf8 55%);
+  --accent-glow: 0 0 24px rgba(129,140,248,.32);
+  --accent-soft: color-mix(in srgb, #38bdf8 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(31,41,55,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(31,41,55,.88) 64%, #38bdf8 16%);
+  --button-active-bg: linear-gradient(135deg, #38bdf8, #818cf8);
+
+  --slider-track: color-mix(in srgb, #cbd5e1 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #38bdf8, #818cf8);
+  --scrubber-thumb: #f9fafb;
+
+  --visualizer-primary: #38bdf8;
+  --visualizer-secondary: #818cf8;
+  --visualizer-glow: rgba(129,140,248,.32);
+  --visualizer-mode: "waveform";
+
+  --album-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 16px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="storm-cloud"],
+:root[data-skin="storm-cloud"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #38bdf8 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #818cf8 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="storm-cloud"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="storm-cloud"] .primary-button,
+:root[data-skin="storm-cloud"] .active-room,
+:root[data-skin="storm-cloud"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="storm-cloud"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

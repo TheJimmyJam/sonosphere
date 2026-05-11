@@ -1,0 +1,35 @@
+{
+  "id": "miami-neon",
+  "name": "Miami Neon",
+  "description": "Hot pink and aqua nightlife with glossy black panels.",
+  "category": "Urban",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "wet acrylic",
+  "tags": [
+    "urban",
+    "wet acrylic",
+    "neon-wave",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "neon-wave",
+    "intensity": 0.79,
+    "glow": true,
+    "particleDensity": 0.76,
+    "preferredMotion": "adaptive"
+  }
+}

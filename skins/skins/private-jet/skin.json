@@ -1,0 +1,37 @@
+{
+  "id": "private-jet",
+  "name": "Private Jet",
+  "description": "Cabin-grade graphite, warm cabin light, and avionics-blue controls.",
+  "category": "Aerospace Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "aircraft graphite",
+  "tags": [
+    "aerospace luxury",
+    "super-premium",
+    "aircraft graphite",
+    "avionics-line",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "avionics-line",
+    "intensity": 0.59,
+    "glow": true,
+    "particleDensity": 0.38,
+    "preferredMotion": "premium-subtle"
+  }
+}

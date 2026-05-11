@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Museum White
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "museum-white" */
+
+:root[data-skin="museum-white"] {
+  color-scheme: light;
+  --skin-id: "museum-white";
+  --skin-name: "Museum White";
+  --skin-category: "Minimal";
+  --skin-material: "gallery acrylic";
+
+  --app-bg: #fafafa;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #52525b 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #0ea5e9 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #fafafa 92%, #52525b 8%), color-mix(in srgb, #fafafa 88%, #0ea5e9 12%));
+
+  --panel-bg: rgba(255,255,255,.94);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.94) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(255,255,255,.94) 72%, transparent);
+  --panel-border: rgba(24,24,27,.10);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #18181b;
+  --text-secondary: #71717a;
+  --text-muted: color-mix(in srgb, #71717a 70%, transparent);
+  --text-inverse: #0f172a;
+
+  --accent-primary: #52525b;
+  --accent-secondary: #0ea5e9;
+  --accent-tertiary: color-mix(in srgb, #52525b 46%, #0ea5e9 54%);
+  --accent-soft: color-mix(in srgb, #52525b 15%, transparent);
+  --accent-glow-color: rgba(14,165,233,.14);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.94) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.94) 64%, #52525b 14%);
+  --button-active-bg: linear-gradient(135deg, #52525b, #0ea5e9);
+  --button-border: color-mix(in srgb, #52525b 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #71717a 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #52525b, #0ea5e9);
+  --scrubber-thumb: #18181b;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #52525b 82%, black 10%), color-mix(in srgb, #0ea5e9 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(255,255,255,.94) 82%, transparent);
+  --album-border: color-mix(in srgb, #52525b 24%, white 6%);
+
+  --visualizer-primary: #52525b;
+  --visualizer-secondary: #0ea5e9;
+  --visualizer-mode: "calm-line";
+  --visualizer-density: 0.2;
+  --visualizer-glow: rgba(14,165,233,.14);
+
+  --app-radius: 28px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="museum-white"],
+:root[data-skin="museum-white"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="museum-white"] .panel,
+:root[data-skin="museum-white"] .sidebar,
+:root[data-skin="museum-white"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="museum-white"] .active-room,
+:root[data-skin="museum-white"] .primary-button,
+:root[data-skin="museum-white"] .play-button,
+:root[data-skin="museum-white"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="museum-white"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

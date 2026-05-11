@@ -1,0 +1,81 @@
+/* Sonosphere skin: Iceberg
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="iceberg"> */
+
+:root[data-skin="iceberg"] {
+  color-scheme: light;
+
+  --skin-id: "iceberg";
+  --skin-name: "Iceberg";
+
+  --app-bg: #f8fbff;
+  --app-bg-elevated: color-mix(in srgb, #f8fbff 72%, white 8%);
+  --panel-bg: rgba(255,255,255,.80);
+  --panel-bg-strong: color-mix(in srgb, rgba(255,255,255,.80) 82%, black 12%);
+  --panel-border: rgba(14,165,233,.22);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: color-mix(in srgb, #64748b 72%, transparent);
+
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #0284c7;
+  --accent-tertiary: color-mix(in srgb, #0ea5e9 45%, #0284c7 55%);
+  --accent-glow: 0 0 24px rgba(14,165,233,.22);
+  --accent-soft: color-mix(in srgb, #0ea5e9 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(255,255,255,.80) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(255,255,255,.80) 64%, #0ea5e9 16%);
+  --button-active-bg: linear-gradient(135deg, #0ea5e9, #0284c7);
+
+  --slider-track: color-mix(in srgb, #64748b 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #0ea5e9, #0284c7);
+  --scrubber-thumb: #0f172a;
+
+  --visualizer-primary: #0ea5e9;
+  --visualizer-secondary: #0284c7;
+  --visualizer-glow: rgba(14,165,233,.22);
+  --visualizer-mode: "line";
+
+  --album-radius: 16px;
+  --panel-radius: 16px;
+  --card-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 24px;
+
+  --font-ui: SF Pro Text, Inter, sans-serif;
+  --font-display: SF Pro Text, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="iceberg"],
+:root[data-skin="iceberg"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #0ea5e9 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #0284c7 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="iceberg"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="iceberg"] .primary-button,
+:root[data-skin="iceberg"] .active-room,
+:root[data-skin="iceberg"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="iceberg"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

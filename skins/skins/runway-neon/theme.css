@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Runway Neon
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "runway-neon" */
+
+:root[data-skin="runway-neon"] {
+  color-scheme: dark;
+  --skin-id: "runway-neon";
+  --skin-name: "Runway Neon";
+  --skin-category: "High Fashion Tech";
+  --skin-material: "gloss runway acrylic";
+
+  --app-bg: #050208;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #f000b8 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #00d4ff 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #050208 92%, #f000b8 8%), color-mix(in srgb, #050208 90%, #00d4ff 10%));
+
+  --panel-bg: rgba(18,7,22,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(18,7,22,.90) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(18,7,22,.90) 64%, transparent);
+  --panel-border: rgba(240,0,184,.28);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fff5fc;
+  --text-secondary: #d9a5cf;
+  --text-muted: color-mix(in srgb, #d9a5cf 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #f000b8;
+  --accent-secondary: #00d4ff;
+  --accent-tertiary: color-mix(in srgb, #f000b8 48%, #00d4ff 52%);
+  --accent-soft: color-mix(in srgb, #f000b8 13%, transparent);
+  --accent-glow-color: rgba(0,212,255,.36);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(18,7,22,.90) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(18,7,22,.90) 65%, #f000b8 12%);
+  --button-active-bg: linear-gradient(135deg, #f000b8, #00d4ff);
+  --button-border: color-mix(in srgb, #f000b8 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #d9a5cf 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #f000b8, #00d4ff);
+  --scrubber-thumb: #fff5fc;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #f000b8 76%, black 10%), color-mix(in srgb, #00d4ff 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(18,7,22,.90) 84%, transparent);
+  --album-border: color-mix(in srgb, #f000b8 22%, white 5%);
+
+  --visualizer-primary: #f000b8;
+  --visualizer-secondary: #00d4ff;
+  --visualizer-mode: "runway-bars";
+  --visualizer-density: 0.62;
+  --visualizer-glow: rgba(0,212,255,.36);
+
+  --app-radius: 28px;
+  --panel-radius: 16px;
+  --card-radius: 12px;
+  --album-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 12px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="runway-neon"],
+:root[data-skin="runway-neon"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="runway-neon"] .panel,
+:root[data-skin="runway-neon"] .sidebar,
+:root[data-skin="runway-neon"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="runway-neon"] .active-room,
+:root[data-skin="runway-neon"] .primary-button,
+:root[data-skin="runway-neon"] .play-button,
+:root[data-skin="runway-neon"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="runway-neon"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

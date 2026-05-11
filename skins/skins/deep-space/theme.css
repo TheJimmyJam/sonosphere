@@ -1,0 +1,81 @@
+/* Sonosphere skin: Deep Space
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="deep-space"> */
+
+:root[data-skin="deep-space"] {
+  color-scheme: dark;
+
+  --skin-id: "deep-space";
+  --skin-name: "Deep Space";
+
+  --app-bg: #030712;
+  --app-bg-elevated: color-mix(in srgb, #030712 72%, white 8%);
+  --panel-bg: rgba(9,14,30,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(9,14,30,.88) 82%, black 12%);
+  --panel-border: rgba(96,165,250,.22);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #eef2ff;
+  --text-secondary: #aab4d4;
+  --text-muted: color-mix(in srgb, #aab4d4 72%, transparent);
+
+  --accent-primary: #60a5fa;
+  --accent-secondary: #a78bfa;
+  --accent-tertiary: color-mix(in srgb, #60a5fa 45%, #a78bfa 55%);
+  --accent-glow: 0 0 24px rgba(96,165,250,.42);
+  --accent-soft: color-mix(in srgb, #60a5fa 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(9,14,30,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(9,14,30,.88) 64%, #60a5fa 16%);
+  --button-active-bg: linear-gradient(135deg, #60a5fa, #a78bfa);
+
+  --slider-track: color-mix(in srgb, #aab4d4 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #60a5fa, #a78bfa);
+  --scrubber-thumb: #eef2ff;
+
+  --visualizer-primary: #60a5fa;
+  --visualizer-secondary: #a78bfa;
+  --visualizer-glow: rgba(96,165,250,.42);
+  --visualizer-mode: "orbit";
+
+  --album-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="deep-space"],
+:root[data-skin="deep-space"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #60a5fa 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #a78bfa 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="deep-space"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="deep-space"] .primary-button,
+:root[data-skin="deep-space"] .active-room,
+:root[data-skin="deep-space"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="deep-space"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

@@ -1,0 +1,37 @@
+{
+  "id": "racing-british",
+  "name": "Racing British",
+  "description": "British racing green, cream gauges, and polished nickel details.",
+  "category": "Performance Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "racing lacquer",
+  "tags": [
+    "performance luxury",
+    "super-premium",
+    "racing lacquer",
+    "gauge-vu",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "gauge-vu",
+    "intensity": 0.57,
+    "glow": true,
+    "particleDensity": 0.34,
+    "preferredMotion": "premium-subtle"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "minidisc",
+  "name": "MiniDisc",
+  "description": "Translucent 90s MiniDisc hardware in cool teal and chrome.",
+  "category": "Retro",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "translucent polycarbonate",
+  "tags": [
+    "retro",
+    "translucent polycarbonate",
+    "disc-window",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "disc-window",
+    "intensity": 0.73,
+    "glow": true,
+    "particleDensity": 0.62,
+    "preferredMotion": "adaptive"
+  }
+}

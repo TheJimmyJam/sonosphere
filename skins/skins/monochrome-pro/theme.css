@@ -1,0 +1,81 @@
+/* Sonosphere skin: Monochrome Pro
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="monochrome-pro"> */
+
+:root[data-skin="monochrome-pro"] {
+  color-scheme: dark;
+
+  --skin-id: "monochrome-pro";
+  --skin-name: "Monochrome Pro";
+
+  --app-bg: #050505;
+  --app-bg-elevated: color-mix(in srgb, #050505 72%, white 8%);
+  --panel-bg: rgba(22,22,22,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(22,22,22,.90) 82%, black 12%);
+  --panel-border: rgba(255,255,255,.13);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fafafa;
+  --text-secondary: #a3a3a3;
+  --text-muted: color-mix(in srgb, #a3a3a3 72%, transparent);
+
+  --accent-primary: #e5e7eb;
+  --accent-secondary: #9ca3af;
+  --accent-tertiary: color-mix(in srgb, #e5e7eb 45%, #9ca3af 55%);
+  --accent-glow: 0 0 24px rgba(229,231,235,.20);
+  --accent-soft: color-mix(in srgb, #e5e7eb 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(22,22,22,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(22,22,22,.90) 64%, #e5e7eb 16%);
+  --button-active-bg: linear-gradient(135deg, #e5e7eb, #9ca3af);
+
+  --slider-track: color-mix(in srgb, #a3a3a3 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #e5e7eb, #9ca3af);
+  --scrubber-thumb: #fafafa;
+
+  --visualizer-primary: #e5e7eb;
+  --visualizer-secondary: #9ca3af;
+  --visualizer-glow: rgba(229,231,235,.20);
+  --visualizer-mode: "line";
+
+  --album-radius: 10px;
+  --panel-radius: 10px;
+  --card-radius: 8px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: SF Pro Text, Inter, sans-serif;
+  --font-display: SF Pro Text, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="monochrome-pro"],
+:root[data-skin="monochrome-pro"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #e5e7eb 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #9ca3af 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="monochrome-pro"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="monochrome-pro"] .primary-button,
+:root[data-skin="monochrome-pro"] .active-room,
+:root[data-skin="monochrome-pro"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="monochrome-pro"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

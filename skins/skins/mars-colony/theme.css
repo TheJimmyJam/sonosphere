@@ -1,0 +1,81 @@
+/* Sonosphere skin: Mars Colony
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="mars-colony"> */
+
+:root[data-skin="mars-colony"] {
+  color-scheme: dark;
+
+  --skin-id: "mars-colony";
+  --skin-name: "Mars Colony";
+
+  --app-bg: #160b06;
+  --app-bg-elevated: color-mix(in srgb, #160b06 72%, white 8%);
+  --panel-bg: rgba(42,22,13,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(42,22,13,.90) 82%, black 12%);
+  --panel-border: rgba(234,88,12,.28);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #fdba74;
+  --text-muted: color-mix(in srgb, #fdba74 72%, transparent);
+
+  --accent-primary: #ea580c;
+  --accent-secondary: #fb923c;
+  --accent-tertiary: color-mix(in srgb, #ea580c 45%, #fb923c 55%);
+  --accent-glow: 0 0 24px rgba(234,88,12,.45);
+  --accent-soft: color-mix(in srgb, #ea580c 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(42,22,13,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(42,22,13,.90) 64%, #ea580c 16%);
+  --button-active-bg: linear-gradient(135deg, #ea580c, #fb923c);
+
+  --slider-track: color-mix(in srgb, #fdba74 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #ea580c, #fb923c);
+  --scrubber-thumb: #fff7ed;
+
+  --visualizer-primary: #ea580c;
+  --visualizer-secondary: #fb923c;
+  --visualizer-glow: rgba(234,88,12,.45);
+  --visualizer-mode: "radial";
+
+  --album-radius: 14px;
+  --panel-radius: 14px;
+  --card-radius: 12px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="mars-colony"],
+:root[data-skin="mars-colony"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #ea580c 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #fb923c 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="mars-colony"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="mars-colony"] .primary-button,
+:root[data-skin="mars-colony"] .active-room,
+:root[data-skin="mars-colony"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="mars-colony"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

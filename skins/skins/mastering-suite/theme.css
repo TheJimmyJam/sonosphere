@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Mastering Suite
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "mastering-suite" */
+
+:root[data-skin="mastering-suite"] {
+  color-scheme: dark;
+  --skin-id: "mastering-suite";
+  --skin-name: "Mastering Suite";
+  --skin-category: "Professional";
+  --skin-material: "acoustic slate";
+
+  --app-bg: #111318;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #93c5fd 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #e5e7eb 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #111318 92%, #93c5fd 8%), color-mix(in srgb, #111318 88%, #e5e7eb 12%));
+
+  --panel-bg: rgba(27,30,38,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(27,30,38,.90) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(27,30,38,.90) 72%, transparent);
+  --panel-border: rgba(147,197,253,.20);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #b6bdca;
+  --text-muted: color-mix(in srgb, #b6bdca 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #93c5fd;
+  --accent-secondary: #e5e7eb;
+  --accent-tertiary: color-mix(in srgb, #93c5fd 46%, #e5e7eb 54%);
+  --accent-soft: color-mix(in srgb, #93c5fd 15%, transparent);
+  --accent-glow-color: rgba(147,197,253,.26);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(27,30,38,.90) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(27,30,38,.90) 64%, #93c5fd 14%);
+  --button-active-bg: linear-gradient(135deg, #93c5fd, #e5e7eb);
+  --button-border: color-mix(in srgb, #93c5fd 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #b6bdca 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #93c5fd, #e5e7eb);
+  --scrubber-thumb: #f8fafc;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #93c5fd 82%, black 10%), color-mix(in srgb, #e5e7eb 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(27,30,38,.90) 82%, transparent);
+  --album-border: color-mix(in srgb, #93c5fd 24%, white 6%);
+
+  --visualizer-primary: #93c5fd;
+  --visualizer-secondary: #e5e7eb;
+  --visualizer-mode: "precision-line";
+  --visualizer-density: 0.48;
+  --visualizer-glow: rgba(147,197,253,.26);
+
+  --app-radius: 20px;
+  --panel-radius: 10px;
+  --card-radius: 8px;
+  --album-radius: 12px;
+  --control-radius: 999px;
+  --app-blur: 8px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="mastering-suite"],
+:root[data-skin="mastering-suite"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="mastering-suite"] .panel,
+:root[data-skin="mastering-suite"] .sidebar,
+:root[data-skin="mastering-suite"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="mastering-suite"] .active-room,
+:root[data-skin="mastering-suite"] .primary-button,
+:root[data-skin="mastering-suite"] .play-button,
+:root[data-skin="mastering-suite"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="mastering-suite"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

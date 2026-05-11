@@ -1,0 +1,81 @@
+/* Sonosphere skin: Sunset Gradient
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="sunset-gradient"> */
+
+:root[data-skin="sunset-gradient"] {
+  color-scheme: dark;
+
+  --skin-id: "sunset-gradient";
+  --skin-name: "Sunset Gradient";
+
+  --app-bg: #1f1020;
+  --app-bg-elevated: color-mix(in srgb, #1f1020 72%, white 8%);
+  --panel-bg: rgba(54,22,38,.78);
+  --panel-bg-strong: color-mix(in srgb, rgba(54,22,38,.78) 82%, black 12%);
+  --panel-border: rgba(251,113,133,.28);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff7f3;
+  --text-secondary: #f5b7aa;
+  --text-muted: color-mix(in srgb, #f5b7aa 72%, transparent);
+
+  --accent-primary: #fb7185;
+  --accent-secondary: #f97316;
+  --accent-tertiary: color-mix(in srgb, #fb7185 45%, #f97316 55%);
+  --accent-glow: 0 0 24px rgba(251,113,133,.50);
+  --accent-soft: color-mix(in srgb, #fb7185 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(54,22,38,.78) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(54,22,38,.78) 64%, #fb7185 16%);
+  --button-active-bg: linear-gradient(135deg, #fb7185, #f97316);
+
+  --slider-track: color-mix(in srgb, #f5b7aa 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #fb7185, #f97316);
+  --scrubber-thumb: #fff7f3;
+
+  --visualizer-primary: #fb7185;
+  --visualizer-secondary: #f97316;
+  --visualizer-glow: rgba(251,113,133,.50);
+  --visualizer-mode: "radial";
+
+  --album-radius: 20px;
+  --panel-radius: 20px;
+  --card-radius: 18px;
+  --control-radius: 999px;
+  --app-blur: 24px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="sunset-gradient"],
+:root[data-skin="sunset-gradient"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #fb7185 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #f97316 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="sunset-gradient"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="sunset-gradient"] .primary-button,
+:root[data-skin="sunset-gradient"] .active-room,
+:root[data-skin="sunset-gradient"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="sunset-gradient"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

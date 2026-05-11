@@ -1,0 +1,37 @@
+{
+  "id": "platinum-atelier",
+  "name": "Platinum Atelier",
+  "description": "Light platinum interface with brushed metal panels and couture spacing.",
+  "category": "Ultra Premium",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "brushed platinum",
+  "tags": [
+    "ultra premium",
+    "super-premium",
+    "brushed platinum",
+    "precision-line",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": true
+  },
+  "visualizer": {
+    "mode": "precision-line",
+    "intensity": 0.51,
+    "glow": true,
+    "particleDensity": 0.24,
+    "preferredMotion": "premium-subtle"
+  }
+}

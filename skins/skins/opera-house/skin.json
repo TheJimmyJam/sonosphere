@@ -1,0 +1,35 @@
+{
+  "id": "opera-house",
+  "name": "Opera House",
+  "description": "Velvet red concert-hall elegance with restrained gold controls.",
+  "category": "Classic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "velvet lacquer",
+  "tags": [
+    "classic",
+    "velvet lacquer",
+    "curtain-wave",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "curtain-wave",
+    "intensity": 0.64,
+    "glow": true,
+    "particleDensity": 0.42,
+    "preferredMotion": "adaptive"
+  }
+}

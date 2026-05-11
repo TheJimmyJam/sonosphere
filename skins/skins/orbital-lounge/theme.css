@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Orbital Lounge
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "orbital-lounge" */
+
+:root[data-skin="orbital-lounge"] {
+  color-scheme: dark;
+  --skin-id: "orbital-lounge";
+  --skin-name: "Orbital Lounge";
+  --skin-category: "Aerospace Luxury";
+  --skin-material: "space glass";
+
+  --app-bg: #020617;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #60a5fa 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #c084fc 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #020617 92%, #60a5fa 8%), color-mix(in srgb, #020617 90%, #c084fc 10%));
+
+  --panel-bg: rgba(8,16,34,.84);
+  --panel-bg-strong: color-mix(in srgb, rgba(8,16,34,.84) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(8,16,34,.84) 64%, transparent);
+  --panel-border: rgba(96,165,250,.26);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #eff6ff;
+  --text-secondary: #abc4e6;
+  --text-muted: color-mix(in srgb, #abc4e6 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #60a5fa;
+  --accent-secondary: #c084fc;
+  --accent-tertiary: color-mix(in srgb, #60a5fa 48%, #c084fc 52%);
+  --accent-soft: color-mix(in srgb, #60a5fa 13%, transparent);
+  --accent-glow-color: rgba(192,132,252,.24);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(8,16,34,.84) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(8,16,34,.84) 65%, #60a5fa 12%);
+  --button-active-bg: linear-gradient(135deg, #60a5fa, #c084fc);
+  --button-border: color-mix(in srgb, #60a5fa 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #abc4e6 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #60a5fa, #c084fc);
+  --scrubber-thumb: #eff6ff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #60a5fa 76%, black 10%), color-mix(in srgb, #c084fc 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(8,16,34,.84) 84%, transparent);
+  --album-border: color-mix(in srgb, #60a5fa 22%, white 5%);
+
+  --visualizer-primary: #60a5fa;
+  --visualizer-secondary: #c084fc;
+  --visualizer-mode: "orbit-ring";
+  --visualizer-density: 0.5;
+  --visualizer-glow: rgba(192,132,252,.24);
+
+  --app-radius: 38px;
+  --panel-radius: 26px;
+  --card-radius: 22px;
+  --album-radius: 28px;
+  --control-radius: 999px;
+  --app-blur: 24px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="orbital-lounge"],
+:root[data-skin="orbital-lounge"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="orbital-lounge"] .panel,
+:root[data-skin="orbital-lounge"] .sidebar,
+:root[data-skin="orbital-lounge"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="orbital-lounge"] .active-room,
+:root[data-skin="orbital-lounge"] .primary-button,
+:root[data-skin="orbital-lounge"] .play-button,
+:root[data-skin="orbital-lounge"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="orbital-lounge"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

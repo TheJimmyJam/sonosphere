@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 02 — Ion Drive
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "ion-drive" */
+
+:root[data-skin="ion-drive"] {
+  color-scheme: dark;
+  --skin-id: "ion-drive";
+  --skin-name: "Ion Drive";
+  --skin-category: "Futuristic";
+  --skin-material: "ionized glass";
+
+  --app-bg: #020617;
+  --app-bg-layer-1: radial-gradient(circle at 18% 14%, color-mix(in srgb, #00e5ff 26%, transparent), transparent 32%);
+  --app-bg-layer-2: radial-gradient(circle at 82% 22%, color-mix(in srgb, #7c3aed 20%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #020617 92%, #00e5ff 8%), color-mix(in srgb, #020617 88%, #7c3aed 12%));
+
+  --panel-bg: rgba(5,14,32,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(5,14,32,.88) 78%, black 14%);
+  --panel-bg-soft: color-mix(in srgb, rgba(5,14,32,.88) 72%, transparent);
+  --panel-border: rgba(0,229,255,.30);
+  --panel-shadow: 0 26px 84px rgba(0,0,0,.34);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.10);
+
+  --text-primary: #ecfeff;
+  --text-secondary: #99ddeb;
+  --text-muted: color-mix(in srgb, #99ddeb 70%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #00e5ff;
+  --accent-secondary: #7c3aed;
+  --accent-tertiary: color-mix(in srgb, #00e5ff 46%, #7c3aed 54%);
+  --accent-soft: color-mix(in srgb, #00e5ff 15%, transparent);
+  --accent-glow-color: rgba(0,229,255,.56);
+  --accent-glow: 0 0 26px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(5,14,32,.88) 74%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(5,14,32,.88) 64%, #00e5ff 14%);
+  --button-active-bg: linear-gradient(135deg, #00e5ff, #7c3aed);
+  --button-border: color-mix(in srgb, #00e5ff 22%, transparent);
+
+  --slider-track: color-mix(in srgb, #99ddeb 24%, transparent);
+  --slider-fill: linear-gradient(90deg, #00e5ff, #7c3aed);
+  --scrubber-thumb: #ecfeff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #00e5ff 82%, black 10%), color-mix(in srgb, #7c3aed 72%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(5,14,32,.88) 82%, transparent);
+  --album-border: color-mix(in srgb, #00e5ff 24%, white 6%);
+
+  --visualizer-primary: #00e5ff;
+  --visualizer-secondary: #7c3aed;
+  --visualizer-mode: "plume";
+  --visualizer-density: 0.82;
+  --visualizer-glow: rgba(0,229,255,.56);
+
+  --app-radius: 28px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --album-radius: 20px;
+  --control-radius: 999px;
+  --app-blur: 18px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="ion-drive"],
+:root[data-skin="ion-drive"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="ion-drive"] .panel,
+:root[data-skin="ion-drive"] .sidebar,
+:root[data-skin="ion-drive"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="ion-drive"] .active-room,
+:root[data-skin="ion-drive"] .primary-button,
+:root[data-skin="ion-drive"] .play-button,
+:root[data-skin="ion-drive"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="ion-drive"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

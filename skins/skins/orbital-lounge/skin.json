@@ -1,0 +1,37 @@
+{
+  "id": "orbital-lounge",
+  "name": "Orbital Lounge",
+  "description": "Space-hotel dark glass, Earthrise accents, and orbital UI rings.",
+  "category": "Aerospace Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "space glass",
+  "tags": [
+    "aerospace luxury",
+    "super-premium",
+    "space glass",
+    "orbit-ring",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "orbit-ring",
+    "intensity": 0.66,
+    "glow": true,
+    "particleDensity": 0.5,
+    "preferredMotion": "premium-subtle"
+  }
+}

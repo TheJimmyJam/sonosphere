@@ -1,0 +1,37 @@
+{
+  "id": "f1-paddock",
+  "name": "F1 Paddock",
+  "description": "Motorsport pit-wall UI with carbon black and telemetry red.",
+  "category": "Performance Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "carbon ceramic",
+  "tags": [
+    "performance luxury",
+    "super-premium",
+    "carbon ceramic",
+    "telemetry-race",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "telemetry-race",
+    "intensity": 0.7,
+    "glow": true,
+    "particleDensity": 0.58,
+    "preferredMotion": "premium-subtle"
+  }
+}

@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Private Jet
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "private-jet" */
+
+:root[data-skin="private-jet"] {
+  color-scheme: dark;
+  --skin-id: "private-jet";
+  --skin-name: "Private Jet";
+  --skin-category: "Aerospace Luxury";
+  --skin-material: "aircraft graphite";
+
+  --app-bg: #0d1117;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #38bdf8 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #f6d58b 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #0d1117 92%, #38bdf8 8%), color-mix(in srgb, #0d1117 90%, #f6d58b 10%));
+
+  --panel-bg: rgba(24,29,38,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(24,29,38,.90) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(24,29,38,.90) 64%, transparent);
+  --panel-border: rgba(56,189,248,.22);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #c2c9d6;
+  --text-muted: color-mix(in srgb, #c2c9d6 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #38bdf8;
+  --accent-secondary: #f6d58b;
+  --accent-tertiary: color-mix(in srgb, #38bdf8 48%, #f6d58b 52%);
+  --accent-soft: color-mix(in srgb, #38bdf8 13%, transparent);
+  --accent-glow-color: rgba(246,213,139,.18);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(24,29,38,.90) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(24,29,38,.90) 65%, #38bdf8 12%);
+  --button-active-bg: linear-gradient(135deg, #38bdf8, #f6d58b);
+  --button-border: color-mix(in srgb, #38bdf8 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #c2c9d6 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #38bdf8, #f6d58b);
+  --scrubber-thumb: #f8fafc;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #38bdf8 76%, black 10%), color-mix(in srgb, #f6d58b 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(24,29,38,.90) 84%, transparent);
+  --album-border: color-mix(in srgb, #38bdf8 22%, white 5%);
+
+  --visualizer-primary: #38bdf8;
+  --visualizer-secondary: #f6d58b;
+  --visualizer-mode: "avionics-line";
+  --visualizer-density: 0.38;
+  --visualizer-glow: rgba(246,213,139,.18);
+
+  --app-radius: 26px;
+  --panel-radius: 14px;
+  --card-radius: 10px;
+  --album-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="private-jet"],
+:root[data-skin="private-jet"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="private-jet"] .panel,
+:root[data-skin="private-jet"] .sidebar,
+:root[data-skin="private-jet"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="private-jet"] .active-room,
+:root[data-skin="private-jet"] .primary-button,
+:root[data-skin="private-jet"] .play-button,
+:root[data-skin="private-jet"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="private-jet"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

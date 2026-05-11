@@ -1,0 +1,37 @@
+{
+  "id": "fm-operator",
+  "name": "FM Operator",
+  "description": "DX-style operator matrix with cyan lines and violet modulation nodes.",
+  "category": "Boutique Electronic",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "digital synth glass",
+  "tags": [
+    "boutique electronic",
+    "super-premium",
+    "digital synth glass",
+    "operator-matrix",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "operator-matrix",
+    "intensity": 0.73,
+    "glow": true,
+    "particleDensity": 0.64,
+    "preferredMotion": "premium-subtle"
+  }
+}

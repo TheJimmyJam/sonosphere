@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Granular Cloud
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "granular-cloud" */
+
+:root[data-skin="granular-cloud"] {
+  color-scheme: dark;
+  --skin-id: "granular-cloud";
+  --skin-name: "Granular Cloud";
+  --skin-category: "Boutique Electronic";
+  --skin-material: "particle glass";
+
+  --app-bg: #060617;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #8b5cf6 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #38bdf8 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #060617 92%, #8b5cf6 8%), color-mix(in srgb, #060617 90%, #38bdf8 10%));
+
+  --panel-bg: rgba(15,16,38,.78);
+  --panel-bg-strong: color-mix(in srgb, rgba(15,16,38,.78) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(15,16,38,.78) 64%, transparent);
+  --panel-border: rgba(139,92,246,.25);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #f5f3ff;
+  --text-secondary: #b8c2e6;
+  --text-muted: color-mix(in srgb, #b8c2e6 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #8b5cf6;
+  --accent-secondary: #38bdf8;
+  --accent-tertiary: color-mix(in srgb, #8b5cf6 48%, #38bdf8 52%);
+  --accent-soft: color-mix(in srgb, #8b5cf6 13%, transparent);
+  --accent-glow-color: rgba(56,189,248,.28);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(15,16,38,.78) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(15,16,38,.78) 65%, #8b5cf6 12%);
+  --button-active-bg: linear-gradient(135deg, #8b5cf6, #38bdf8);
+  --button-border: color-mix(in srgb, #8b5cf6 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #b8c2e6 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #8b5cf6, #38bdf8);
+  --scrubber-thumb: #f5f3ff;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #8b5cf6 76%, black 10%), color-mix(in srgb, #38bdf8 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(15,16,38,.78) 84%, transparent);
+  --album-border: color-mix(in srgb, #8b5cf6 22%, white 5%);
+
+  --visualizer-primary: #8b5cf6;
+  --visualizer-secondary: #38bdf8;
+  --visualizer-mode: "granular-particles";
+  --visualizer-density: 0.72;
+  --visualizer-glow: rgba(56,189,248,.28);
+
+  --app-radius: 38px;
+  --panel-radius: 26px;
+  --card-radius: 22px;
+  --album-radius: 28px;
+  --control-radius: 999px;
+  --app-blur: 26px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="granular-cloud"],
+:root[data-skin="granular-cloud"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="granular-cloud"] .panel,
+:root[data-skin="granular-cloud"] .sidebar,
+:root[data-skin="granular-cloud"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="granular-cloud"] .active-room,
+:root[data-skin="granular-cloud"] .primary-button,
+:root[data-skin="granular-cloud"] .play-button,
+:root[data-skin="granular-cloud"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="granular-cloud"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}

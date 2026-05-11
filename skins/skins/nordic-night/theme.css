@@ -1,0 +1,81 @@
+/* Sonosphere skin: Nordic Night
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="nordic-night"> */
+
+:root[data-skin="nordic-night"] {
+  color-scheme: dark;
+
+  --skin-id: "nordic-night";
+  --skin-name: "Nordic Night";
+
+  --app-bg: #2e3440;
+  --app-bg-elevated: color-mix(in srgb, #2e3440 72%, white 8%);
+  --panel-bg: rgba(59,66,82,.86);
+  --panel-bg-strong: color-mix(in srgb, rgba(59,66,82,.86) 82%, black 12%);
+  --panel-border: rgba(136,192,208,.22);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #eceff4;
+  --text-secondary: #d8dee9;
+  --text-muted: color-mix(in srgb, #d8dee9 72%, transparent);
+
+  --accent-primary: #88c0d0;
+  --accent-secondary: #5e81ac;
+  --accent-tertiary: color-mix(in srgb, #88c0d0 45%, #5e81ac 55%);
+  --accent-glow: 0 0 24px rgba(136,192,208,.28);
+  --accent-soft: color-mix(in srgb, #88c0d0 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(59,66,82,.86) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(59,66,82,.86) 64%, #88c0d0 16%);
+  --button-active-bg: linear-gradient(135deg, #88c0d0, #5e81ac);
+
+  --slider-track: color-mix(in srgb, #d8dee9 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #88c0d0, #5e81ac);
+  --scrubber-thumb: #eceff4;
+
+  --visualizer-primary: #88c0d0;
+  --visualizer-secondary: #5e81ac;
+  --visualizer-glow: rgba(136,192,208,.28);
+  --visualizer-mode: "waveform";
+
+  --album-radius: 12px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="nordic-night"],
+:root[data-skin="nordic-night"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #88c0d0 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #5e81ac 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="nordic-night"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="nordic-night"] .primary-button,
+:root[data-skin="nordic-night"] .active-room,
+:root[data-skin="nordic-night"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="nordic-night"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

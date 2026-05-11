@@ -1,0 +1,35 @@
+{
+  "id": "black-gold",
+  "name": "Black Gold",
+  "description": "Premium black-gold executive skin with sparse glowing accents.",
+  "category": "Luxury",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "piano lacquer",
+  "tags": [
+    "luxury",
+    "piano lacquer",
+    "lux-line",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "lux-line",
+    "intensity": 0.58,
+    "glow": true,
+    "particleDensity": 0.3,
+    "preferredMotion": "adaptive"
+  }
+}

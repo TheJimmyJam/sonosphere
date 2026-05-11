@@ -1,0 +1,35 @@
+{
+  "id": "albanian-red",
+  "name": "Albanian Red",
+  "description": "Dramatic red-black high contrast with crisp white audio lines.",
+  "category": "Cultural",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "satin dark",
+  "tags": [
+    "cultural",
+    "satin dark",
+    "crest-bars",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "crest-bars",
+    "intensity": 0.7,
+    "glow": true,
+    "particleDensity": 0.56,
+    "preferredMotion": "adaptive"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "shortwave",
+  "name": "Shortwave",
+  "description": "Portable shortwave radio dials and sepia station glow.",
+  "category": "Retro",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "aged bakelite",
+  "tags": [
+    "retro",
+    "aged bakelite",
+    "radio-dial",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": true,
+    "lightMode": false,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "radio-dial",
+    "intensity": 0.71,
+    "glow": true,
+    "particleDensity": 0.58,
+    "preferredMotion": "adaptive"
+  }
+}

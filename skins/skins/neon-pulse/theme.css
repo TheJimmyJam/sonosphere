@@ -1,0 +1,81 @@
+/* Sonosphere skin: Neon Pulse
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="neon-pulse"> */
+
+:root[data-skin="neon-pulse"] {
+  color-scheme: dark;
+
+  --skin-id: "neon-pulse";
+  --skin-name: "Neon Pulse";
+
+  --app-bg: #050816;
+  --app-bg-elevated: color-mix(in srgb, #050816 72%, white 8%);
+  --panel-bg: rgba(12,18,38,.84);
+  --panel-bg-strong: color-mix(in srgb, rgba(12,18,38,.84) 82%, black 12%);
+  --panel-border: rgba(120,140,255,.28);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #f5f7ff;
+  --text-secondary: #9ba6c8;
+  --text-muted: color-mix(in srgb, #9ba6c8 72%, transparent);
+
+  --accent-primary: #6c63ff;
+  --accent-secondary: #00d4ff;
+  --accent-tertiary: color-mix(in srgb, #6c63ff 45%, #00d4ff 55%);
+  --accent-glow: 0 0 24px rgba(108,99,255,.65);
+  --accent-soft: color-mix(in srgb, #6c63ff 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(12,18,38,.84) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(12,18,38,.84) 64%, #6c63ff 16%);
+  --button-active-bg: linear-gradient(135deg, #6c63ff, #00d4ff);
+
+  --slider-track: color-mix(in srgb, #9ba6c8 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #6c63ff, #00d4ff);
+  --scrubber-thumb: #f5f7ff;
+
+  --visualizer-primary: #6c63ff;
+  --visualizer-secondary: #00d4ff;
+  --visualizer-glow: rgba(108,99,255,.65);
+  --visualizer-mode: "bars";
+
+  --album-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 20px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.sonosphere-app[data-skin="neon-pulse"],
+:root[data-skin="neon-pulse"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #6c63ff 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #00d4ff 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="neon-pulse"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="neon-pulse"] .primary-button,
+:root[data-skin="neon-pulse"] .active-room,
+:root[data-skin="neon-pulse"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="neon-pulse"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

@@ -1,0 +1,81 @@
+/* Sonosphere skin: Solar Flare
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="solar-flare"> */
+
+:root[data-skin="solar-flare"] {
+  color-scheme: dark;
+
+  --skin-id: "solar-flare";
+  --skin-name: "Solar Flare";
+
+  --app-bg: #1c0b03;
+  --app-bg-elevated: color-mix(in srgb, #1c0b03 72%, white 8%);
+  --panel-bg: rgba(43,19,7,.88);
+  --panel-bg-strong: color-mix(in srgb, rgba(43,19,7,.88) 82%, black 12%);
+  --panel-border: rgba(249,115,22,.28);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #fff7ed;
+  --text-secondary: #fdba74;
+  --text-muted: color-mix(in srgb, #fdba74 72%, transparent);
+
+  --accent-primary: #f97316;
+  --accent-secondary: #fde047;
+  --accent-tertiary: color-mix(in srgb, #f97316 45%, #fde047 55%);
+  --accent-glow: 0 0 24px rgba(249,115,22,.55);
+  --accent-soft: color-mix(in srgb, #f97316 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(43,19,7,.88) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(43,19,7,.88) 64%, #f97316 16%);
+  --button-active-bg: linear-gradient(135deg, #f97316, #fde047);
+
+  --slider-track: color-mix(in srgb, #fdba74 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #f97316, #fde047);
+  --scrubber-thumb: #fff7ed;
+
+  --visualizer-primary: #f97316;
+  --visualizer-secondary: #fde047;
+  --visualizer-glow: rgba(249,115,22,.55);
+  --visualizer-mode: "plasma";
+
+  --album-radius: 18px;
+  --panel-radius: 18px;
+  --card-radius: 16px;
+  --control-radius: 999px;
+  --app-blur: 12px;
+
+  --font-ui: Inter, sans-serif;
+  --font-display: Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="solar-flare"],
+:root[data-skin="solar-flare"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #f97316 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #fde047 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="solar-flare"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="solar-flare"] .primary-button,
+:root[data-skin="solar-flare"] .active-room,
+:root[data-skin="solar-flare"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="solar-flare"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

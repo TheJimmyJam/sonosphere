@@ -1,0 +1,81 @@
+/* Sonosphere skin: Night Drive
+   Generated skin package: JSON + CSS variables.
+   Apply with: <html data-skin="night-drive"> */
+
+:root[data-skin="night-drive"] {
+  color-scheme: dark;
+
+  --skin-id: "night-drive";
+  --skin-name: "Night Drive";
+
+  --app-bg: #030612;
+  --app-bg-elevated: color-mix(in srgb, #030612 72%, white 8%);
+  --panel-bg: rgba(8,15,32,.90);
+  --panel-bg-strong: color-mix(in srgb, rgba(8,15,32,.90) 82%, black 12%);
+  --panel-border: rgba(59,130,246,.28);
+  --panel-shadow: 0 24px 80px rgba(0, 0, 0, .34);
+
+  --text-primary: #eff6ff;
+  --text-secondary: #93c5fd;
+  --text-muted: color-mix(in srgb, #93c5fd 72%, transparent);
+
+  --accent-primary: #3b82f6;
+  --accent-secondary: #ef4444;
+  --accent-tertiary: color-mix(in srgb, #3b82f6 45%, #ef4444 55%);
+  --accent-glow: 0 0 24px rgba(239,68,68,.35);
+  --accent-soft: color-mix(in srgb, #3b82f6 18%, transparent);
+
+  --button-bg: color-mix(in srgb, rgba(8,15,32,.90) 76%, white 6%);
+  --button-hover-bg: color-mix(in srgb, rgba(8,15,32,.90) 64%, #3b82f6 16%);
+  --button-active-bg: linear-gradient(135deg, #3b82f6, #ef4444);
+
+  --slider-track: color-mix(in srgb, #93c5fd 28%, transparent);
+  --slider-fill: linear-gradient(90deg, #3b82f6, #ef4444);
+  --scrubber-thumb: #eff6ff;
+
+  --visualizer-primary: #3b82f6;
+  --visualizer-secondary: #ef4444;
+  --visualizer-glow: rgba(239,68,68,.35);
+  --visualizer-mode: "spectrum";
+
+  --album-radius: 12px;
+  --panel-radius: 12px;
+  --card-radius: 10px;
+  --control-radius: 999px;
+  --app-blur: 10px;
+
+  --font-ui: Avenir Next, Inter, sans-serif;
+  --font-display: Avenir Next, Inter, sans-serif;
+}
+
+.sonosphere-app[data-skin="night-drive"],
+:root[data-skin="night-drive"] body {
+  background:
+    radial-gradient(circle at 22% 18%, color-mix(in srgb, #3b82f6 24%, transparent), transparent 34%),
+    radial-gradient(circle at 80% 12%, color-mix(in srgb, #ef4444 18%, transparent), transparent 28%),
+    var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="night-drive"] .panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="night-drive"] .primary-button,
+:root[data-skin="night-drive"] .active-room,
+:root[data-skin="night-drive"] .selected-skin {
+  background: var(--button-active-bg);
+  box-shadow: var(--accent-glow);
+  color: white;
+}
+
+:root[data-skin="night-drive"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(var(--accent-glow));
+}

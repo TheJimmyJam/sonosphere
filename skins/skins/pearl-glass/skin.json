@@ -1,0 +1,35 @@
+{
+  "id": "pearl-glass",
+  "name": "Pearl Glass",
+  "description": "Pearlescent light glass with blue-violet shimmer.",
+  "category": "Minimal",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 02",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "pearl glass",
+  "tags": [
+    "minimal",
+    "pearl glass",
+    "holo-line",
+    "audio",
+    "sonos-controller"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true
+  },
+  "visualizer": {
+    "mode": "holo-line",
+    "intensity": 0.58,
+    "glow": true,
+    "particleDensity": 0.28,
+    "preferredMotion": "adaptive"
+  }
+}
