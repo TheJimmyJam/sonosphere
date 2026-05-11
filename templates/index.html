@@ -2425,7 +2425,7 @@ function bindVol(sliderId, labelId) {
   const sl=document.getElementById(sliderId), lb=document.getElementById(labelId);
   if(!sl) return;
   sl.addEventListener('input',function(){
-    const oldVol = parseInt(S.volume) || 50;  // capture BEFORE overwriting
+    const oldVol = S.volume != null ? parseInt(S.volume) : 50;  // don't use || — 0 is falsy  // capture BEFORE overwriting
     const newVol = parseInt(this.value);
     S.volume = newVol;
     lb.textContent = newVol;
@@ -2664,7 +2664,7 @@ function syncVisOverlayTrack() {
 // Wire fullscreen volume slider
 const visVolSlider = document.getElementById('vis-vol');
 visVolSlider.addEventListener('input', function() {
-  const oldVol = parseInt(S.volume) || 50;
+  const oldVol = S.volume != null ? parseInt(S.volume) : 50;  // don't use || — 0 is falsy
   const newVol = parseInt(this.value);
   S.volume = newVol;
   ['vol-slider','bar-vol-slider'].forEach(id => document.getElementById(id).value = newVol);
