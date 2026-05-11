@@ -1,8 +1,13 @@
-# 🎵 Sonosphere
+<p align="center">
+  <img src="assets/sonosphere-logo.png" alt="Sonosphere" width="400"/>
+</p>
 
-A beautiful desktop app that lets you search YouTube Music, build a library of downloaded tracks, and play them through any Sonos speaker on your network — with a real-time audio visualizer.
+<p align="center">
+  <strong>Play YouTube Music through your Sonos speakers — download once, play forever, no ads.</strong><br/>
+  Built with Python + Flask. No Sonos account or API key required. Uses your local network directly.
+</p>
 
-> Built with Python + Flask. No Sonos account or API key required. Uses your local network directly.
+---
 
 ---
 
@@ -32,7 +37,7 @@ Click the green **Code** button above → **Download ZIP**, then unzip it.
 
 Or if you have git:
 ```bash
-git clone https://github.com/YOUR_USERNAME/sonos-youtube-player.git
+git clone https://github.com/TheJimmyJam/sonosphere.git
 ```
 
 **2. Double-click `Start Sonosphere.command`**
