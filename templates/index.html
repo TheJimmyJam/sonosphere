@@ -2394,16 +2394,24 @@ function syncRoomSlider(ip, vol) {
   });
 }
 
-// Apply the main-slider delta to every grouped speaker equally.
-// Additive model: each speaker moves by the same absolute amount as the main slider,
-// so a zero-volume speaker naturally recovers and relative gaps are preserved.
-// e.g. Den=40, Kitchen=0, main 20→30 (delta +10) → Den=50, Kitchen=10, avg=30 ✓
+// Hybrid volume model for grouped speakers:
+//   LOWERING  → ratio (everything scales to 0 together — Den=20,Kitchen=0, main 10→0: both hit 0)
+//   RAISING   → additive delta (zero-volume speakers recover — Den=40,Kitchen=0, main 20→30: Den→50,Kitchen→10)
+//   FROM ZERO → set everyone to newVol directly
 function applyGroupVolume(oldVol, newVol) {
   const groupRooms = getGroupRooms();
-  if(!groupRooms) return false;           // not grouped — caller handles single-speaker
-  const delta = newVol - oldVol;
+  if(!groupRooms) return false;
   groupRooms.forEach(r=>{
-    r.volume = Math.max(0, Math.min(100, r.volume + delta));
+    if(oldVol === 0) {
+      // All were silent — bring everyone up to the new level
+      r.volume = newVol;
+    } else if(newVol <= oldVol) {
+      // Lowering: ratio ensures everything reaches 0 at the same time
+      r.volume = Math.max(0, Math.min(100, Math.round(r.volume * (newVol / oldVol))));
+    } else {
+      // Raising: additive delta so a silenced speaker can come back up
+      r.volume = Math.max(0, Math.min(100, r.volume + (newVol - oldVol)));
+    }
     syncRoomSlider(r.ip, r.volume);
   });
   return true;
