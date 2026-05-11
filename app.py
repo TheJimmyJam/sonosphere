@@ -529,38 +529,51 @@ def status():
 # ── ytmusicapi helpers ────────────────────────────────────────────────────────
 
 def _get_ytm():
-    """Return a cached YTMusic client authenticated via Chrome cookies."""
+    """Return a cached YTMusic client, authenticated via OAuth token file."""
     global _ytm_client
     with _ytm_lock:
         if _ytm_client is not None:
             return _ytm_client
         try:
             from ytmusicapi import YTMusic
-            headers_file = str(LIBRARY_DIR / "ytmusic_headers.json")
-            if not os.path.exists(headers_file):
-                # Bootstrap auth from Chrome cookies / existing cookie file
-                print("  Setting up ytmusicapi auth from Chrome cookies…")
-                try:
-                    YTMusic.setup_oauth(filepath=headers_file, open_browser=False)
-                except Exception:
-                    pass
-                # Fallback: use cookie-based auth if oauth fails
-                if not os.path.exists(headers_file):
-                    # Write a minimal browser-auth file using cookie file
-                    _ytm_client = YTMusic(auth=_COOKIE_FILE if os.path.exists(_COOKIE_FILE) else None)
-                    return _ytm_client
-            _ytm_client = YTMusic(auth=headers_file)
-            print("  ✓ YouTube Music API ready")
-            return _ytm_client
+            oauth_file = str(LIBRARY_DIR / "ytm_oauth.json")
+            if os.path.exists(oauth_file):
+                _ytm_client = YTMusic(auth=oauth_file)
+                print("  ✓ YouTube Music API ready (OAuth)")
+                return _ytm_client
+            # Not authenticated yet — return None so routes can signal setup needed
+            print("  ⚠ ytmusicapi not authenticated — run setup at startup")
+            return None
         except Exception as e:
             print(f"  ⚠ ytmusicapi init failed: {e}")
-            # Try unauthenticated (limited — no liked songs, but search works)
-            try:
-                from ytmusicapi import YTMusic
-                _ytm_client = YTMusic()
-                return _ytm_client
-            except Exception:
-                return None
+            return None
+
+
+def _init_ytm_oauth():
+    """
+    Run ytmusicapi OAuth setup interactively at startup (main thread only).
+    First run: prints a URL + code; after that the token is cached in ytm_oauth.json.
+    """
+    oauth_file = str(LIBRARY_DIR / "ytm_oauth.json")
+    if os.path.exists(oauth_file):
+        print("  ✓ YouTube Music already authenticated")
+        return
+    try:
+        from ytmusicapi import YTMusic
+        print()
+        print("  ── YouTube Music Setup ─────────────────────────────────")
+        print("  To enable your playlists & Liked Songs, sign in once.")
+        print("  (Press Enter to skip — search still works without this)")
+        print()
+        answer = input("  Set up YouTube Music now? [Y/n]: ").strip().lower()
+        if answer in ("n", "no"):
+            print("  Skipped — you can re-run setup by deleting ytm_oauth.json")
+            return
+        print()
+        YTMusic.setup_oauth(filepath=oauth_file, open_browser=True)
+        print("  ✓ YouTube Music authenticated!")
+    except Exception as e:
+        print(f"  ⚠ YouTube Music setup failed: {e}")
 
 
 def _fmt_track(item):
@@ -824,6 +837,8 @@ if __name__ == "__main__":
     _init_cookies()
     print()
     _init_pytubefix_oauth()
+    print()
+    _init_ytm_oauth()
     print(f"\n  ─────────────────────────────────")
     print(f"  LAN IP: {LOCAL_IP}")
     print(f"  Starting…\n")
