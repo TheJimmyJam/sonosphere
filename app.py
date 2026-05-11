@@ -738,20 +738,41 @@ def _fmt_track(item):
     }
 
 
+def _ydl_cookie_opts():
+    """Base yt-dlp options with cookie auth."""
+    opts = {"quiet": True, "no_warnings": True, "extract_flat": True}
+    if os.path.exists(_COOKIE_FILE) and os.path.getsize(_COOKIE_FILE) > 100:
+        opts["cookiefile"] = _COOKIE_FILE
+    else:
+        opts["cookiesfrombrowser"] = ("chrome",)
+    return opts
+
+
 @app.route("/api/ytm/playlists")
 def ytm_playlists():
-    ytm = _get_ytm()
-    if not ytm:
-        return jsonify({"error": "YouTube Music not available", "playlists": []})
+    """Fetch user's YouTube playlists via yt-dlp — works with Chrome cookies, no API key needed."""
     try:
-        raw = ytm.get_library_playlists(limit=50)
+        opts = _ydl_cookie_opts()
+        opts.update({
+            "playlistend": 1,           # just need metadata, not every video
+            "ignore_no_formats_error": True,
+        })
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info = ydl.extract_info(
+                "https://www.youtube.com/feed/playlists",
+                download=False
+            )
+        entries = info.get("entries", []) if info else []
         playlists = []
-        for p in raw:
+        for p in entries:
+            pid = p.get("id") or p.get("playlist_id") or ""
+            if not pid:
+                continue
             playlists.append({
-                "id":          p.get("playlistId") or p.get("browseId", ""),
-                "title":       p.get("title", "Untitled"),
-                "count":       p.get("count") or "",
-                "thumbnail":   (p.get("thumbnails") or [{}])[-1].get("url", ""),
+                "id":        pid,
+                "title":     p.get("title") or p.get("playlist_title") or "Untitled",
+                "count":     p.get("playlist_count") or "",
+                "thumbnail": p.get("thumbnail") or p.get("thumbnails", [{}])[-1].get("url", "") if isinstance(p.get("thumbnails"), list) else "",
             })
         return jsonify({"playlists": playlists})
     except Exception as e:
@@ -760,28 +781,69 @@ def ytm_playlists():
 
 @app.route("/api/ytm/playlist/<playlist_id>")
 def ytm_playlist_tracks(playlist_id):
-    ytm = _get_ytm()
-    if not ytm:
-        return jsonify({"error": "YouTube Music not available", "tracks": []})
+    """Fetch tracks from a YouTube playlist via yt-dlp."""
     try:
-        raw    = ytm.get_playlist(playlist_id, limit=200)
-        tracks = [t for t in (_fmt_track(i) for i in raw.get("tracks", [])) if t]
-        return jsonify({"title": raw.get("title", "Playlist"), "tracks": tracks})
+        opts = _ydl_cookie_opts()
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info = ydl.extract_info(
+                f"https://www.youtube.com/playlist?list={playlist_id}",
+                download=False
+            )
+        entries = info.get("entries", []) if info else []
+        idx = load_index()
+        tracks = []
+        for e in entries:
+            vid = e.get("id") or e.get("video_id")
+            if not vid:
+                continue
+            thumb = e.get("thumbnail") or f"https://img.youtube.com/vi/{vid}/mqdefault.jpg"
+            dur = e.get("duration")
+            dur_str = f"{int(dur)//60}:{int(dur)%60:02d}" if dur else ""
+            tracks.append({
+                "id":        vid,
+                "title":     e.get("title") or "Unknown",
+                "artist":    e.get("uploader") or e.get("channel") or "",
+                "duration":  dur_str,
+                "thumbnail": thumb,
+                "inLibrary": vid in idx,
+            })
+        return jsonify({"title": info.get("title", "Playlist") if info else "Playlist", "tracks": tracks})
     except Exception as e:
         return jsonify({"error": str(e), "tracks": []})
 
 
 @app.route("/api/ytm/liked")
 def ytm_liked():
-    ytm = _get_ytm()
-    if not ytm:
-        return jsonify({"error": "YouTube Music not available", "tracks": []})
+    """Fetch liked videos via yt-dlp."""
     try:
-        raw    = ytm.get_liked_songs(limit=200)
-        tracks = [t for t in (_fmt_track(i) for i in raw.get("tracks", [])) if t]
+        opts = _ydl_cookie_opts()
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info = ydl.extract_info(
+                "https://www.youtube.com/playlist?list=LL",
+                download=False
+            )
+        entries = info.get("entries", []) if info else []
+        idx = load_index()
+        tracks = []
+        for e in entries:
+            vid = e.get("id") or e.get("video_id")
+            if not vid:
+                continue
+            thumb = e.get("thumbnail") or f"https://img.youtube.com/vi/{vid}/mqdefault.jpg"
+            dur = e.get("duration")
+            dur_str = f"{int(dur)//60}:{int(dur)%60:02d}" if dur else ""
+            tracks.append({
+                "id":        vid,
+                "title":     e.get("title") or "Unknown",
+                "artist":    e.get("uploader") or e.get("channel") or "",
+                "duration":  dur_str,
+                "thumbnail": thumb,
+                "inLibrary": vid in idx,
+            })
         return jsonify({"tracks": tracks})
     except Exception as e:
         return jsonify({"error": str(e), "tracks": []})
+
 
 
 # ── Queue routes ──────────────────────────────────────────────────────────────
