@@ -522,11 +522,11 @@ def _get_stream_url(video_id):
             return cached["url"], cached["mime"]
 
     opts = {
-        "format": "bestaudio[ext=m4a]/bestaudio/best",
+        "format": "bestaudio/best",
         "quiet": True,
         "no_warnings": True,
         "cookiesfrombrowser": ("chrome",),
-        "extractor_args": {"youtube": {"player_client": ["tv_embedded", "web"]}},
+        "extractor_args": {"youtube": {"player_client": ["tv_embedded", "android", "web"]}},
     }
     with yt_dlp.YoutubeDL(opts) as ydl:
         info = ydl.extract_info(
