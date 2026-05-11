@@ -745,6 +745,8 @@ def ytm_playlists():
         return jsonify({"error": "YouTube Music not available", "playlists": []})
     try:
         raw = ytm.get_library_playlists(limit=50)
+        print(f"  [ytm playlists] {len(raw)} items. Keys: {list(raw[0].keys()) if raw else 'EMPTY'}")
+        if raw: print(f"  [ytm playlists] sample: {raw[0]}")
         playlists = []
         for p in raw:
             playlists.append({
