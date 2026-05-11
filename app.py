@@ -56,10 +56,23 @@ def load_queue_state():
     except Exception as e:
         print(f"  ⚠ Could not restore queue: {e}")
 
-# ── Spotify config ────────────────────────────────────────────────────────────
-SPOTIFY_CLIENT_ID     = "a6b15508d7a94736b7ec1c727322dd1e"
-SPOTIFY_CLIENT_SECRET = "3870bde35439405ba07632d6c7702b24"
-SPOTIFY_REDIRECT_URI  = "http://127.0.0.1:8888/auth/spotify/callback"
+# ── Spotify config (credentials loaded from ~/.credentials, never hardcoded) ──
+def _load_credentials():
+    """Read key=value pairs from ~/Desktop/Projects/.credentials"""
+    creds = {}
+    p = Path.home() / "Desktop" / "Projects" / ".credentials"
+    if p.exists():
+        for line in p.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, _, v = line.partition("=")
+                creds[k.strip()] = v.strip()
+    return creds
+
+_creds = _load_credentials()
+SPOTIFY_CLIENT_ID     = _creds.get("SONOSPHERE_SPOTIFY_CLIENT_ID", "")
+SPOTIFY_CLIENT_SECRET = _creds.get("SONOSPHERE_SPOTIFY_CLIENT_SECRET", "")
+SPOTIFY_REDIRECT_URI  = _creds.get("SONOSPHERE_SPOTIFY_REDIRECT_URI", "http://127.0.0.1:8888/auth/spotify/callback")
 SPOTIFY_SCOPES        = "user-library-read playlist-read-private playlist-read-collaborative user-read-private"
 SPOTIFY_TOKEN_FILE    = None  # set after LIBRARY_DIR is created below
 _spotify_yt_cache     = {}    # sp_<spotify_id> → youtube_video_id
