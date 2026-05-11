@@ -2789,6 +2789,18 @@ function enableControls() {
   });
 }
 
+// Navigate to a specific queue index.
+// Uses /api/queue/jump so the FRONTEND's view of the queue order is authoritative —
+// avoids desync bugs where the backend's internal index has drifted (e.g. after shuffle).
+async function queueGoTo(idx) {
+  if(!S.device || !S.queue.length) return;
+  idx = Math.max(0, Math.min(idx, S.queue.length - 1));
+  const track = S.queue[idx];
+  const res = await api('/api/queue/jump', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({device_ip: S.device.ip, index: idx, video_id: track?.id})});
+  if(res.success){ S.queueIdx=res.current; updateNowPlaying(S.queue[res.current]); S.playing=true; updatePP(); renderQueue(); renderRoomsQueue(); }
+}
+
 function bindControl(id,action) {
   document.getElementById(id)?.addEventListener('click',async()=>{
     if(!S.device) return;
@@ -2797,13 +2809,9 @@ function bindControl(id,action) {
       await api('/api/control',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,action:act})});
       S.playing=!S.playing; updatePP();
     } else if(action==='prev'){
-      if(!S.queue.length) return;
-      const res=await api('/api/queue/prev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip})});
-      if(res.success){S.queueIdx=res.current;updateNowPlaying(S.queue[res.current]);S.playing=true;updatePP();renderQueue();renderRoomsQueue();}
+      await queueGoTo(S.queueIdx - 1);
     } else if(action==='next'){
-      if(!S.queue.length) return;
-      const res=await api('/api/queue/next',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip})});
-      if(res.success){S.queueIdx=res.current;updateNowPlaying(S.queue[res.current]);S.playing=true;updatePP();renderQueue();renderRoomsQueue();}
+      await queueGoTo(S.queueIdx + 1);
     }
   });
 }
@@ -3043,17 +3051,12 @@ function startPoll() {
           const s2 = await api(`/api/status?device_ip=${S.device.ip}`);
           if(s2.state==='PLAYING') return; // something else started
           if(S.repeatMode==='one'){
-            // Replay the same track
-            const res=await api('/api/queue/jump',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,index:S.queueIdx})});
-            if(res.success){updateNowPlaying(S.queue[S.queueIdx]);S.playing=true;updatePP();renderQueue();renderRoomsQueue();}
+            await queueGoTo(S.queueIdx);  // replay same index
           } else if(S.repeatMode==='all'){
-            // Advance; wrap to 0 at end
-            const nextIdx = S.queueIdx < S.queue.length-1 ? S.queueIdx+1 : 0;
-            const res=await api('/api/queue/jump',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,index:nextIdx})});
-            if(res.success){S.queueIdx=nextIdx;updateNowPlaying(S.queue[nextIdx]);S.playing=true;updatePP();renderQueue();renderRoomsQueue();}
+            await queueGoTo(S.queueIdx < S.queue.length-1 ? S.queueIdx+1 : 0);
           } else {
             // repeat='none': advance only if not at end
-            if(S.queueIdx < S.queue.length-1) document.getElementById('btn-next').click();
+            if(S.queueIdx < S.queue.length-1) await queueGoTo(S.queueIdx+1);
           }
         },1500);
       }
@@ -3151,13 +3154,9 @@ function syncVisOverlayTrack() {
       await api('/api/control', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({device_ip:S.device.ip, action:act})});
       S.playing = !S.playing; updatePP();
     } else if (action === 'prev') {
-      if (!S.queue.length) return;
-      const res = await api('/api/queue/prev', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({device_ip:S.device.ip})});
-      if (res.success) { S.queueIdx=res.current; updateNowPlaying(S.queue[res.current]); S.playing=true; updatePP(); renderQueue(); renderRoomsQueue(); }
+      await queueGoTo(S.queueIdx - 1);
     } else if (action === 'next') {
-      if (!S.queue.length) return;
-      const res = await api('/api/queue/next', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({device_ip:S.device.ip})});
-      if (res.success) { S.queueIdx=res.current; updateNowPlaying(S.queue[res.current]); S.playing=true; updatePP(); renderQueue(); renderRoomsQueue(); }
+      await queueGoTo(S.queueIdx + 1);
     }
   });
 });
