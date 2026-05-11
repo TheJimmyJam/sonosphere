@@ -1620,6 +1620,7 @@ async function loadDevices() {
   sel.value=S.device.ip;
   enableControls();
   startPoll();
+  startRoomsRefresh();
   toast(`Found ${data.devices.length} speaker(s) — using ${S.device.name}`);
   loadSidebarRooms();
 }
@@ -2331,31 +2332,76 @@ function updatePP() {
 
 // Volume
 let volT=null;
+
+// Return the rooms that are in the same Sonos group as S.device (including itself).
+// Uses S.rooms which is populated by loadSidebarRooms().
+function getGroupRooms() {
+  if(!S.device || !S.rooms?.length) return null;
+  const myRoom = S.rooms.find(r=>r.ip===S.device.ip);
+  if(!myRoom || !myRoom.group?.length) return null;  // solo speaker
+  // my room + any room whose name appears in myRoom.group
+  return S.rooms.filter(r=>r.ip===S.device.ip || myRoom.group.includes(r.name));
+}
+
+// Apply proportional scaling to S.rooms for grouped speakers and sync sidebar sliders.
+// oldVol → newVol defines the ratio; updates S.rooms[x].volume in place.
+function applyGroupVolume(oldVol, newVol) {
+  const groupRooms = getGroupRooms();
+  if(!groupRooms) return false;           // not grouped — caller handles single-speaker
+  const ratio = oldVol > 0 ? newVol / oldVol : 1;
+  groupRooms.forEach(r=>{
+    r.volume = Math.max(0, Math.min(100, Math.round(r.volume * ratio)));
+    // Sync the sidebar slider + label for every grouped room
+    const sl = document.querySelector(`input[data-room-ip="${r.ip}"]`);
+    if(sl){
+      sl.value = r.volume;
+      const lb = sl.closest('.room-vol-row')?.querySelector('span:last-child');
+      if(lb) lb.textContent = r.volume;
+    }
+  });
+  return true;
+}
+
+// Fire the actual API call — grouped path sends pre-computed targets, solo path sends value.
+function sendVolume() {
+  if(!S.device) return;
+  const groupRooms = getGroupRooms();
+  if(groupRooms){
+    const targets = groupRooms.map(r=>({ip:r.ip, volume:r.volume}));
+    api('/api/control',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({device_ip:S.device.ip, action:'volume_group', targets})});
+  } else {
+    api('/api/control',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({device_ip:S.device.ip, action:'volume', value:S.volume})});
+  }
+}
+
 function bindVol(sliderId, labelId) {
   const sl=document.getElementById(sliderId), lb=document.getElementById(labelId);
   if(!sl) return;
   sl.addEventListener('input',function(){
-    S.volume=this.value; lb.textContent=this.value;
+    const oldVol = parseInt(S.volume) || 50;  // capture BEFORE overwriting
+    const newVol = parseInt(this.value);
+    S.volume = newVol;
+    lb.textContent = newVol;
+    // Sync the other main slider + vis slider
     const other=sliderId==='vol-slider'?'bar-vol-slider':'vol-slider';
     const otherLb=sliderId==='vol-slider'?'bar-vol-label':'vol-label';
-    document.getElementById(other).value=this.value;
-    document.getElementById(otherLb).textContent=this.value;
-    // Sync fullscreen vis slider
-    const visVol=document.getElementById('vis-vol'); if(visVol) visVol.value=this.value;
-    // Sync the active room's sidebar slider + label immediately
-    if(S.device){
+    document.getElementById(other).value=newVol;
+    document.getElementById(otherLb).textContent=newVol;
+    const visVol=document.getElementById('vis-vol'); if(visVol) visVol.value=newVol;
+    // Proportional group scaling (updates S.rooms + sidebar sliders)
+    // or single-speaker sidebar sync
+    if(!applyGroupVolume(oldVol, newVol) && S.device){
       const roomSlider=document.querySelector(`input[data-room-ip="${S.device.ip}"]`);
       if(roomSlider){
-        roomSlider.value=this.value;
+        roomSlider.value=newVol;
         const roomLabel=roomSlider.closest('.room-vol-row')?.querySelector('span:last-child');
-        if(roomLabel) roomLabel.textContent=this.value;
+        if(roomLabel) roomLabel.textContent=newVol;
       }
     }
     clearTimeout(volT);
-    volT=setTimeout(()=>{
-      if(!S.device) return;
-      api('/api/control',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,action:'volume',value:S.volume})});
-    },200);
+    volT=setTimeout(sendVolume, 200);
   });
 }
 bindVol('vol-slider','vol-label');
@@ -2376,6 +2422,28 @@ function updateProgress(pos, dur) {
   document.getElementById('time-dur').textContent=ds;
   document.getElementById('bar-dur').textContent=ds;
   document.getElementById('rooms-dur').textContent=ds;
+}
+
+// Keep S.rooms volumes fresh so proportional group scaling uses accurate per-speaker values.
+// Runs every 10s (much slower than the status poll so it doesn't spam Sonos discovery).
+let roomsRefreshTimer = null;
+function startRoomsRefresh() {
+  clearInterval(roomsRefreshTimer);
+  roomsRefreshTimer = setInterval(async () => {
+    if (!S.device) return;
+    // Only refresh if the user isn't actively dragging (volT would be set)
+    if (volT) return;
+    const data = await api('/api/rooms');
+    if (data.rooms?.length) {
+      // Merge fresh volumes into S.rooms without replacing the whole array
+      // (so any optimistic updates from the slider aren't overwritten mid-drag)
+      data.rooms.forEach(fresh => {
+        const existing = S.rooms.find(r => r.ip === fresh.ip);
+        if (existing) existing.volume = fresh.volume;
+      });
+      if (!S.rooms.length) S.rooms = data.rooms;
+    }
+  }, 10000);
 }
 
 function startPoll() {
@@ -2552,15 +2620,14 @@ function syncVisOverlayTrack() {
 // Wire fullscreen volume slider
 const visVolSlider = document.getElementById('vis-vol');
 visVolSlider.addEventListener('input', function() {
-  S.volume = this.value;
-  // Sync all volume sliders
-  ['vol-slider','bar-vol-slider'].forEach(id => document.getElementById(id).value = this.value);
-  ['vol-label','bar-vol-label'].forEach(id => document.getElementById(id).textContent = this.value);
+  const oldVol = parseInt(S.volume) || 50;
+  const newVol = parseInt(this.value);
+  S.volume = newVol;
+  ['vol-slider','bar-vol-slider'].forEach(id => document.getElementById(id).value = newVol);
+  ['vol-label','bar-vol-label'].forEach(id => document.getElementById(id).textContent = newVol);
+  applyGroupVolume(oldVol, newVol);
   clearTimeout(volT);
-  volT = setTimeout(() => {
-    if (!S.device) return;
-    api('/api/control', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({device_ip:S.device.ip, action:'volume', value:S.volume})});
-  }, 200);
+  volT = setTimeout(sendVolume, 200);
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
