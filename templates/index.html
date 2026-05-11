@@ -728,7 +728,10 @@ input[type=range]::-webkit-slider-thumb {
         <div id="search-state" class="empty"><div class="icon">🎵</div><p>Search for a song</p></div>
         <div id="search-loading" class="empty" style="display:none"><div class="spinner"></div><p>Searching…</p></div>
         <div id="search-results" style="display:none">
-          <p class="section-label" id="results-label" style="margin-bottom:8px"></p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <p class="section-label" id="results-label" style="margin-bottom:0"></p>
+            <button class="btn" id="queue-all-btn" title="Add all results to queue">+ Queue All</button>
+          </div>
           <div class="track-list" id="results-list"></div>
         </div>
       </div>
@@ -1921,7 +1924,7 @@ function makeYTMCard(t,num) {
   card.innerHTML=`
     <span class="track-num">${num||''}</span>
     <img class="track-thumb" src="${t.thumbnail||BLANK}" alt="" loading="lazy" onerror="this.src='${BLANK}'"/>
-    <div class="track-info"><div class="track-title">${esc(t.title)}</div><div class="track-artist">${esc(t.artist||'')}</div></div>
+    <div class="track-info"><div class="track-title">${esc(t.title)}</div><div class="track-artist" style="cursor:pointer;text-decoration:underline dotted;" title="Queue all by ${esc(t.artist||'')}">${esc(t.artist||'')}</div></div>
     <div class="track-dur">${t.duration||''}</div>
     <div class="track-actions">
       <button class="btn primary">▶</button>
@@ -1930,6 +1933,9 @@ function makeYTMCard(t,num) {
     </div>`;
   card.querySelector('.btn.primary').addEventListener('click',e=>{e.stopPropagation();playTrack(t);});
   card.querySelector('.btn.add').addEventListener('click',e=>{e.stopPropagation();addToQueue(t);});
+  if(t.artist){
+    card.querySelector('.track-artist').addEventListener('click',e=>{e.stopPropagation();queueArtist(t.artist);});
+  }
   card.addEventListener('click',()=>playTrack(t));
   if(!inLib){
     const dlBtn=card.querySelector('[data-action=dl]');
@@ -1946,8 +1952,10 @@ function makeYTMCard(t,num) {
 // ═══════════════════════════════════════════════════════════════════════════
 // SEARCH
 // ═══════════════════════════════════════════════════════════════════════════
-async function doSearch() {
-  const q=document.getElementById('search-input').value.trim(); if(!q) return;
+let _lastSearchResults = [];
+
+async function doSearch(q) {
+  q = q || document.getElementById('search-input').value.trim(); if(!q) return;
   showView('search');
   document.getElementById('search-state').style.display='none';
   document.getElementById('search-results').style.display='none';
@@ -1959,11 +1967,33 @@ async function doSearch() {
     document.getElementById('search-state').innerHTML='<div class="icon">🔍</div><p>No results</p>';
     return;
   }
+  _lastSearchResults = data.results;
   document.getElementById('results-label').textContent=`${data.results.length} results for "${q}"`;
   const list=document.getElementById('results-list'); list.innerHTML='';
   data.results.forEach((t,i)=>list.appendChild(makeSearchCard(t,i+1)));
   document.getElementById('search-results').style.display='';
 }
+
+async function queueAllTracks(tracks) {
+  if(!tracks.length) return;
+  const res = await api('/api/queue/add-many',{method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({tracks})});
+  if(res.success){
+    S.queue=res.queue; S.queueIdx=res.current;
+    renderQueue(); renderRoomsQueue();
+    toast(`Added ${res.added} songs to queue`);
+  }
+}
+
+async function queueArtist(artistName) {
+  if(!artistName) return;
+  toast(`Finding songs by ${artistName}…`);
+  const data = await api(`/api/search?q=${encodeURIComponent(artistName)}`);
+  if(data.results?.length) await queueAllTracks(data.results);
+}
+
+document.getElementById('queue-all-btn').addEventListener('click', ()=>queueAllTracks(_lastSearchResults));
 
 function makeSearchCard(t,num) {
   const card=document.createElement('div'); card.className='track-card'; card.dataset.id=t.id;
@@ -1971,7 +2001,7 @@ function makeSearchCard(t,num) {
   card.innerHTML=`
     <span class="track-num">${num}</span>
     <img class="track-thumb" src="${t.thumbnail||BLANK}" alt="" loading="lazy" onerror="this.src='${BLANK}'"/>
-    <div class="track-info"><div class="track-title">${esc(t.title)}</div><div class="track-artist">${esc(t.artist||'')}</div></div>
+    <div class="track-info"><div class="track-title">${esc(t.title)}</div><div class="track-artist" style="cursor:pointer;text-decoration:underline dotted;" title="Queue all by ${esc(t.artist||'')}">${esc(t.artist||'')}</div></div>
     <div class="track-dur">${t.duration||''}</div>
     <div class="track-actions">
       <button class="btn primary">▶</button>
@@ -1980,6 +2010,9 @@ function makeSearchCard(t,num) {
     </div>`;
   card.querySelector('.btn.primary').addEventListener('click',e=>{e.stopPropagation();playTrack(t);});
   card.querySelector('.btn.add').addEventListener('click',e=>{e.stopPropagation();addToQueue(t);});
+  if(t.artist){
+    card.querySelector('.track-artist').addEventListener('click',e=>{e.stopPropagation();queueArtist(t.artist);});
+  }
   card.addEventListener('click',()=>playTrack(t));
   if(!inLib){
     const dlBtn=card.querySelector('[data-action=dl]');
