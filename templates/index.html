@@ -2179,8 +2179,16 @@ function renderRoomsQueue() {
 
 async function jumpQueue(i) {
   if(!S.device){toast('Select a speaker first',true);return;}
-  const res=await api('/api/queue/jump',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,index:i})});
-  if(res.success){S.queueIdx=i;updateNowPlaying(S.queue[i]);S.playing=true;updatePP();renderQueue();renderRoomsQueue();}
+  // Send video_id alongside index so the backend can match by ID even if
+  // queue order is temporarily out of sync (e.g. reorder in-flight).
+  const video_id = S.queue[i]?.id;
+  const res=await api('/api/queue/jump',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,index:i,video_id})});
+  if(res.success){
+    const actualIdx = res.current ?? i;
+    S.queueIdx=actualIdx;
+    updateNowPlaying(S.queue[actualIdx]);
+    S.playing=true;updatePP();renderQueue();renderRoomsQueue();
+  }
   else toast('Error: '+res.error,true);
 }
 async function removeFromQueue(i) {
