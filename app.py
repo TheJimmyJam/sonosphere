@@ -349,6 +349,75 @@ def devices():
         return jsonify({"devices": [], "error": str(e)})
 
 
+@app.route("/api/rooms")
+def rooms():
+    """Return all rooms with name, IP, volume, group info, and playback state."""
+    try:
+        zones = list(soco.discover(timeout=5) or [])
+        result = []
+        for z in zones:
+            try:
+                transport = z.get_current_transport_info()
+                state = transport.get("current_transport_state", "STOPPED")
+            except Exception:
+                state = "STOPPED"
+            group_members = []
+            try:
+                if z.group:
+                    group_members = [m.player_name for m in z.group.members if m.ip_address != z.ip_address]
+            except Exception:
+                pass
+            result.append({
+                "name":     z.player_name,
+                "ip":       z.ip_address,
+                "volume":   z.volume,
+                "state":    state,
+                "isCoord":  (z.group.coordinator.ip_address == z.ip_address) if z.group else True,
+                "group":    group_members,
+            })
+        result.sort(key=lambda r: r["name"])
+        return jsonify({"rooms": result})
+    except Exception as e:
+        return jsonify({"rooms": [], "error": str(e)})
+
+
+@app.route("/api/rooms/volume", methods=["POST"])
+def room_volume():
+    """Set volume for a specific room."""
+    data = request.json or {}
+    ip   = data.get("ip")
+    vol  = data.get("volume", 50)
+    if not ip:
+        return jsonify({"success": False, "error": "Missing ip"})
+    try:
+        zone = soco.SoCo(ip)
+        zone.volume = max(0, min(100, int(vol)))
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+
+@app.route("/api/rooms/group", methods=["POST"])
+def room_group():
+    """Join or unjoin a room from a group."""
+    data   = request.json or {}
+    ip     = data.get("ip")
+    action = data.get("action")   # "join" | "unjoin"
+    coord  = data.get("coordinator_ip")
+    if not ip:
+        return jsonify({"success": False, "error": "Missing ip"})
+    try:
+        zone = soco.SoCo(ip)
+        if action == "unjoin":
+            zone.unjoin()
+        elif action == "join" and coord:
+            coordinator = soco.SoCo(coord)
+            zone.join(coordinator)
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+
 @app.route("/audio/<video_id>")
 def audio(video_id):
     """Serve local audio file to Sonos. Flask handles Range/seek automatically."""
