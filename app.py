@@ -12,7 +12,8 @@ app = Flask(__name__)
 PORT = 8888
 
 # ── Skins pack (ships alongside app.py in a skins/ folder) ───────────────────
-SKINS_DIR = Path(__file__).parent / "skins"
+SKINS_DIR   = Path(__file__).parent / "skins"
+ASSETS_DIR  = Path(__file__).parent / "assets-logos"
 
 # ── Library folder (permanent, in your Music directory) ───────────────────────
 LIBRARY_DIR = Path.home() / "Music" / "SonosPlayer"
@@ -301,6 +302,15 @@ def serve_skin_file(skin_id, filename):
         return "Not found", 404
     mime = {"theme.css": "text/css", "preview.svg": "image/svg+xml", "skin.json": "application/json"}
     return send_file(str(f), mimetype=mime[filename])
+
+
+@app.route("/assets/<filename>")
+def serve_asset(filename):
+    """Serve logo and other static assets from the assets-logos folder."""
+    f = ASSETS_DIR / filename
+    if not f.exists():
+        return "Not found", 404
+    return send_file(str(f))
 
 
 @app.route("/api/search")
