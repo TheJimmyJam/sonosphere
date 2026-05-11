@@ -11,6 +11,9 @@ import soco
 app = Flask(__name__)
 PORT = 8888
 
+# ── Skins pack (ships alongside app.py in a skins/ folder) ───────────────────
+SKINS_DIR = Path(__file__).parent / "skins"
+
 # ── Library folder (permanent, in your Music directory) ───────────────────────
 LIBRARY_DIR = Path.home() / "Music" / "SonosPlayer"
 LIBRARY_DIR.mkdir(parents=True, exist_ok=True)
@@ -237,6 +240,42 @@ def _do_download(video_id, meta):
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+# ── Skins API ──────────────────────────────────────────────────────────────────
+
+@app.route("/api/skins")
+def list_skins():
+    """Return metadata for all installed skins."""
+    if not SKINS_DIR.exists():
+        return jsonify({"skins": []})
+    skins = []
+    for skin_dir in sorted(SKINS_DIR.iterdir()):
+        meta_file = skin_dir / "skin.json"
+        if not skin_dir.is_dir() or not meta_file.exists():
+            continue
+        try:
+            meta = json.loads(meta_file.read_text())
+            meta["hasPreview"] = (skin_dir / "preview.svg").exists()
+            meta["hasCss"]     = (skin_dir / "theme.css").exists()
+            skins.append(meta)
+        except Exception:
+            continue
+    return jsonify({"skins": skins})
+
+
+@app.route("/skins/<skin_id>/<filename>")
+def serve_skin_file(skin_id, filename):
+    """Serve a skin asset (theme.css, preview.svg, skin.json)."""
+    allowed = {"theme.css", "preview.svg", "skin.json"}
+    if filename not in allowed:
+        return "Not found", 404
+    skin_dir = SKINS_DIR / skin_id
+    f = skin_dir / filename
+    if not f.exists():
+        return "Not found", 404
+    mime = {"theme.css": "text/css", "preview.svg": "image/svg+xml", "skin.json": "application/json"}
+    return send_file(str(f), mimetype=mime[filename])
 
 
 @app.route("/api/search")
