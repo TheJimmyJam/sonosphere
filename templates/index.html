@@ -1440,10 +1440,10 @@ function initAudio() {
   if (S.audioCtx) return;
   S.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   S.analyser  = S.audioCtx.createAnalyser();
-  S.analyser.fftSize = 256;               // 128 bins — more frequency detail
-  S.analyser.smoothingTimeConstant = 0.6; // snappier — reacts to beats harder
-  S.analyser.minDecibels = -85;
-  S.analyser.maxDecibels = -10;
+  S.analyser.fftSize = 256;
+  S.analyser.smoothingTimeConstant = 0.38; // lower = snappier attack & decay
+  S.analyser.minDecibels = -68;            // raised floor → quiet parts drop near zero, louds punch harder
+  S.analyser.maxDecibels = -6;             // slightly raised ceiling → peaks hit full range
   S.audioSrc  = S.audioCtx.createMediaElementSource(audioEl);
   S.audioSrc.connect(S.analyser);
   const gain = S.audioCtx.createGain(); gain.gain.value = 0;
@@ -1501,6 +1501,15 @@ function updateParticles(c) {
 }
 
 const peaks = [];
+// Expand dynamic range: quiet stays quiet, peaks hit hard.
+// Power curve >1 pulls mid-values down; multiplier lets them reach full scale again.
+function boostFreq(data) {
+  for (let i = 0; i < data.length; i++) {
+    const v = data[i] / 255;
+    data[i] = Math.min(255, Math.round(Math.pow(v, 1.5) * 255 * 1.18));
+  }
+}
+
 function drawBars(c, f, w, h) {
   const n=f.length, gap=2, bw=(w/n)-gap;
   if (peaks.length!==n) for(let i=0;i<n;i++) peaks[i]={val:0,hold:0};
@@ -1824,6 +1833,7 @@ function drawIdle(c, w, h) {
   const freq=new Uint8Array(S.analyser.frequencyBinCount);
   const time=new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq); S.analyser.getByteTimeDomainData(time);
+  boostFreq(freq);
   if      (S.visMode==='bars')    drawBars(ctx2d,freq,w,h);
   else if (S.visMode==='wave')    drawWave(ctx2d,time,w,h);
   else if (S.visMode==='circle')  drawCircle(ctx2d,freq,w,h);
@@ -1851,6 +1861,7 @@ const ctxRooms = canvasRooms.getContext('2d');
   const freq=new Uint8Array(S.analyser.frequencyBinCount);
   const time=new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq); S.analyser.getByteTimeDomainData(time);
+  boostFreq(freq);
   if      (S.visMode==='bars')    drawBars(ctxRooms,freq,w,h);
   else if (S.visMode==='wave')    drawWave(ctxRooms,time,w,h);
   else if (S.visMode==='circle')  drawCircle(ctxRooms,freq,w,h);
@@ -3340,6 +3351,7 @@ function syncVisOverlayTrack() {
   const time = new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq);
   S.analyser.getByteTimeDomainData(time);
+  boostFreq(freq);
   if      (S.visMode === 'bars')    drawBars(ctxFull, freq, w, h);
   else if (S.visMode === 'wave')    drawWave(ctxFull, time, w, h);
   else if (S.visMode === 'circle')  drawCircle(ctxFull, freq, w, h);
