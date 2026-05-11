@@ -654,14 +654,20 @@ def _build_ytm_client_from_cookies():
             "x-origin": "https://music.youtube.com",
         }
 
-        # Create instance and inject headers + set auth flag so _check_auth() passes
+        # Create instance and force-inject headers into every location ytmusicapi might read from
         ytm = YTMusic()
-        ytm.headers.update(injected)
-        # ytmusicapi checks self.auth before any authenticated call — set it truthy
-        ytm.auth = "cookie"
-        # Also patch the underlying session if present (ytmusicapi 1.x uses requests.Session)
+        ytm.auth = "cookie"           # passes _check_auth() which tests `if not self.auth`
+        # _headers is the dict ytmusicapi actually attaches to every API request
+        if hasattr(ytm, '_headers'):
+            ytm._headers.update(injected)
+        else:
+            ytm._headers = injected.copy()
+        # Some versions also use a requests.Session
         if hasattr(ytm, '_session'):
             ytm._session.headers.update(injected)
+        # And a plain .headers attribute
+        if hasattr(ytm, 'headers') and isinstance(ytm.headers, dict):
+            ytm.headers.update(injected)
 
         print("  ✓ YouTube Music connected via Chrome cookies")
         return ytm
