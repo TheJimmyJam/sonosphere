@@ -1,0 +1,29 @@
+{
+  "id": "arctic-frost",
+  "name": "Arctic Frost",
+  "description": "Bright frosted interface with icy blue audio accents.",
+  "category": "Minimal",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "license": "Proprietary / app-internal starter skin",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "tags": [
+    "minimal",
+    "waveform"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": true,
+    "animatedBackground": true,
+    "customAccent": true
+  },
+  "visualizer": {
+    "mode": "waveform",
+    "intensity": 0.82,
+    "glow": true,
+    "particleDensity": 0.65
+  }
+}
