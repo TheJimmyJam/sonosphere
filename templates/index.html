@@ -1629,6 +1629,26 @@ async function loadSidebarRooms() {
   const data=await api('/api/rooms');
   S.rooms=data.rooms||[];
   renderSidebarRooms();
+  updateMainVolFromRooms();
+}
+
+// Recompute the main volume slider as the average of all grouped speakers.
+// This is more reliable than what /api/status returns, because soco's bare
+// SoCo(ip) object can return the Sonos group-master volume (not the per-speaker
+// average) when the selected device is the group coordinator.
+function updateMainVolFromRooms() {
+  const groupRooms = getGroupRooms();
+  const rooms = groupRooms && groupRooms.length > 1 ? groupRooms
+              : (S.device ? S.rooms.filter(r=>r.ip===S.device.ip) : []);
+  if (!rooms.length) return;
+  const avg = Math.round(rooms.reduce((s,r)=>s+r.volume, 0) / rooms.length);
+  S.volume = avg;
+  ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value=avg;
+  });
+  ['vol-label','bar-vol-label'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.textContent=avg;
+  });
 }
 
 function renderSidebarRooms() {
@@ -2445,6 +2465,7 @@ function startRoomsRefresh() {
         if (existing) existing.volume = fresh.volume;
       });
       if (!S.rooms.length) S.rooms = data.rooms;
+      updateMainVolFromRooms();
     }
   }, 10000);
 }
@@ -2531,8 +2552,10 @@ function startPoll() {
         updateProgress(posSec,toSec(s.duration));
         syncVisToSonos(posSec);
       }
-      // Volume sync
-      if(s.volume!==undefined&&Math.abs(s.volume-S.volume)>2){
+      // Volume sync — skip when grouped: /api/status returns the Sonos group-master
+      // volume (the coordinator's level), not the per-speaker average.
+      // updateMainVolFromRooms() handles the grouped case accurately.
+      if(s.volume!==undefined && !getGroupRooms() && Math.abs(s.volume-S.volume)>2){
         S.volume=s.volume;
         ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=s.volume;});
         ['vol-label','bar-vol-label'].forEach(id=>document.getElementById(id).textContent=s.volume);
