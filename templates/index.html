@@ -324,7 +324,7 @@ input[type=range]::-webkit-slider-thumb {
   padding: 30px; position: relative;
 }
 .rooms-queue-panel {
-  width: 280px; flex-shrink: 0;
+  width: 320px; flex-shrink: 0;
   background: var(--panel2); backdrop-filter: var(--blur);
   border-left: 1px solid var(--border);
   display: flex; flex-direction: column;
@@ -334,6 +334,43 @@ input[type=range]::-webkit-slider-thumb {
   padding: 16px 16px 10px; border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
 }
+/* ── SPEAKER MANAGEMENT ──────────────────────────────────────────────────── */
+.speaker-panel {
+  width: 340px; flex-shrink: 0;
+  background: var(--panel2); backdrop-filter: var(--blur);
+  border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.speaker-panel-header {
+  padding: 14px 16px 10px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.speaker-cards { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.speaker-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: border-color 0.15s;
+}
+.speaker-card.active  { border-color: var(--accent); background: var(--playing-bg); }
+.speaker-card.grouped { border-color: rgba(167,139,250,0.3); }
+.speaker-card-top { display: flex; align-items: center; gap: 8px; }
+.speaker-card-icon { font-size: 18px; flex-shrink: 0; }
+.speaker-card-info { flex: 1; min-width: 0; }
+.speaker-card-name { font-size: 13px; font-weight: 600; }
+.speaker-card-status { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.speaker-card-actions { display: flex; gap: 5px; flex-shrink: 0; }
+.speaker-card-vol { display: flex; align-items: center; gap: 6px; }
+.speaker-card-vol input { flex: 1; }
+.speaker-card-vol span { font-size: 10px; color: var(--text3); width: 22px; text-align: right; }
+.speaker-select-cb { width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+.speaker-group-bar {
+  padding: 8px 10px; border-top: 1px solid var(--border);
+  display: none; align-items: center; gap: 8px; flex-shrink: 0;
+  background: var(--bg2);
+}
+.speaker-group-bar.visible { display: flex; }
+.speaker-group-bar span { flex: 1; font-size: 11px; color: var(--text2); }
 
 /* ── BROWSE / LIBRARY / SEARCH VIEW ─────────────────────────────────────── */
 #view-browse, #view-search, #view-skins {
@@ -583,14 +620,14 @@ input[type=range]::-webkit-slider-thumb {
     <!-- LEFT SIDEBAR -->
     <div class="sidebar">
       <div class="sidebar-nav">
+        <button class="nav-item" data-view="search">
+          <span class="nav-icon">⌕</span> Search
+        </button>
         <button class="nav-item active" data-view="player">
           <span class="nav-icon">▶</span> Now Playing
         </button>
         <button class="nav-item" data-view="browse">
           <span class="nav-icon">🎵</span> Browse
-        </button>
-        <button class="nav-item" data-view="search">
-          <span class="nav-icon">⌕</span> Search
         </button>
         <button class="nav-item" data-view="rooms">
           <span class="nav-icon">🏠</span> Rooms
@@ -720,17 +757,18 @@ input[type=range]::-webkit-slider-thumb {
             </div>
           </div>
         </div>
-        <!-- Right: Up Next queue -->
-        <div class="rooms-queue-panel">
-          <div class="rooms-queue-header">
-            <span class="section-label" style="margin-bottom:0">Up Next</span>
-            <div style="display:flex;gap:5px;">
-              <button class="btn" id="rooms-shuffle">🔀</button>
-              <button class="btn danger" id="rooms-clear">Clear</button>
-            </div>
+        <!-- Right: Speaker management -->
+        <div class="speaker-panel">
+          <div class="speaker-panel-header">
+            <span class="section-label" style="margin-bottom:0">Speakers</span>
+            <button class="btn" id="rooms-refresh-btn" title="Refresh">⟳</button>
           </div>
-          <div style="flex:1;overflow-y:auto;padding:8px;" id="rooms-queue-list"></div>
-          <div style="padding:8px 14px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);" id="rooms-queue-footer"></div>
+          <div class="speaker-cards" id="speaker-cards"></div>
+          <div class="speaker-group-bar" id="speaker-group-bar">
+            <span id="speaker-group-label">0 selected</span>
+            <button class="btn primary" id="speaker-group-btn">Group Together</button>
+            <button class="btn" id="speaker-group-cancel">✕</button>
+          </div>
         </div>
       </div>
 
@@ -1644,7 +1682,125 @@ function renderSidebarRooms() {
 async function loadRooms() {
   await loadSidebarRooms();
   renderSidebarRooms();
+  renderSpeakerCards();
 }
+
+function renderSpeakerCards() {
+  const container = document.getElementById('speaker-cards');
+  if(!container) return;
+  container.innerHTML='';
+  if(!S.rooms.length){
+    container.innerHTML='<div class="empty" style="height:100px;"><p>No speakers found</p></div>'; return;
+  }
+  let selected=[];
+  const groupBar   = document.getElementById('speaker-group-bar');
+  const groupLabel = document.getElementById('speaker-group-label');
+
+  S.rooms.forEach(room => {
+    const isActive  = S.device?.ip === room.ip;
+    const isPlaying = room.state === 'PLAYING';
+    const isCoord   = room.isCoord !== false;
+    const grouped   = !isCoord;
+    const coordName = (grouped && room.group?.length) ? room.group[0] : null;
+    const statusTxt = isPlaying ? (isCoord ? '▶ Playing' : `🔗 Grouped with ${coordName||'group'}`) : '⏸ Ready';
+    const icon      = isPlaying ? (isCoord ? '🔊' : '🔗') : '🔈';
+
+    const card = document.createElement('div');
+    card.className = 'speaker-card' + (isActive?' active':'') + (grouped?' grouped':'');
+    card.innerHTML = `
+      <div class="speaker-card-top">
+        <input type="checkbox" class="speaker-select-cb" title="Select to group"/>
+        <span class="speaker-card-icon">${icon}</span>
+        <div class="speaker-card-info">
+          <div class="speaker-card-name">${esc(room.name)}</div>
+          <div class="speaker-card-status">${statusTxt}</div>
+        </div>
+        <div class="speaker-card-actions">
+          ${isActive?'<button class="btn primary" style="font-size:10px;padding:3px 8px;">Active</button>'
+                    :'<button class="btn set-active-btn" style="font-size:10px;padding:3px 8px;">Select</button>'}
+          ${grouped?'<button class="btn danger ungroup-btn" style="font-size:10px;padding:3px 8px;" title="Remove from group">Ungroup</button>':''}
+        </div>
+      </div>
+      <div class="speaker-card-vol">
+        <span style="font-size:11px;color:var(--text3);">🔊</span>
+        <input type="range" min="0" max="100" value="${room.volume}" data-room-ip="${room.ip}"/>
+        <span class="vol-label">${room.volume}</span>
+      </div>`;
+
+    // Set active
+    if(!isActive){
+      card.querySelector('.set-active-btn').addEventListener('click', e=>{
+        e.stopPropagation();
+        S.device={ip:room.ip,name:room.name};
+        document.getElementById('device-select').value=room.ip;
+        enableControls(); startPoll();
+        toast(`Speaker: ${room.name}`);
+        renderSpeakerCards(); renderSidebarRooms();
+      });
+    }
+
+    // Ungroup
+    if(grouped){
+      card.querySelector('.ungroup-btn').addEventListener('click', async e=>{
+        e.stopPropagation();
+        await api('/api/rooms/group',{method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({ip:room.ip,action:'unjoin'})});
+        toast(`${room.name} removed from group`);
+        await loadSidebarRooms(); renderSpeakerCards();
+      });
+    }
+
+    // Volume
+    const volSlider = card.querySelector('input[type=range]');
+    const volLabel  = card.querySelector('.vol-label');
+    volSlider.addEventListener('input', function(){
+      volLabel.textContent = this.value;
+      if(S.device?.ip === room.ip){
+        S.volume = this.value;
+        ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=this.value;});
+        const vl=document.getElementById('vol-label'),bl=document.getElementById('bar-vol-label');
+        if(vl)vl.textContent=this.value; if(bl)bl.textContent=this.value;
+      }
+      clearTimeout(volSlider._t);
+      volSlider._t=setTimeout(()=>api('/api/rooms/volume',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ip:room.ip,volume:this.value})}),200);
+    });
+
+    // Checkbox for grouping
+    const cb = card.querySelector('.speaker-select-cb');
+    cb.addEventListener('change', ()=>{
+      if(cb.checked) selected.push(room.ip);
+      else selected=selected.filter(ip=>ip!==room.ip);
+      groupLabel.textContent=`${selected.length} selected`;
+      groupBar.classList.toggle('visible', selected.length>1);
+    });
+
+    container.appendChild(card);
+  });
+
+  // Group together button
+  document.getElementById('speaker-group-btn').onclick = async ()=>{
+    if(selected.length<2){toast('Select 2+ speakers to group',true);return;}
+    const coordinator=selected[0];
+    for(let i=1;i<selected.length;i++){
+      await api('/api/rooms/group',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ip:selected[i],action:'join',coordinator_ip:coordinator})});
+    }
+    toast('Speakers grouped');
+    selected=[];
+    groupBar.classList.remove('visible');
+    await loadSidebarRooms(); renderSpeakerCards();
+  };
+  document.getElementById('speaker-group-cancel').onclick=()=>{
+    selected=[];
+    groupBar.classList.remove('visible');
+    container.querySelectorAll('.speaker-select-cb').forEach(cb=>cb.checked=false);
+  };
+}
+
+document.getElementById('rooms-refresh-btn').addEventListener('click', async ()=>{
+  await loadSidebarRooms(); renderSpeakerCards(); toast('Speakers refreshed');
+});
 
 document.getElementById('device-select').addEventListener('change', function(){
   if(this.value) S.device={ip:this.value,name:this.options[this.selectedIndex].text};
@@ -1979,8 +2135,7 @@ async function clearQueue() {
 
 document.getElementById('btn-shuffle').addEventListener('click',shuffleQueue);
 document.getElementById('btn-clear-queue').addEventListener('click',clearQueue);
-document.getElementById('rooms-shuffle').addEventListener('click',shuffleQueue);
-document.getElementById('rooms-clear').addEventListener('click',clearQueue);
+// rooms-shuffle and rooms-clear buttons removed (queue panel moved out of Rooms tab)
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PLAYBACK
