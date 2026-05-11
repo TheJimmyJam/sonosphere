@@ -1261,11 +1261,22 @@ function initAudio() {
 function startVisAudio(id, startPos=0) {
   initAudio();
   if (S.audioCtx.state === 'suspended') S.audioCtx.resume();
-  // Only reload src if it changed
-  const newSrc = `/audio/${id}`;
+  // Use local file if available, otherwise fall back to the stream proxy
+  const localSrc  = `/audio/${id}`;
+  const streamSrc = `/stream/${id}`;
+  // Pick whichever src is already loaded, or try local first
+  const newSrc = (audioEl.dataset.trackId === id) ? audioEl.src : localSrc;
   if (audioEl.dataset.trackId !== id) {
     audioEl.dataset.trackId = id;
-    audioEl.src = newSrc;
+    // Try local file; if it 404s, swap to stream URL
+    audioEl.onerror = () => {
+      if (audioEl.src !== streamSrc) {
+        audioEl.src = streamSrc;
+        audioEl.currentTime = startPos;
+        audioEl.play().catch(()=>{});
+      }
+    };
+    audioEl.src = localSrc;
     audioEl.currentTime = startPos;
     audioEl.play().catch(()=>{});
   } else if (startPos > 0) {
