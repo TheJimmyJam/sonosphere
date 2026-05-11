@@ -726,28 +726,21 @@ def control():
         if action == "play":   coordinator.play()
         elif action == "pause": coordinator.pause()
         elif action == "volume":
+            # Single speaker (or group fallback) — set directly
+            zone.volume = max(0, min(100, int(data.get("value", 50))))
+        elif action == "volume_group":
+            # Proportional group volume — frontend has already computed the
+            # per-speaker target volumes; we just apply them in parallel.
             from concurrent.futures import ThreadPoolExecutor
-            new_avg = max(1, min(100, int(data.get("value", 50))))
-            if zone.group and len(zone.group.members) > 1:
-                members = list(zone.group.members)
-                # Read all volumes in parallel
-                def get_vol(m):
-                    try: return m.volume
-                    except Exception: return new_avg
-                with ThreadPoolExecutor(max_workers=len(members)) as ex:
-                    vols = list(ex.map(get_vol, members))
-                cur_avg = sum(vols) / len(vols) if vols else new_avg
-                ratio   = new_avg / cur_avg if cur_avg > 0 else 1.0
-                targets = [max(0, min(100, round(v * ratio))) for v in vols]
-                # Set all volumes in parallel
-                def set_vol(args):
-                    m, v = args
-                    try: m.volume = v
-                    except Exception: pass
-                with ThreadPoolExecutor(max_workers=len(members)) as ex:
-                    list(ex.map(set_vol, zip(members, targets)))
-            else:
-                zone.volume = max(0, min(100, new_avg))
+            targets = data.get("targets", [])   # [{ip, volume}, ...]
+            def set_one(t):
+                try:
+                    soco.SoCo(t["ip"]).volume = max(0, min(100, int(t["volume"])))
+                except Exception:
+                    pass
+            if targets:
+                with ThreadPoolExecutor(max_workers=len(targets)) as ex:
+                    list(ex.map(set_one, targets))
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
