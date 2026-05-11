@@ -2381,9 +2381,13 @@ function syncRoomSlider(ip, vol) {
 function applyGroupVolume(oldVol, newVol) {
   const groupRooms = getGroupRooms();
   if(!groupRooms) return false;           // not grouped — caller handles single-speaker
-  const ratio = oldVol > 0 ? newVol / oldVol : 1;
+  const ratio = oldVol > 0 ? newVol / oldVol : null;
   groupRooms.forEach(r=>{
-    r.volume = Math.max(0, Math.min(100, Math.round(r.volume * ratio)));
+    // When coming from zero the original ratios are gone — set everyone to newVol directly.
+    // Otherwise scale proportionally.
+    r.volume = ratio === null
+      ? newVol
+      : Math.max(0, Math.min(100, Math.round(r.volume * ratio)));
     syncRoomSlider(r.ip, r.volume);
   });
   return true;
