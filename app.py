@@ -4,7 +4,7 @@ import json
 import time
 import threading
 from pathlib import Path
-from flask import Flask, render_template, jsonify, request, send_file
+from flask import Flask, render_template, jsonify, request, send_file, redirect
 import yt_dlp
 import soco
 
@@ -19,6 +19,7 @@ ASSETS_DIR  = Path(__file__).parent / "assets-logos"
 LIBRARY_DIR = Path.home() / "Music" / "SonosPlayer"
 LIBRARY_DIR.mkdir(parents=True, exist_ok=True)
 LIBRARY_INDEX = LIBRARY_DIR / ".index.json"         # maps video_id -> track metadata
+SPOTIFY_TOKEN_FILE = LIBRARY_DIR / ".spotify_tokens.json"
 PYTUBEFIX_TOKEN_FILE = str(LIBRARY_DIR / "oauth_token.json")  # shared OAuth token
 
 # ── Download queue ────────────────────────────────────────────────────────────
@@ -54,6 +55,14 @@ def load_queue_state():
             print(f"  ✓ Queue restored: {len(play_queue)} tracks (position {play_queue_idx})")
     except Exception as e:
         print(f"  ⚠ Could not restore queue: {e}")
+
+# ── Spotify config ────────────────────────────────────────────────────────────
+SPOTIFY_CLIENT_ID     = "a6b15508d7a94736b7ec1c727322dd1e"
+SPOTIFY_CLIENT_SECRET = "3870bde35439405ba07632d6c7702b24"
+SPOTIFY_REDIRECT_URI  = "http://127.0.0.1:8888/auth/spotify/callback"
+SPOTIFY_SCOPES        = "user-library-read playlist-read-private playlist-read-collaborative user-read-private"
+SPOTIFY_TOKEN_FILE    = None  # set after LIBRARY_DIR is created below
+_spotify_yt_cache     = {}    # sp_<spotify_id> → youtube_video_id
 
 # ── ytmusicapi client (lazy init) ─────────────────────────────────────────────
 _ytm_client     = None
@@ -663,6 +672,14 @@ def play():
     if not device_ip or not video_id:
         return jsonify({"success": False, "error": "Missing params"})
 
+    # Spotify tracks: resolve to a YouTube video ID on the fly
+    if str(video_id).startswith("sp_"):
+        spotify_id = video_id[3:]
+        yt_id = _sp_resolve_yt(spotify_id, title, artist)
+        if not yt_id:
+            return jsonify({"success": False, "error": "Could not find track on YouTube"})
+        video_id = yt_id
+
     track_file = find_track_file(video_id)
 
     if track_file:
@@ -1059,6 +1076,223 @@ def ytm_liked():
 
 
 
+# ── Spotify helpers ───────────────────────────────────────────────────────────
+
+def _sp_load_tokens():
+    try:
+        if SPOTIFY_TOKEN_FILE and SPOTIFY_TOKEN_FILE.exists():
+            return json.loads(SPOTIFY_TOKEN_FILE.read_text())
+    except Exception:
+        pass
+    return None
+
+def _sp_save_tokens(tokens):
+    try:
+        SPOTIFY_TOKEN_FILE.write_text(json.dumps(tokens))
+    except Exception:
+        pass
+
+def _sp_refresh(tokens):
+    import urllib.request, urllib.parse, base64
+    creds = base64.b64encode(f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}".encode()).decode()
+    data  = urllib.parse.urlencode({
+        "grant_type":    "refresh_token",
+        "refresh_token": tokens["refresh_token"],
+    }).encode()
+    req = urllib.request.Request(
+        "https://accounts.spotify.com/api/token", data=data,
+        headers={"Authorization": f"Basic {creds}",
+                 "Content-Type": "application/x-www-form-urlencoded"}
+    )
+    with urllib.request.urlopen(req) as r:
+        new = json.loads(r.read())
+    tokens["access_token"] = new["access_token"]
+    if "refresh_token" in new:
+        tokens["refresh_token"] = new["refresh_token"]
+    tokens["expires_at"] = time.time() + new.get("expires_in", 3600) - 60
+    _sp_save_tokens(tokens)
+    return tokens
+
+def _sp_token():
+    """Return a valid Spotify access token, refreshing if needed."""
+    tokens = _sp_load_tokens()
+    if not tokens:
+        return None
+    if time.time() > tokens.get("expires_at", 0):
+        try:
+            tokens = _sp_refresh(tokens)
+        except Exception:
+            return None
+    return tokens.get("access_token")
+
+def _sp_get(path, token=None):
+    """Call the Spotify Web API and return parsed JSON."""
+    import urllib.request
+    if token is None:
+        token = _sp_token()
+    if not token:
+        return None
+    req = urllib.request.Request(
+        f"https://api.spotify.com/v1{path}",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    with urllib.request.urlopen(req) as r:
+        return json.loads(r.read())
+
+def _sp_track(item):
+    """Normalise a Spotify track item to Sonosphere's standard track dict."""
+    t = item.get("track") or item   # playlist items wrap in {"track": ...}
+    if not t or not t.get("id"):
+        return None
+    artists  = ", ".join(a["name"] for a in t.get("artists", []))
+    dur_ms   = t.get("duration_ms", 0)
+    dur_str  = f"{dur_ms//60000}:{(dur_ms//1000)%60:02d}"
+    images   = t.get("album", {}).get("images", [])
+    thumb    = images[0]["url"] if images else ""
+    return {
+        "id":         f"sp_{t['id']}",
+        "spotify_id": t["id"],
+        "title":      t.get("name", "Unknown"),
+        "artist":     artists,
+        "duration":   dur_str,
+        "thumbnail":  thumb,
+        "source":     "spotify",
+    }
+
+def _sp_resolve_yt(spotify_id, title, artist):
+    """Find the YouTube video ID for a Spotify track (cached)."""
+    cache_key = f"sp_{spotify_id}"
+    if cache_key in _spotify_yt_cache:
+        return _spotify_yt_cache[cache_key]
+    query = f"ytsearch1:{title} {artist} audio"
+    ydl_opts = {**_ydl_base_opts(), "quiet": True, "extract_flat": True, "ignoreerrors": True}
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            raw = ydl.extract_info(query, download=False)
+        entries = raw.get("entries", []) if raw else []
+        yt_id   = entries[0]["id"] if entries else None
+        if yt_id:
+            _spotify_yt_cache[cache_key] = yt_id
+        return yt_id
+    except Exception:
+        return None
+
+
+# ── Spotify auth routes ────────────────────────────────────────────────────────
+
+@app.route("/auth/spotify")
+def auth_spotify():
+    import urllib.parse
+    params = urllib.parse.urlencode({
+        "client_id":     SPOTIFY_CLIENT_ID,
+        "response_type": "code",
+        "redirect_uri":  SPOTIFY_REDIRECT_URI,
+        "scope":         SPOTIFY_SCOPES,
+    })
+    return redirect(f"https://accounts.spotify.com/authorize?{params}")
+
+@app.route("/auth/spotify/callback")
+def auth_spotify_callback():
+    import urllib.request, urllib.parse, base64
+    code = request.args.get("code")
+    if not code:
+        return "Spotify auth failed — no code returned", 400
+    creds = base64.b64encode(f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}".encode()).decode()
+    data  = urllib.parse.urlencode({
+        "grant_type":   "authorization_code",
+        "code":         code,
+        "redirect_uri": SPOTIFY_REDIRECT_URI,
+    }).encode()
+    req = urllib.request.Request(
+        "https://accounts.spotify.com/api/token", data=data,
+        headers={"Authorization": f"Basic {creds}",
+                 "Content-Type": "application/x-www-form-urlencoded"}
+    )
+    with urllib.request.urlopen(req) as r:
+        tokens = json.loads(r.read())
+    tokens["expires_at"] = time.time() + tokens.get("expires_in", 3600) - 60
+    _sp_save_tokens(tokens)
+    return redirect("http://127.0.0.1:8888/?spotify=connected")
+
+@app.route("/auth/spotify/status")
+def auth_spotify_status():
+    return jsonify({"connected": _sp_token() is not None})
+
+@app.route("/auth/spotify/disconnect", methods=["POST"])
+def auth_spotify_disconnect():
+    try:
+        SPOTIFY_TOKEN_FILE.unlink(missing_ok=True)
+    except Exception:
+        pass
+    return jsonify({"success": True})
+
+
+# ── Spotify API routes ─────────────────────────────────────────────────────────
+
+@app.route("/api/spotify/search")
+def spotify_search():
+    import urllib.parse
+    q = request.args.get("q", "").strip()
+    if not q:
+        return jsonify({"results": []})
+    token = _sp_token()
+    if not token:
+        return jsonify({"error": "not_connected", "results": []})
+    try:
+        params  = urllib.parse.urlencode({"q": q, "type": "track", "limit": 20})
+        data    = _sp_get(f"/search?{params}", token)
+        results = [t for t in (_sp_track(tr) for tr in (data or {}).get("tracks", {}).get("items", [])) if t]
+        return jsonify({"results": results})
+    except Exception as e:
+        return jsonify({"error": str(e), "results": []})
+
+@app.route("/api/spotify/playlists")
+def spotify_playlists():
+    token = _sp_token()
+    if not token:
+        return jsonify({"error": "not_connected", "playlists": []})
+    try:
+        data = _sp_get("/me/playlists?limit=50", token)
+        playlists = []
+        for p in (data or {}).get("items", []):
+            images = p.get("images", [])
+            playlists.append({
+                "id":        p["id"],
+                "title":     p.get("name", "Untitled"),
+                "count":     p.get("tracks", {}).get("total", ""),
+                "thumbnail": images[0]["url"] if images else "",
+            })
+        return jsonify({"playlists": playlists})
+    except Exception as e:
+        return jsonify({"error": str(e), "playlists": []})
+
+@app.route("/api/spotify/playlist/<playlist_id>")
+def spotify_playlist_tracks(playlist_id):
+    token = _sp_token()
+    if not token:
+        return jsonify({"error": "not_connected", "tracks": []})
+    try:
+        data   = _sp_get(f"/playlists/{playlist_id}/tracks?limit=100&fields=items(track(id,name,artists,duration_ms,album(images)))", token)
+        tracks = [t for t in (_sp_track(item) for item in (data or {}).get("items", [])) if t]
+        meta   = _sp_get(f"/playlists/{playlist_id}?fields=name", token)
+        title  = (meta or {}).get("name", "Playlist")
+        return jsonify({"title": title, "tracks": tracks})
+    except Exception as e:
+        return jsonify({"error": str(e), "tracks": []})
+
+@app.route("/api/spotify/liked")
+def spotify_liked():
+    token = _sp_token()
+    if not token:
+        return jsonify({"error": "not_connected", "tracks": []})
+    try:
+        data   = _sp_get("/me/tracks?limit=50", token)
+        tracks = [t for t in (_sp_track(item) for item in (data or {}).get("items", [])) if t]
+        return jsonify({"tracks": tracks})
+    except Exception as e:
+        return jsonify({"error": str(e), "tracks": []})
+
+
 # ── Queue routes ──────────────────────────────────────────────────────────────
 
 @app.route("/api/queue", methods=["GET"])
@@ -1213,6 +1447,12 @@ def _play_track_on_sonos(track, device_ip):
     video_id   = track.get("id") or track.get("video_id")
     title      = track.get("title", "")
     artist     = track.get("artist", "")
+    # Spotify tracks: resolve to YouTube ID before streaming
+    if str(video_id).startswith("sp_"):
+        yt_id = _sp_resolve_yt(video_id[3:], title, artist)
+        if not yt_id:
+            return False, "Could not resolve Spotify track to YouTube"
+        video_id = yt_id
     track_file = find_track_file(video_id)
 
     if track_file:
