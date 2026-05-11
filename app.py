@@ -524,7 +524,9 @@ def _get_stream_url(video_id):
             return cached["url"], cached["mime"]
 
     base = {
-        "format": "bestaudio/best",
+        # Sonos only plays AAC/MP3 — WebM/Opus gets rejected with UPnP error 714.
+        # Preference order: m4a (AAC in MP4 container) → mp4 audio → mp3 → anything
+        "format": "bestaudio[ext=m4a]/bestaudio[acodec^=mp4a]/bestaudio[ext=mp4]/bestaudio[ext=mp3]/bestaudio",
         "quiet": True,
         "no_warnings": True,
     }
@@ -553,20 +555,36 @@ def _get_stream_url(video_id):
     if not info:
         raise Exception(last_err or "Could not extract stream URL")
 
-    # Get best audio format
+    # Pick the best Sonos-compatible audio format (AAC > MP3 > anything non-webm)
+    # Sonos rejects WebM/Opus with UPnP error 714
+    SONOS_OK = {"m4a", "mp4", "mp3", "aac", "mp4a"}
     fmt = None
     for f in (info.get("formats") or []):
-        if f.get("acodec") != "none" and f.get("vcodec") == "none":
-            if fmt is None or (f.get("abr") or 0) > (fmt.get("abr") or 0):
-                fmt = f
+        if f.get("acodec") == "none" or f.get("vcodec") not in (None, "none"):
+            continue
+        ext_f = (f.get("ext") or "").lower()
+        acodec = (f.get("acodec") or "").lower()
+        sonos_ok = ext_f in SONOS_OK or acodec.startswith("mp4a") or ext_f == "mp3"
+        if not sonos_ok:
+            continue
+        if fmt is None or (f.get("abr") or 0) > (fmt.get("abr") or 0):
+            fmt = f
     if not fmt:
-        fmt = info  # fallback to merged format
+        # fallback — use whatever yt-dlp selected (may or may not work)
+        fmt = info
 
-    url  = fmt.get("url") or info.get("url")
-    mime = "audio/mp4"
-    ext  = fmt.get("ext") or ""
-    if ext == "webm": mime = "audio/webm"
-    elif ext == "mp3": mime = "audio/mpeg"
+    url = fmt.get("url") or info.get("url")
+    ext = (fmt.get("ext") or "").lower()
+    acodec = (fmt.get("acodec") or "").lower()
+    if ext == "mp3" or acodec == "mp3":
+        mime = "audio/mpeg"
+    elif ext in ("webm", "ogg") or acodec.startswith("opus") or acodec.startswith("vorbis"):
+        # Last resort — try webm but log it; Sonos may reject
+        mime = "audio/webm"
+        print(f"  ⚠ stream/{video_id}: WebM/Opus format — Sonos may reject (UPnP 714)")
+    else:
+        mime = "audio/mp4"  # m4a / mp4 / aac — Sonos handles fine
+    print(f"  stream/{video_id}: ext={ext} acodec={acodec} mime={mime}")
 
     with _stream_cache_lock:
         _stream_cache[video_id] = {"url": url, "mime": mime, "expires": now + 5 * 3600}
