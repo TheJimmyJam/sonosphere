@@ -445,8 +445,9 @@ input[type=range]::-webkit-slider-thumb {
   padding: 6px 8px; border-radius: 8px; cursor: pointer; transition: background 0.15s;
   user-select: none;
 }
-.queue-item:hover  { background: var(--hover-bg); }
-.queue-item.active { background: var(--playing-bg); }
+.queue-item:hover    { background: var(--hover-bg); }
+.queue-item.active   { background: var(--playing-bg); }
+.queue-item.selected { background: rgba(167,139,250,0.15); outline: 1px solid rgba(167,139,250,0.35); }
 .queue-item.drag-over { border-top: 2px solid var(--accent2); }
 .queue-item.dragging  { opacity: 0.4; }
 .queue-drag {
@@ -2125,7 +2126,16 @@ function renderQueue() {
       <img class="queue-thumb" src="${t.thumbnail||BLANK}" alt="" onerror="this.src='${BLANK}'"/>
       <div class="queue-info"><div class="queue-title">${esc(t.title)}</div><div class="queue-artist">${esc(t.artist)}</div></div>
       <button class="queue-rm" data-idx="${i}">✕</button>`;
-    el.addEventListener('click',e=>{if(e.target.closest('.queue-rm')||e.target.closest('.queue-drag'))return;jumpQueue(i);});
+    el.addEventListener('click',e=>{
+      if(e.target.closest('.queue-rm')||e.target.closest('.queue-drag')) return;
+      // Single click → highlight only
+      list.querySelectorAll('.queue-item').forEach(r=>r.classList.remove('selected'));
+      el.classList.add('selected');
+    });
+    el.addEventListener('dblclick',e=>{
+      if(e.target.closest('.queue-rm')||e.target.closest('.queue-drag')) return;
+      jumpQueue(i);
+    });
     el.querySelector('.queue-rm').addEventListener('click',e=>{e.stopPropagation();removeFromQueue(i);});
     // ── Drag events ──
     el.addEventListener('dragstart',e=>{
@@ -2185,7 +2195,11 @@ function renderRoomsQueue() {
       <span class="queue-num">${i+1}</span>
       <img class="queue-thumb" src="${t.thumbnail||BLANK}" alt="" onerror="this.src='${BLANK}'"/>
       <div class="queue-info"><div class="queue-title">${esc(t.title)}</div><div class="queue-artist">${esc(t.artist)}</div></div>`;
-    el.addEventListener('click',()=>jumpQueue(i));
+    el.addEventListener('click',()=>{
+      list.querySelectorAll('.queue-item').forEach(r=>r.classList.remove('selected'));
+      el.classList.add('selected');
+    });
+    el.addEventListener('dblclick',()=>jumpQueue(i));
     list.appendChild(el);
   });
   footer.textContent=`${S.queue.length} songs · ${fmt(totalSec)}`;
