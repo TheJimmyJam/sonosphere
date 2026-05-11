@@ -943,6 +943,7 @@ input[type=range]::-webkit-slider-thumb {
         <div class="right-panel-actions">
           <button class="btn ghost" id="btn-shuffle" title="Shuffle">🔀</button>
           <button class="btn ghost" id="btn-repeat" title="Repeat: Off" style="font-size:14px;opacity:0.4;">🔁</button>
+          <button class="btn ghost" id="btn-radio" title="Radio Mode: Off" style="font-size:14px;opacity:0.4;">📻</button>
           <button class="btn ghost danger" id="btn-clear-queue" title="Clear">✕</button>
         </div>
       </div>
@@ -2934,7 +2935,46 @@ function cycleRepeat() {
 }
 document.getElementById('btn-repeat').addEventListener('click', cycleRepeat);
 document.getElementById('bar-repeat').addEventListener('click', cycleRepeat);
-// rooms-shuffle and rooms-clear buttons removed (queue panel moved out of Rooms tab)
+
+// ── Radio Mode ────────────────────────────────────────────────────────────
+let _radioMode = false;
+let _radioFetching = false;
+
+function setRadioMode(on) {
+  _radioMode = on;
+  const btn = document.getElementById('btn-radio');
+  btn.style.opacity = on ? '1' : '0.4';
+  btn.style.color   = on ? 'var(--accent2)' : 'var(--text3)';
+  btn.title = on ? 'Radio Mode: On' : 'Radio Mode: Off';
+}
+
+document.getElementById('btn-radio').addEventListener('click', () => {
+  setRadioMode(!_radioMode);
+  toast(_radioMode ? '📻 Radio mode on — queue will auto-fill' : '📻 Radio mode off');
+});
+
+async function radioRefill() {
+  if (!_radioMode || _radioFetching) return;
+  if (!S.nowPlaying?.title || !S.nowPlaying?.artist) return;
+  // Only refill when ≤1 track left after current
+  const remaining = S.queue.length - 1 - S.queueIdx;
+  if (remaining > 1) return;
+  _radioFetching = true;
+  try {
+    const data = await api(`/api/discover/radio?title=${encodeURIComponent(S.nowPlaying.title)}&artist=${encodeURIComponent(S.nowPlaying.artist)}`);
+    const incoming = (data.tracks || []).filter(t => !S.queue.some(q => q.id === t.id));
+    if (incoming.length) {
+      const toAdd = incoming.slice(0, 5);
+      const res = await api('/api/queue/add-many', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({tracks: toAdd})});
+      if (res.success) {
+        S.queue = res.queue; S.queueIdx = res.current;
+        renderQueue(); renderRoomsQueue();
+        toast(`📻 Added ${toAdd.length} similar tracks`);
+      }
+    }
+  } catch(e) { console.warn('Radio refill failed', e); }
+  _radioFetching = false;
+}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PLAYBACK
@@ -3256,6 +3296,7 @@ function startPoll() {
       // Auto-advance (only when Sonosphere owns the queue)
       const trackEnded = was && !S.playing && S.lastState==='PLAYING' && S.queue.length && !S.nowPlaying?.external;
       if(trackEnded){
+        radioRefill(); // top up queue before advancing if radio mode is on
         setTimeout(async()=>{
           const s2 = await api(`/api/status?device_ip=${S.device.ip}`);
           if(s2.state==='PLAYING') return; // something else started
@@ -3266,6 +3307,10 @@ function startPoll() {
           } else {
             // repeat='none': advance only if not at end
             if(S.queueIdx < S.queue.length-1) await queueGoTo(S.queueIdx+1);
+            else if(_radioMode) {
+              // wait for refill then play next
+              setTimeout(async()=>{ if(S.queueIdx < S.queue.length-1) await queueGoTo(S.queueIdx+1); }, 2000);
+            }
           }
         },1500);
       }
