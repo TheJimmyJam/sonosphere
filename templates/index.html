@@ -794,6 +794,7 @@ input[type=range]::-webkit-slider-thumb {
         <div class="source-toggle">
           <div class="source-tab active" id="src-yt">YouTube</div>
           <div class="source-tab" id="src-sp">🎵 Spotify</div>
+          <div class="source-tab" id="src-lfm">🔭 Last.fm</div>
         </div>
         <div class="search-bar-wrap">
           <input type="text" id="search-input" placeholder="Artist, song, album…" autocomplete="off"/>
@@ -2252,27 +2253,21 @@ function makeSpotifyCard(t, num) {
 // SEARCH
 // ═══════════════════════════════════════════════════════════════════════════
 let _lastSearchResults = [];
-let _searchSource = 'youtube'; // 'youtube' | 'spotify'
+let _searchSource = 'youtube'; // 'youtube' | 'spotify' | 'lastfm'
 
-// Source toggle wiring
-document.getElementById('src-yt').addEventListener('click', ()=>{
-  _searchSource = 'youtube';
-  document.getElementById('src-yt').classList.add('active');
-  document.getElementById('src-sp').classList.remove('active');
-  document.getElementById('search-source-label').textContent = 'YouTube';
-  document.getElementById('search-state').innerHTML='<div class="icon">🎵</div><p>Search for a song</p>';
+function _setSearchSource(src, label, emptyMsg) {
+  _searchSource = src;
+  ['src-yt','src-sp','src-lfm'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  const tabId = src==='youtube'?'src-yt': src==='spotify'?'src-sp':'src-lfm';
+  document.getElementById(tabId)?.classList.add('active');
+  document.getElementById('search-source-label').textContent = label;
+  document.getElementById('search-state').innerHTML=`<div class="icon">🎵</div><p>${emptyMsg}</p>`;
   document.getElementById('search-state').style.display='flex';
   document.getElementById('search-results').style.display='none';
-});
-document.getElementById('src-sp').addEventListener('click', ()=>{
-  _searchSource = 'spotify';
-  document.getElementById('src-sp').classList.add('active');
-  document.getElementById('src-yt').classList.remove('active');
-  document.getElementById('search-source-label').textContent = 'Spotify';
-  document.getElementById('search-state').innerHTML='<div class="icon">🎵</div><p>Search Spotify</p>';
-  document.getElementById('search-state').style.display='flex';
-  document.getElementById('search-results').style.display='none';
-});
+}
+document.getElementById('src-yt').addEventListener('click', ()=>_setSearchSource('youtube','YouTube','Search for a song'));
+document.getElementById('src-sp').addEventListener('click', ()=>_setSearchSource('spotify','Spotify','Search Spotify'));
+document.getElementById('src-lfm').addEventListener('click', ()=>_setSearchSource('lastfm','Last.fm','Search Last.fm'));
 
 // ═══════════════════════════════════════════════════════════════════════════
 // DISCOVER (Last.fm)
@@ -2457,6 +2452,8 @@ async function doSearch(q) {
   document.getElementById('search-loading').style.display='flex';
   const endpoint = _searchSource==='spotify'
     ? `/api/spotify/search?q=${encodeURIComponent(q)}`
+    : _searchSource==='lastfm'
+    ? `/api/discover/search?q=${encodeURIComponent(q)}`
     : `/api/search?q=${encodeURIComponent(q)}`;
   const data = await api(endpoint);
   document.getElementById('search-loading').style.display='none';
@@ -2465,17 +2462,19 @@ async function doSearch(q) {
     document.getElementById('search-state').innerHTML='<div class="icon">🎵</div><p>Connect Spotify first — use the Browse tab.</p>';
     return;
   }
-  if(!data.results?.length){
+  // Last.fm returns .results, Spotify returns .results, YouTube returns .results
+  const results = data.results || [];
+  if(!results.length){
     document.getElementById('search-state').style.display='flex';
     document.getElementById('search-state').innerHTML='<div class="icon">🔍</div><p>No results</p>';
     return;
   }
-  _lastSearchResults = data.results;
-  const src = _searchSource==='spotify' ? '🎵 Spotify' : 'YouTube';
-  document.getElementById('results-label').textContent=`${data.results.length} results · ${src} · "${q}"`;
+  _lastSearchResults = results;
+  const srcLabel = _searchSource==='spotify' ? '🎵 Spotify' : _searchSource==='lastfm' ? '🔭 Last.fm' : 'YouTube';
+  document.getElementById('results-label').textContent=`${results.length} results · ${srcLabel} · "${q}"`;
   const list=document.getElementById('results-list'); list.innerHTML='';
-  const makeCard = _searchSource==='spotify' ? makeSpotifyCard : makeSearchCard;
-  data.results.forEach((t,i)=>list.appendChild(makeCard(t,i+1)));
+  const makeCard = _searchSource==='spotify' ? makeSpotifyCard : _searchSource==='lastfm' ? makeDiscoverCard : makeSearchCard;
+  results.forEach((t,i)=>list.appendChild(makeCard(t,i+1)));
   document.getElementById('search-results').style.display='';
 }
 
