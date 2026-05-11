@@ -745,8 +745,14 @@ def ytm_playlists():
         return jsonify({"error": "YouTube Music not available", "playlists": []})
     try:
         raw = ytm.get_library_playlists(limit=50)
+        # Also probe liked songs to confirm auth is actually tied to an account
+        try:
+            liked_probe = ytm.get_liked_songs(limit=1)
+            liked_count = len(liked_probe.get('tracks', []))
+            print(f"  [ytm debug] playlists={len(raw)}, liked_songs_probe={liked_count} (0=not authed to account)")
+        except Exception as le:
+            print(f"  [ytm debug] liked_songs probe failed: {le}")
         print(f"  [ytm playlists] {len(raw)} items. Keys: {list(raw[0].keys()) if raw else 'EMPTY'}")
-        if raw: print(f"  [ytm playlists] sample: {raw[0]}")
         playlists = []
         for p in raw:
             playlists.append({
