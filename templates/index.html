@@ -2580,7 +2580,9 @@ function startPoll() {
       // Progress
       if(s.position&&s.duration){
         const posSec=toSec(s.position);
-        updateProgress(posSec,toSec(s.duration));
+        // Sonos reports "0:00:00" for streamed tracks — fall back to queue metadata
+        const durSec=toSec(s.duration)||toSec(S.queue[S.queueIdx]?.duration||'');
+        updateProgress(posSec,durSec);
         syncVisToSonos(posSec);
       }
       // Volume sync — skip when grouped: /api/status returns the Sonos group-master
