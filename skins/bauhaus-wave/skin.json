@@ -1,0 +1,37 @@
+{
+  "id": "bauhaus-wave",
+  "name": "Bauhaus Wave",
+  "description": "Bauhaus primary colors restrained into a clean sound-grid system.",
+  "category": "Architectural Premium",
+  "version": "1.0.0",
+  "author": "Sonosphere",
+  "pack": "Expansion Pack 03 \u2014 Super Premium",
+  "preview": "preview.svg",
+  "theme": "theme.css",
+  "material": "painted enamel",
+  "tags": [
+    "architectural premium",
+    "super-premium",
+    "painted enamel",
+    "bauhaus-grid",
+    "audio",
+    "sonosphere"
+  ],
+  "supports": {
+    "darkMode": false,
+    "lightMode": true,
+    "visualizer": true,
+    "glassmorphism": false,
+    "animatedBackground": true,
+    "customAccent": true,
+    "compactMode": true,
+    "highContrast": false
+  },
+  "visualizer": {
+    "mode": "bauhaus-grid",
+    "intensity": 0.53,
+    "glow": true,
+    "particleDensity": 0.28,
+    "preferredMotion": "premium-subtle"
+  }
+}
