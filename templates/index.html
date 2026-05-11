@@ -72,15 +72,6 @@ body {
   -webkit-app-region: drag;
   position: relative; z-index: 100;
 }
-.topbar-traffic {
-  width: 80px; display: flex; align-items: center; gap: 6px;
-  padding: 0 14px; flex-shrink: 0; -webkit-app-region: no-drag;
-}
-.traffic { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; transition: filter 0.15s; }
-.traffic.close  { background: #ff5f57; }
-.traffic.min    { background: #febc2e; }
-.traffic.max    { background: #28c840; }
-.traffic:hover  { filter: brightness(1.2); }
 .topbar-title {
   position: absolute; left: 50%; transform: translateX(-50%);
   display: flex; align-items: center; pointer-events: none;
@@ -595,11 +586,6 @@ input[type=range]::-webkit-slider-thumb {
 
   <!-- TOP BAR -->
   <div class="topbar">
-    <div class="topbar-traffic">
-      <div class="traffic close"></div>
-      <div class="traffic min"></div>
-      <div class="traffic max"></div>
-    </div>
     <div class="topbar-title"><img class="topbar-logo" src="/assets/sonosphere good.png" alt="Sonosphere"/></div>
     <div class="topbar-right">
       <div class="vol-wrap">
