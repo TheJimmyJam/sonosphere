@@ -566,21 +566,23 @@ def status():
 
 
 # ── ytmusicapi helpers ────────────────────────────────────────────────────────
+# Auth file: browser request headers pasted from Chrome DevTools (ytmusicapi.setup())
+YTM_AUTH_FILE = str(LIBRARY_DIR / "ytm_headers.json")
 
 def _get_ytm():
-    """Return a cached YTMusic client, authenticated via OAuth token file."""
+    """Return a cached YTMusic client, authenticated via browser headers file."""
     global _ytm_client
     with _ytm_lock:
         if _ytm_client is not None:
             return _ytm_client
         try:
             from ytmusicapi import YTMusic
-            oauth_file = str(LIBRARY_DIR / "ytm_oauth.json")
-            if os.path.exists(oauth_file):
-                _ytm_client = YTMusic(auth=oauth_file)
-                print("  ✓ YouTube Music API ready (OAuth)")
-                return _ytm_client
-            # Not authenticated yet — return None so routes can signal setup needed
+            # Try new headers file first, then legacy oauth file
+            for auth_file in (YTM_AUTH_FILE, str(LIBRARY_DIR / "ytm_oauth.json")):
+                if os.path.exists(auth_file):
+                    _ytm_client = YTMusic(auth=auth_file)
+                    print(f"  ✓ YouTube Music API ready")
+                    return _ytm_client
             print("  ⚠ ytmusicapi not authenticated — run setup at startup")
             return None
         except Exception as e:
@@ -590,15 +592,16 @@ def _get_ytm():
 
 def _init_ytm_oauth():
     """
-    Run ytmusicapi OAuth setup interactively at startup (main thread only).
-    First run: prints a URL + code; after that the token is cached in ytm_oauth.json.
+    Authenticate ytmusicapi using browser request headers (works with all ytmusicapi versions).
+    User copies headers from Chrome DevTools → pastes here → saved to ytm_headers.json.
     """
-    oauth_file = str(LIBRARY_DIR / "ytm_oauth.json")
-    if os.path.exists(oauth_file):
-        print("  ✓ YouTube Music already authenticated")
-        return
+    # Already have a working auth file?
+    for auth_file in (YTM_AUTH_FILE, str(LIBRARY_DIR / "ytm_oauth.json")):
+        if os.path.exists(auth_file):
+            print("  ✓ YouTube Music already authenticated")
+            return
     try:
-        from ytmusicapi import YTMusic
+        import ytmusicapi
         print()
         print("  ── YouTube Music Setup ─────────────────────────────────")
         print("  To enable your playlists & Liked Songs, sign in once.")
@@ -606,16 +609,18 @@ def _init_ytm_oauth():
         print()
         answer = input("  Set up YouTube Music now? [Y/n]: ").strip().lower()
         if answer in ("n", "no"):
-            print("  Skipped — you can re-run setup by deleting ytm_oauth.json")
+            print("  Skipped — you can re-run setup by deleting ytm_headers.json and restarting")
             return
         print()
-        # setup_oauth moved from classmethod (ytmusicapi 0.x) to module-level (ytmusicapi 1.x)
-        try:
-            from ytmusicapi import setup_oauth as _setup_oauth
-            _setup_oauth(filepath=oauth_file, open_browser=True)
-        except ImportError:
-            # Fallback for older ytmusicapi 0.x
-            YTMusic.setup_oauth(filepath=oauth_file, open_browser=True)
+        print("  Steps:")
+        print("  1. Open https://music.youtube.com in Chrome and make sure you're signed in")
+        print("  2. Press F12 → Network tab → reload the page (Cmd+R)")
+        print("  3. Click any request to music.youtube.com in the list")
+        print("  4. Scroll to 'Request Headers' → right-click the header block")
+        print("     → 'Copy value' (or manually select and copy all header lines)")
+        print("  5. Paste below and press Enter twice when done:")
+        print()
+        ytmusicapi.setup(filepath=YTM_AUTH_FILE)
         print("  ✓ YouTube Music authenticated!")
     except Exception as e:
         print(f"  ⚠ YouTube Music setup failed: {e}")

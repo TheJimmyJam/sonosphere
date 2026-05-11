@@ -56,16 +56,18 @@ Every time after that, just double-click `Start Sonosphere.command`.
 
 ---
 
-## First-time YouTube Setup
+## First-time YouTube Music Setup
 
-When you first launch, the terminal will show something like:
+When you first launch and choose **Y** at the YouTube Music prompt, follow these steps:
 
-```
-Please open https://www.google.com/device and input code ABC-DEF-GHI
-Press enter when you have completed this step.
-```
+1. Open **https://music.youtube.com** in Chrome and make sure you're signed in
+2. Press **F12** → **Network** tab → reload the page (**Cmd+R**)
+3. Click any request to `music.youtube.com` in the list
+4. Scroll down to **Request Headers** in the right panel
+5. Select all the header lines, copy them, and paste into the terminal when prompted
+6. Press **Enter twice** when done
 
-Open that URL in Chrome, enter the code, click Allow, then press Enter in the terminal. This authenticates the app with your YouTube account and saves a token locally — you'll never be asked again.
+Your credentials are saved to `~/Music/SonosPlayer/ytm_headers.json` — you'll never be asked again. To re-authenticate, delete that file and restart.
 
 ---
 
