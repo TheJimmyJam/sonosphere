@@ -2281,13 +2281,51 @@ function startPoll() {
       if(s.error) return;
       const was=S.playing;
       S.playing=s.state==='PLAYING';
-      // Auto-advance
-      if(was&&!S.playing&&S.lastState==='PLAYING'&&S.queue.length&&S.queueIdx<S.queue.length-1){
+      // ── Take-over: detect something playing that Sonosphere didn't start ──
+      // If Sonos reports a title/artist we don't recognise as nowPlaying, adopt it.
+      if((S.playing||s.state==='PAUSED_PLAYBACK') && s.title){
+        const externalTrack = !S.nowPlaying || S.nowPlaying.title !== s.title;
+        if(externalTrack){
+          // Build a minimal track object from what Sonos reports
+          const adopted = {
+            id:        s.uri_id || '',      // may be empty for non-YouTube sources
+            title:     s.title  || 'Unknown',
+            artist:    s.artist || '',
+            thumbnail: s.thumbnail || BLANK,
+            duration:  s.duration  || '',
+            external:  true,               // flag so we know Sonosphere didn't start this
+          };
+          S.nowPlaying = adopted;
+          // Populate all Now Playing UI elements
+          const titleEl=document.getElementById('center-title');
+          titleEl.classList.remove('idle'); titleEl.textContent=adopted.title;
+          document.getElementById('center-artist').textContent=adopted.artist;
+          document.getElementById('center-album').textContent='';
+          const art=document.getElementById('album-art');
+          art.src=adopted.thumbnail; art.classList.add('active');
+          document.getElementById('album-glow').style.opacity='1';
+          document.getElementById('rooms-album-art').src=adopted.thumbnail;
+          document.getElementById('rooms-title').textContent=adopted.title;
+          document.getElementById('rooms-artist').textContent=adopted.artist;
+          document.getElementById('bar-thumb').src=adopted.thumbnail;
+          document.getElementById('bar-title').textContent=adopted.title;
+          document.getElementById('bar-title').style.color='';
+          document.getElementById('bar-artist').textContent=adopted.artist;
+          document.getElementById('vis-thumb').src=adopted.thumbnail;
+          document.getElementById('vis-title').textContent=adopted.title;
+          document.getElementById('vis-artist').textContent=adopted.artist;
+          if(adopted.thumbnail&&adopted.thumbnail!==BLANK)
+            document.getElementById('bg-art').style.backgroundImage=`url('${adopted.thumbnail}')`;
+          document.title=`${adopted.title} — Sonosphere`;
+          if(!S.playing) S.playing=true;
+          updatePP();
+        }
+      }
+      // Auto-advance (only when Sonosphere owns the queue)
+      if(was&&!S.playing&&S.lastState==='PLAYING'&&S.queue.length&&S.queueIdx<S.queue.length-1&&!S.nowPlaying?.external){
         setTimeout(()=>{
           api(`/api/status?device_ip=${S.device.ip}`).then(s2=>{
-            if(s2.state!=='PLAYING'){
-              document.getElementById('btn-next').click();
-            }
+            if(s2.state!=='PLAYING') document.getElementById('btn-next').click();
           });
         },1500);
       }
@@ -2297,10 +2335,10 @@ function startPoll() {
       const cls='status-dot'+(s.state==='PLAYING'?' playing':s.state==='PAUSED_PLAYBACK'?' paused':'');
       document.getElementById('status-dot').className=cls;
       document.getElementById('bar-dot').className=cls;
-      // Progress + sync vis audio to Sonos position
+      // Progress
       if(s.position&&s.duration){
-        const posSec = toSec(s.position);
-        updateProgress(posSec, toSec(s.duration));
+        const posSec=toSec(s.position);
+        updateProgress(posSec,toSec(s.duration));
         syncVisToSonos(posSec);
       }
       // Volume sync
