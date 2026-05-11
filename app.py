@@ -726,14 +726,20 @@ def control():
         if action == "play":   coordinator.play()
         elif action == "pause": coordinator.pause()
         elif action == "volume":
-            vol = max(0, min(100, int(data.get("value", 50))))
-            # Set volume on all members of the group so the slider controls the room
-            if zone.group:
-                for member in zone.group.members:
-                    try: member.volume = vol
+            new_avg = max(1, min(100, int(data.get("value", 50))))
+            if zone.group and len(zone.group.members) > 1:
+                members = list(zone.group.members)
+                vols    = []
+                for m in members:
+                    try: vols.append(m.volume)
+                    except Exception: vols.append(new_avg)
+                cur_avg = sum(vols) / len(vols) if vols else new_avg
+                ratio   = new_avg / cur_avg if cur_avg > 0 else 1.0
+                for m, v in zip(members, vols):
+                    try: m.volume = max(0, min(100, round(v * ratio)))
                     except Exception: pass
             else:
-                zone.volume = vol
+                zone.volume = max(0, min(100, new_avg))
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
@@ -767,13 +773,23 @@ def status():
         elif "/stream/" in uri:
             uri_id = uri.split("/stream/")[-1].split("?")[0]
 
+        # Report group-average volume so the main slider reflects the whole group
+        if zone.group and len(zone.group.members) > 1:
+            vols = []
+            for m in zone.group.members:
+                try: vols.append(m.volume)
+                except Exception: pass
+            volume = round(sum(vols) / len(vols)) if vols else zone.volume
+        else:
+            volume = zone.volume
+
         return jsonify({
             "state":     transport.get("current_transport_state", "STOPPED"),
             "title":     track.get("title", ""),
             "artist":    track.get("artist", ""),
             "position":  track.get("position", "0:00:00"),
             "duration":  track.get("duration", "0:00:00"),
-            "volume":    zone.volume,
+            "volume":    volume,
             "thumbnail": thumbnail,
             "uri_id":    uri_id,
         })
