@@ -1517,7 +1517,7 @@ function drawIdle(c, w, h) {
   ctx2d.clearRect(0,0,w,h);
   // Only draw center canvas when player view is active and fullscreen overlay is not open
   if(S.currentView!=='player'||document.getElementById('view-visualizer').classList.contains('active')) return;
-  if(!S.analyser||!S.playing){drawIdle(ctx2d,w,h);return;}
+  if(!S.analyser||!S.playing||!audioEl.src){drawIdle(ctx2d,w,h);return;}
   const freq=new Uint8Array(S.analyser.frequencyBinCount);
   const time=new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq); S.analyser.getByteTimeDomainData(time);
@@ -1537,7 +1537,7 @@ const ctxRooms = canvasRooms.getContext('2d');
   if(canvasRooms.width!==w||canvasRooms.height!==h){canvasRooms.width=w;canvasRooms.height=h;}
   ctxRooms.clearRect(0,0,w,h);
   if(S.currentView!=='rooms') return;
-  if(!S.analyser||!S.playing){drawIdle(ctxRooms,w,h);return;}
+  if(!S.analyser||!S.playing||!audioEl.src){drawIdle(ctxRooms,w,h);return;}
   const freq=new Uint8Array(S.analyser.frequencyBinCount);
   const time=new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq); S.analyser.getByteTimeDomainData(time);
@@ -2494,7 +2494,7 @@ function syncVisOverlayTrack() {
   if (!visOverlay.classList.contains('active')) return;
   const w = canvasFull.width, h = canvasFull.height;
   ctxFull.clearRect(0, 0, w, h);
-  if (!S.analyser || !S.playing) { drawIdle(ctxFull, w, h); return; }
+  if (!S.analyser || !S.playing || !audioEl.src) { drawIdle(ctxFull, w, h); return; }
   const freq = new Uint8Array(S.analyser.frequencyBinCount);
   const time = new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq);
