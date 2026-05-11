@@ -215,6 +215,19 @@ input[type=range]::-webkit-slider-thumb {
 .vis-track-artist { font-size:10px; color:var(--text2); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150px; }
 .vis-controls { flex:1; display:flex; align-items:center; justify-content:center; gap:8px; }
 .vis-right { display:flex; align-items:center; gap:10px; min-width:200px; justify-content:flex-end; flex-shrink:0; }
+/* Screensaver mode — bar fades out, cursor hides */
+#view-visualizer.screensaver .vis-fullscreen-bar {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+#view-visualizer.screensaver {
+  cursor: none;
+}
+#view-visualizer .vis-fullscreen-bar {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
 .vis-exit-btn {
   background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
   border-radius: 8px; color: var(--text2); padding: 6px 12px;
@@ -1015,6 +1028,13 @@ input[type=range]::-webkit-slider-thumb {
         <button class="vis-btn" data-mode="circle">Circle</button>
         <button class="vis-btn" data-mode="orbit">Orbit</button>
         <button class="vis-btn" data-mode="tunnel">Tunnel</button>
+        <button class="vis-btn" data-mode="plasma">Plasma</button>
+        <button class="vis-btn" data-mode="stars">Stars</button>
+        <button class="vis-btn" data-mode="fire">Fire</button>
+        <button class="vis-btn" data-mode="scope">Scope</button>
+        <button class="vis-btn" data-mode="helix">Helix</button>
+        <button class="vis-btn" data-mode="lava">Lava</button>
+        <button class="vis-btn" data-mode="rings">Rings</button>
       </div>
       <div style="display:flex;align-items:center;gap:6px;">
         <span style="font-size:11px;color:var(--text3);">🔊</span>
@@ -3276,9 +3296,29 @@ document.getElementById('btn-open-visualizer').addEventListener('click', () => {
 // Close fullscreen — restore nav highlight for previous view
 document.getElementById('btn-close-visualizer').addEventListener('click', () => {
   visOverlay.classList.remove('active');
-  // Restore nav active state
+  visOverlay.classList.remove('screensaver');
   document.querySelector(`[data-view="${S.currentView}"]`)?.classList.add('active');
 });
+
+// ── Screensaver: hide the bar after 20s of no mouse input ─────────────────
+let _ssTimer = null;
+function _ssReset() {
+  // Wake: show bar, reset cursor, clear pending timer
+  visOverlay.classList.remove('screensaver');
+  clearTimeout(_ssTimer);
+  // Only arm the timer when the visualizer is actually open
+  if (!visOverlay.classList.contains('active')) return;
+  _ssTimer = setTimeout(() => {
+    visOverlay.classList.add('screensaver');
+  }, 20000);
+}
+// Wire to mouse activity on the overlay
+visOverlay.addEventListener('mousemove',  _ssReset);
+visOverlay.addEventListener('mousedown',  _ssReset);
+visOverlay.addEventListener('touchstart', _ssReset, {passive:true});
+visOverlay.addEventListener('keydown',    _ssReset);
+// Arm the timer whenever the visualizer opens
+document.getElementById('btn-open-visualizer').addEventListener('click', _ssReset);
 
 // Sync track info panel inside fullscreen
 function syncVisOverlayTrack() {
