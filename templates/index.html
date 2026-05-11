@@ -1710,12 +1710,13 @@ function renderSidebarRooms() {
     // Tag so main slider can find it by IP
     slider.dataset.roomIp = room.ip;
     slider.addEventListener('input',function(){
-      label.textContent=this.value;
-      // Update S.rooms so updateMainVolFromRooms() has fresh per-speaker data
-      const sr=S.rooms.find(r=>r.ip===room.ip); if(sr) sr.volume=parseInt(this.value);
+      const vol=parseInt(this.value);
+      // Update S.rooms + sync ALL sliders for this room (sidebar + speaker cards)
+      const sr=S.rooms.find(r=>r.ip===room.ip); if(sr) sr.volume=vol;
+      syncRoomSlider(room.ip, vol);
       updateMainVolFromRooms();
       clearTimeout(slider._t);
-      slider._t=setTimeout(()=>api('/api/rooms/volume',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ip:room.ip,volume:this.value})}),200);
+      slider._t=setTimeout(()=>api('/api/rooms/volume',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ip:room.ip,volume:vol})}),200);
     });
     el.appendChild(volRow);
   });
@@ -1797,13 +1798,14 @@ function renderSpeakerCards() {
     const volSlider = card.querySelector('input[type=range]');
     const volLabel  = card.querySelector('.vol-label');
     volSlider.addEventListener('input', function(){
-      volLabel.textContent = this.value;
-      // Update S.rooms so updateMainVolFromRooms() has fresh per-speaker data
-      const sr=S.rooms.find(r=>r.ip===room.ip); if(sr) sr.volume=parseInt(this.value);
+      const vol=parseInt(this.value);
+      // Update S.rooms + sync ALL sliders for this room (sidebar + speaker cards)
+      const sr=S.rooms.find(r=>r.ip===room.ip); if(sr) sr.volume=vol;
+      syncRoomSlider(room.ip, vol);
       updateMainVolFromRooms();
       clearTimeout(volSlider._t);
       volSlider._t=setTimeout(()=>api('/api/rooms/volume',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({ip:room.ip,volume:this.value})}),200);
+        body:JSON.stringify({ip:room.ip,volume:vol})}),200);
     });
 
     // Checkbox for grouping
@@ -2360,7 +2362,21 @@ function getGroupRooms() {
   return grouped;
 }
 
-// Apply proportional scaling to S.rooms for grouped speakers and sync sidebar sliders.
+// Sync every slider (sidebar + speaker cards) and its label for a given room IP.
+// Both panels use data-room-ip but querySelector only finds the first — this hits all.
+function syncRoomSlider(ip, vol) {
+  document.querySelectorAll(`input[data-room-ip="${ip}"]`).forEach(sl => {
+    sl.value = vol;
+    // sidebar label: span:last-child inside .room-vol-row
+    const sidebarLb = sl.closest('.room-vol-row')?.querySelector('span:last-child');
+    if(sidebarLb) sidebarLb.textContent = vol;
+    // speaker-card label: .vol-label inside .speaker-card-vol
+    const cardLb = sl.closest('.speaker-card-vol')?.querySelector('.vol-label');
+    if(cardLb) cardLb.textContent = vol;
+  });
+}
+
+// Apply proportional scaling to S.rooms for grouped speakers and sync ALL sliders.
 // oldVol → newVol defines the ratio; updates S.rooms[x].volume in place.
 function applyGroupVolume(oldVol, newVol) {
   const groupRooms = getGroupRooms();
@@ -2368,13 +2384,7 @@ function applyGroupVolume(oldVol, newVol) {
   const ratio = oldVol > 0 ? newVol / oldVol : 1;
   groupRooms.forEach(r=>{
     r.volume = Math.max(0, Math.min(100, Math.round(r.volume * ratio)));
-    // Sync the sidebar slider + label for every grouped room
-    const sl = document.querySelector(`input[data-room-ip="${r.ip}"]`);
-    if(sl){
-      sl.value = r.volume;
-      const lb = sl.closest('.room-vol-row')?.querySelector('span:last-child');
-      if(lb) lb.textContent = r.volume;
-    }
+    syncRoomSlider(r.ip, r.volume);
   });
   return true;
 }
@@ -2407,15 +2417,11 @@ function bindVol(sliderId, labelId) {
     document.getElementById(other).value=newVol;
     document.getElementById(otherLb).textContent=newVol;
     const visVol=document.getElementById('vis-vol'); if(visVol) visVol.value=newVol;
-    // Proportional group scaling (updates S.rooms + sidebar sliders)
-    // or single-speaker sidebar sync
+    // Proportional group scaling (updates S.rooms + all room sliders)
+    // or single-speaker sync across all panels
     if(!applyGroupVolume(oldVol, newVol) && S.device){
-      const roomSlider=document.querySelector(`input[data-room-ip="${S.device.ip}"]`);
-      if(roomSlider){
-        roomSlider.value=newVol;
-        const roomLabel=roomSlider.closest('.room-vol-row')?.querySelector('span:last-child');
-        if(roomLabel) roomLabel.textContent=newVol;
-      }
+      const sr=S.rooms.find(r=>r.ip===S.device.ip); if(sr) sr.volume=newVol;
+      syncRoomSlider(S.device.ip, newVol);
     }
     clearTimeout(volT);
     volT=setTimeout(sendVolume, 200);
