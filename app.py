@@ -669,6 +669,9 @@ def _build_ytm_client_from_cookies():
         if hasattr(ytm, 'headers') and isinstance(ytm.headers, dict):
             ytm.headers.update(injected)
 
+        # DEBUG: show what attrs ytmusicapi exposes so we know where headers live
+        attrs = [a for a in dir(ytm) if not a.startswith('__') and not callable(getattr(ytm, a, None))]
+        print(f"  [ytm attrs] {attrs}")
         print("  ✓ YouTube Music connected via Chrome cookies")
         return ytm
     except Exception as e:
