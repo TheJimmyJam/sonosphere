@@ -3321,7 +3321,7 @@ function _ssReset() {
   if (!visOverlay.classList.contains('active')) return;
   _ssTimer = setTimeout(() => {
     visOverlay.classList.add('screensaver');
-  }, 20000);
+  }, 10000);
 }
 // Wire to mouse activity on the overlay
 visOverlay.addEventListener('mousemove',  _ssReset);
