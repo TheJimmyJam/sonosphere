@@ -609,7 +609,13 @@ def _init_ytm_oauth():
             print("  Skipped — you can re-run setup by deleting ytm_oauth.json")
             return
         print()
-        YTMusic.setup_oauth(filepath=oauth_file, open_browser=True)
+        # setup_oauth moved from classmethod (ytmusicapi 0.x) to module-level (ytmusicapi 1.x)
+        try:
+            from ytmusicapi import setup_oauth as _setup_oauth
+            _setup_oauth(filepath=oauth_file, open_browser=True)
+        except ImportError:
+            # Fallback for older ytmusicapi 0.x
+            YTMusic.setup_oauth(filepath=oauth_file, open_browser=True)
         print("  ✓ YouTube Music authenticated!")
     except Exception as e:
         print(f"  ⚠ YouTube Music setup failed: {e}")
