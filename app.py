@@ -514,6 +514,8 @@ def _get_stream_url(video_id):
     """
     Extract a direct YouTube audio stream URL via yt-dlp (no download).
     Caches result for 5 hours (YouTube URLs expire after ~6h).
+    Uses the exported cookie file — cookiesfrombrowser can fail inside Flask on macOS
+    because it can't access the Keychain outside of a Terminal session.
     """
     now = time.time()
     with _stream_cache_lock:
@@ -521,17 +523,35 @@ def _get_stream_url(video_id):
         if cached and cached["expires"] > now:
             return cached["url"], cached["mime"]
 
-    opts = {
+    base = {
         "format": "bestaudio/best",
         "quiet": True,
         "no_warnings": True,
-        "cookiesfrombrowser": ("chrome",),
-        "extractor_args": {"youtube": {"player_client": ["tv_embedded", "android", "web"]}},
     }
-    with yt_dlp.YoutubeDL(opts) as ydl:
-        info = ydl.extract_info(
-            f"https://www.youtube.com/watch?v={video_id}", download=False
-        )
+    # Prefer the pre-exported cookie file; fall back to live browser read
+    if os.path.exists(_COOKIE_FILE) and os.path.getsize(_COOKIE_FILE) > 100:
+        base["cookiefile"] = _COOKIE_FILE
+    else:
+        base["cookiesfrombrowser"] = ("chrome",)
+
+    # Try clients in order — tv_embedded bypasses PO token requirement
+    last_err = None
+    info = None
+    for clients in (["tv_embedded"], ["android"], ["web_creator"], ["web"]):
+        opts = {**base, "extractor_args": {"youtube": {"player_client": clients}}}
+        try:
+            with yt_dlp.YoutubeDL(opts) as ydl:
+                info = ydl.extract_info(
+                    f"https://www.youtube.com/watch?v={video_id}", download=False
+                )
+            if info:
+                break
+        except Exception as e:
+            last_err = e
+            continue
+
+    if not info:
+        raise Exception(last_err or "Could not extract stream URL")
 
     # Get best audio format
     fmt = None
