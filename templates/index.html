@@ -2168,12 +2168,36 @@ visVolSlider.addEventListener('input', function() {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
+// QUEUE RESTORE
+// ═══════════════════════════════════════════════════════════════════════════
+async function restoreQueue() {
+  try {
+    const data = await api('/api/queue');
+    if (!data.queue?.length) return;
+    S.queue    = data.queue;
+    S.queueIdx = data.current ?? -1;
+    renderQueue();
+    renderRoomsQueue();
+    // Restore now-playing display if there's a current track
+    if (S.queueIdx >= 0 && S.queue[S.queueIdx]) {
+      const t = S.queue[S.queueIdx];
+      updateNowPlaying(t);
+      // Don't auto-play — just restore the visual state
+      S.playing = false;
+      updatePP();
+    }
+    if (data.queue.length) toast(`Queue restored (${data.queue.length} tracks)`);
+  } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════════════════════
 loadDevices();
 loadLibrary();
 showView('player');
 loadSkinsFromServer();
+restoreQueue();
 </script>
 </body>
 </html>

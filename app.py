@@ -28,6 +28,31 @@ download_lock   = threading.Lock()
 play_queue      = []   # list of track dicts
 play_queue_idx  = -1   # current position
 queue_lock      = threading.Lock()
+QUEUE_STATE_FILE = LIBRARY_DIR / ".queue_state.json"
+
+def save_queue_state():
+    """Persist queue + current index to disk (called after every mutation)."""
+    try:
+        QUEUE_STATE_FILE.write_text(json.dumps(
+            {"queue": play_queue, "current": play_queue_idx}, indent=2
+        ))
+    except Exception:
+        pass
+
+def load_queue_state():
+    """Restore queue from disk at startup."""
+    global play_queue, play_queue_idx
+    if not QUEUE_STATE_FILE.exists():
+        return
+    try:
+        state = json.loads(QUEUE_STATE_FILE.read_text())
+        with queue_lock:
+            play_queue  = state.get("queue", [])
+            play_queue_idx = state.get("current", -1)
+        if play_queue:
+            print(f"  ✓ Queue restored: {len(play_queue)} tracks (position {play_queue_idx})")
+    except Exception as e:
+        print(f"  ⚠ Could not restore queue: {e}")
 
 # ── ytmusicapi client (lazy init) ─────────────────────────────────────────────
 _ytm_client     = None
@@ -520,6 +545,7 @@ def play():
                 if t.get("id") == video_id:
                     play_queue_idx = i
                     break
+        save_queue_state()
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
@@ -729,6 +755,7 @@ def queue_add():
         return jsonify({"success": False, "error": "Missing id"})
     with queue_lock:
         play_queue.append(track)
+    save_queue_state()
     return jsonify({"success": True, "queue": play_queue, "current": play_queue_idx})
 
 
@@ -744,6 +771,7 @@ def queue_next():
         track = play_queue[play_queue_idx]
     if device_ip:
         _play_track_on_sonos(track, device_ip)
+    save_queue_state()
     return jsonify({"success": True, "track": track, "current": play_queue_idx})
 
 
@@ -759,6 +787,7 @@ def queue_prev():
         track = play_queue[play_queue_idx]
     if device_ip:
         _play_track_on_sonos(track, device_ip)
+    save_queue_state()
     return jsonify({"success": True, "track": track, "current": play_queue_idx})
 
 
@@ -775,6 +804,7 @@ def queue_jump():
         track = play_queue[play_queue_idx]
     if device_ip:
         _play_track_on_sonos(track, device_ip)
+    save_queue_state()
     return jsonify({"success": True, "track": track, "current": play_queue_idx})
 
 
@@ -789,6 +819,7 @@ def queue_remove():
         play_queue.pop(idx)
         if play_queue_idx >= idx:
             play_queue_idx = max(play_queue_idx - 1, -1)
+    save_queue_state()
     return jsonify({"success": True, "queue": play_queue, "current": play_queue_idx})
 
 
@@ -798,6 +829,7 @@ def queue_clear():
     with queue_lock:
         play_queue.clear()
         play_queue_idx = -1
+    save_queue_state()
     return jsonify({"success": True})
 
 
@@ -816,6 +848,7 @@ def queue_shuffle():
             play_queue_idx = 0
         else:
             random.shuffle(play_queue)
+    save_queue_state()
     return jsonify({"success": True, "queue": play_queue, "current": play_queue_idx})
 
 
@@ -884,6 +917,7 @@ def _init_pytubefix_oauth():
 if __name__ == "__main__":
     print(f"\n  ♪  Sonosphere")
     print(f"  Library: {LIBRARY_DIR}")
+    load_queue_state()
     _init_cookies()
     print()
     _init_pytubefix_oauth()
