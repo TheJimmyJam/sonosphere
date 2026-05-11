@@ -83,8 +83,11 @@ body {
 .traffic:hover  { filter: brightness(1.2); }
 .topbar-title {
   position: absolute; left: 50%; transform: translateX(-50%);
-  font-size: 13px; font-weight: 600; color: var(--text2);
-  letter-spacing: 0.02em; pointer-events: none;
+  display: flex; align-items: center; pointer-events: none;
+}
+.topbar-logo {
+  height: 32px; width: auto;
+  filter: drop-shadow(0 0 6px rgba(124,58,237,0.5));
 }
 .topbar-right {
   margin-left: auto; display: flex; align-items: center; gap: 10px;
@@ -551,7 +554,7 @@ input[type=range]::-webkit-slider-thumb {
       <div class="traffic min"></div>
       <div class="traffic max"></div>
     </div>
-    <div class="topbar-title">Sonosphere</div>
+    <div class="topbar-title"><img class="topbar-logo" src="/assets/sonosphere good.png" alt="Sonosphere"/></div>
     <div class="topbar-right">
       <div class="vol-wrap">
         <span class="vol-icon">🔊</span>
