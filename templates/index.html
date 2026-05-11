@@ -1727,9 +1727,9 @@ function drawHelix(c,f,w,h){
   const cy=h/2,amp=Math.min(w,h)*.22,n=100,rN=20;
   for(let s=0;s<2;s++){
     c.beginPath();
-    for(let i=0;i<=n;i++){const t=i/n,fv=f[Math.floor(t*f.length)]/255,x=t*w,y=cy+Math.sin(t*Math.PI*4+_hT+s*Math.PI)*amp*(.6+fv*.8);i===0?c.moveTo(x,y):c.lineTo(x,y);}
+    for(let i=0;i<=n;i++){const t=i/n,fv=f[Math.min(f.length-1,Math.floor(t*f.length))]/255,x=t*w,y=cy+Math.sin(t*Math.PI*4+_hT+s*Math.PI)*amp*(.6+fv*.8);i===0?c.moveTo(x,y):c.lineTo(x,y);}
     const hue=s===0?262:188;const g=c.createLinearGradient(0,0,w,0);
-    for(let i=0;i<=6;i++){const fv=f[Math.floor(i/6*f.length)]/255;g.addColorStop(i/6,`hsla(${hue+i*9},88%,${52+fv*22}%,${.6+fv*.4})`);}
+    for(let i=0;i<=6;i++){const fv=f[Math.min(f.length-1,Math.floor(i/6*f.length))]/255;g.addColorStop(i/6,`hsla(${hue+i*9},88%,${52+fv*22}%,${.6+fv*.4})`);}
     c.strokeStyle=g;c.lineWidth=3;c.shadowBlur=14;c.shadowColor=`hsl(${hue},80%,65%)`;c.stroke();c.shadowBlur=0;
   }
   for(let i=0;i<rN;i++){
