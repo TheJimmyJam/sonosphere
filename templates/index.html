@@ -787,7 +787,7 @@ input[type=range]::-webkit-slider-thumb {
     <div class="right-panel" id="right-panel">
       <div class="right-panel-header">
         <div>
-          <div class="right-panel-title">Up Next</div>
+          <div class="right-panel-title">Queue</div>
         </div>
         <div class="right-panel-actions">
           <button class="btn ghost" id="btn-shuffle" title="Shuffle">🔀</button>
@@ -2245,6 +2245,17 @@ function updateNowPlaying(t) {
 
 async function playTrack(t) {
   if(!S.device){toast('Select a speaker first',true);return;}
+  // Add to queue if not already in it
+  const existingIdx = S.queue.findIndex(q=>q.id===t.id);
+  if(existingIdx>=0){
+    S.queueIdx=existingIdx;
+  } else {
+    const track={id:t.id,title:t.title,artist:t.artist||'',duration:t.duration||'',thumbnail:t.thumbnail||''};
+    S.queue.push(track);
+    S.queueIdx=S.queue.length-1;
+    await api('/api/queue/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(track)});
+  }
+  renderQueue(); renderRoomsQueue();
   updateNowPlaying(t);
   toast(`▶  ${t.title}`);
   const res=await api('/api/play',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,...t})});
