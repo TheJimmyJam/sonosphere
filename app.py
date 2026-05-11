@@ -1103,6 +1103,30 @@ def queue_clear():
     return jsonify({"success": True})
 
 
+@app.route("/api/queue/reorder", methods=["POST"])
+def queue_reorder():
+    global play_queue_idx
+    data = request.json or {}
+    from_idx = data.get("from")
+    to_idx   = data.get("to")
+    with queue_lock:
+        if from_idx is None or to_idx is None:
+            return jsonify({"success": False, "error": "Missing from/to"})
+        if not (0 <= from_idx < len(play_queue)) or not (0 <= to_idx < len(play_queue)):
+            return jsonify({"success": False, "error": "Index out of range"})
+        moved = play_queue.pop(from_idx)
+        play_queue.insert(to_idx, moved)
+        # Keep current index tracking correct
+        if play_queue_idx == from_idx:
+            play_queue_idx = to_idx
+        elif from_idx < play_queue_idx <= to_idx:
+            play_queue_idx -= 1
+        elif from_idx > play_queue_idx >= to_idx:
+            play_queue_idx += 1
+    save_queue_state()
+    return jsonify({"success": True, "queue": play_queue, "current": play_queue_idx})
+
+
 @app.route("/api/queue/shuffle", methods=["POST"])
 def queue_shuffle():
     global play_queue_idx
