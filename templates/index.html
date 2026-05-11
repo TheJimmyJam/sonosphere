@@ -1564,15 +1564,23 @@ function renderSidebarRooms() {
   S.rooms.forEach(room => {
     const isActive = S.device?.ip===room.ip;
     const isPlaying = room.state==='PLAYING';
+    // Non-coordinator members of a group report the coordinator's playing state —
+    // show "Grouped" so the user knows only the coordinator is the actual source.
+    const isCoord = room.isCoord !== false;
+    const coordName = (!isCoord && room.group?.length) ? room.group[0] : null;
+    const subLabel = isPlaying
+      ? (isCoord ? 'Playing' : `Grouped with ${coordName||'group'}`)
+      : 'Ready';
+    const icon = isPlaying ? (isCoord ? '🔊' : '🔗') : '🔈';
     const item=document.createElement('div');
     item.className='room-item'+(isActive?' active':'');
     item.innerHTML=`
-      <span class="room-icon">${room.state==='PLAYING'?'🔊':'🔈'}</span>
+      <span class="room-icon">${icon}</span>
       <div class="room-info">
         <div class="room-name">${esc(room.name)}</div>
-        <div class="room-sub">${room.state==='PLAYING'?'Playing':'Ready'}</div>
+        <div class="room-sub">${subLabel}</div>
       </div>
-      ${isPlaying?'<div class="room-bars"><div class="room-bar"></div><div class="room-bar"></div><div class="room-bar"></div></div>':''}`;
+      ${isPlaying && isCoord?'<div class="room-bars"><div class="room-bar"></div><div class="room-bar"></div><div class="room-bar"></div></div>':''}`;
     item.addEventListener('click', ()=>{
       S.device={ip:room.ip,name:room.name};
       document.getElementById('device-select').value=room.ip;
