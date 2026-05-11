@@ -401,6 +401,18 @@ input[type=range]::-webkit-slider-thumb {
 .track-actions { display: flex; gap: 4px; flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
 .track-card:hover .track-actions { opacity: 1; }
 
+/* ── SOURCE TOGGLE (YouTube / Spotify in search) ────────────────────────── */
+.source-toggle { display: flex; gap: 6px; margin-bottom: 10px; }
+.source-tab {
+  flex: 1; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border2);
+  background: var(--bg3); color: var(--text2); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; text-align: center;
+}
+.source-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.source-tab:hover:not(.active) { border-color: var(--accent2); color: var(--text); }
+/* Spotify green badge */
+.sp-badge { display:inline-block; width:8px; height:8px; border-radius:50%; background:#1DB954; margin-right:4px; }
+
 /* ── PLAYLIST GRID ───────────────────────────────────────────────────────── */
 .playlist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
 .playlist-card {
@@ -674,7 +686,8 @@ input[type=range]::-webkit-slider-thumb {
           </div>
           <div style="display:flex;gap:6px;">
             <button class="btn ghost" id="btn-ytm-back" style="display:none">← Back</button>
-            <button class="btn" id="btn-show-ytm">YouTube Music ↗</button>
+            <button class="btn" id="btn-show-ytm">YouTube ↗</button>
+            <button class="btn" id="btn-show-spotify" style="background:rgba(29,185,84,0.15);border-color:rgba(29,185,84,0.4);color:#1DB954;">🎵 Spotify</button>
           </div>
         </div>
         <!-- Library -->
@@ -701,12 +714,45 @@ input[type=range]::-webkit-slider-thumb {
         <div id="browse-ytm-tracks" style="display:none;">
           <div class="track-list" id="ytm-track-list"></div>
         </div>
+        <!-- Spotify: not connected -->
+        <div id="browse-spotify-connect" style="display:none;">
+          <div class="empty" style="height:180px;">
+            <div class="icon" style="font-size:36px;margin-bottom:12px;">🎵</div>
+            <p style="margin-bottom:16px;color:var(--text2);">Connect your Spotify account to browse playlists and liked songs.</p>
+            <button class="btn primary" id="btn-spotify-connect" style="background:#1DB954;border-color:#1DB954;">Connect Spotify</button>
+          </div>
+        </div>
+        <!-- Spotify playlists -->
+        <div id="browse-spotify" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <p class="section-label" style="margin-bottom:0">Your Playlists</p>
+            <button class="btn ghost" id="btn-spotify-disconnect" style="font-size:10px;color:var(--text3);">Disconnect</button>
+          </div>
+          <div class="playlist-grid" id="spotify-playlist-grid">
+            <div class="loading-row" style="grid-column:1/-1"><div class="spinner"></div></div>
+          </div>
+          <div style="margin-top:18px;">
+            <p class="section-label" style="margin-bottom:8px">Liked Songs</p>
+            <div class="playlist-card" id="spotify-liked-btn" style="display:flex;align-items:center;gap:12px;padding:12px;">
+              <div style="font-size:28px;">💚</div>
+              <div><div class="playlist-title">Liked Songs</div><div class="playlist-count">Your saved tracks</div></div>
+            </div>
+          </div>
+        </div>
+        <!-- Spotify track list -->
+        <div id="browse-spotify-tracks" style="display:none;">
+          <div class="track-list" id="spotify-track-list"></div>
+        </div>
       </div>
 
       <!-- SEARCH VIEW -->
       <div class="view" id="view-search" style="flex-direction:column;">
         <div class="view-header">
-          <div><div class="view-title">Search</div><div class="view-subtitle">Search YouTube Music</div></div>
+          <div><div class="view-title">Search</div><div id="search-source-label" class="view-subtitle">YouTube</div></div>
+        </div>
+        <div class="source-toggle">
+          <div class="source-tab active" id="src-yt">YouTube</div>
+          <div class="source-tab" id="src-sp">🎵 Spotify</div>
         </div>
         <div class="search-bar-wrap">
           <input type="text" id="search-input" placeholder="Artist, song, album…" autocomplete="off"/>
@@ -1993,9 +2039,154 @@ function makeYTMCard(t,num) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// SPOTIFY
+// ═══════════════════════════════════════════════════════════════════════════
+let _spLoaded = false;
+
+// Extend showBrowseMode to handle Spotify panels
+const _origShowBrowseMode = showBrowseMode;
+showBrowseMode = function(mode) {
+  _origShowBrowseMode(mode);
+  const spConnect = document.getElementById('browse-spotify-connect');
+  const spBrowse  = document.getElementById('browse-spotify');
+  const spTracks  = document.getElementById('browse-spotify-tracks');
+  spConnect.style.display = mode==='spotify-connect' ? '' : 'none';
+  spBrowse.style.display  = mode==='spotify'         ? '' : 'none';
+  spTracks.style.display  = mode==='spotify-tracks'  ? '' : 'none';
+  // hide YTM button when in Spotify modes
+  const spModes = ['spotify-connect','spotify','spotify-tracks'];
+  document.getElementById('btn-show-spotify').style.display = spModes.includes(mode) ? 'none' : '';
+  document.getElementById('btn-ytm-back').style.display =
+    (mode !== 'library') ? '' : 'none';
+  if(spModes.includes(mode)) {
+    document.getElementById('browse-title').textContent =
+      mode==='spotify' ? '🎵 Spotify' : mode==='spotify-connect' ? 'Spotify' : '';
+    document.getElementById('btn-show-ytm').style.display = 'none';
+  }
+};
+
+async function initSpotify() {
+  const data = await api('/auth/spotify/status');
+  if(data.connected) {
+    showBrowseMode('spotify');
+    if(!_spLoaded) loadSpotifyPlaylists();
+  } else {
+    showBrowseMode('spotify-connect');
+  }
+}
+
+document.getElementById('btn-show-spotify').addEventListener('click', initSpotify);
+document.getElementById('btn-ytm-back').addEventListener('click', ()=>{
+  const spModes = ['spotify-connect','spotify','spotify-tracks'];
+  if(spModes.includes(_browseMode)) showBrowseMode('library');
+});
+
+document.getElementById('btn-spotify-connect').addEventListener('click', ()=>{
+  window.location.href = '/auth/spotify';
+});
+document.getElementById('btn-spotify-disconnect').addEventListener('click', async ()=>{
+  await api('/auth/spotify/disconnect', {method:'POST'});
+  _spLoaded = false;
+  showBrowseMode('spotify-connect');
+  toast('Spotify disconnected');
+});
+
+// Handle ?spotify=connected redirect from OAuth callback
+if(new URLSearchParams(window.location.search).get('spotify') === 'connected') {
+  history.replaceState({}, '', '/');
+  showView('browse');
+  showBrowseMode('spotify');
+  loadSpotifyPlaylists();
+  toast('Spotify connected! 🎵');
+}
+
+async function loadSpotifyPlaylists() {
+  _spLoaded = true;
+  const grid = document.getElementById('spotify-playlist-grid');
+  grid.innerHTML = '<div class="loading-row" style="grid-column:1/-1"><div class="spinner"></div></div>';
+  const data = await api('/api/spotify/playlists');
+  grid.innerHTML = '';
+  if(data.error === 'not_connected') { showBrowseMode('spotify-connect'); return; }
+  if(!data.playlists?.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><p>No playlists found</p></div>'; return;
+  }
+  data.playlists.forEach(p => {
+    const card = document.createElement('div'); card.className = 'playlist-card';
+    card.innerHTML = `
+      <img class="playlist-thumb" src="${p.thumbnail||BLANK}" alt="" onerror="this.src='${BLANK}'"/>
+      <div class="playlist-title">${esc(p.title)}</div>
+      <div class="playlist-count">${p.count ? p.count+' songs' : ''}</div>`;
+    card.addEventListener('click', ()=>loadSpotifyPlaylist(p.id, p.title));
+    grid.appendChild(card);
+  });
+  document.getElementById('spotify-liked-btn').onclick = loadSpotifyLiked;
+}
+
+async function loadSpotifyPlaylist(id, title) {
+  showBrowseMode('spotify-tracks');
+  document.getElementById('browse-title').textContent = title;
+  const list = document.getElementById('spotify-track-list');
+  list.innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
+  const data = await api(`/api/spotify/playlist/${id}`);
+  list.innerHTML = '';
+  (data.tracks||[]).forEach((t,i) => list.appendChild(makeSpotifyCard(t, i+1)));
+}
+
+async function loadSpotifyLiked() {
+  showBrowseMode('spotify-tracks');
+  document.getElementById('browse-title').textContent = '💚 Liked Songs';
+  const list = document.getElementById('spotify-track-list');
+  list.innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
+  const data = await api('/api/spotify/liked');
+  list.innerHTML = '';
+  (data.tracks||[]).forEach((t,i) => list.appendChild(makeSpotifyCard(t, i+1)));
+}
+
+function makeSpotifyCard(t, num) {
+  const card = document.createElement('div'); card.className = 'track-card'; card.dataset.id = t.id;
+  card.innerHTML = `
+    <span class="track-num">${num||''}</span>
+    <img class="track-thumb" src="${t.thumbnail||BLANK}" alt="" loading="lazy" onerror="this.src='${BLANK}'"/>
+    <div class="track-info">
+      <div class="track-title">${esc(t.title)}</div>
+      <div class="track-artist">${esc(t.artist||'')}</div>
+    </div>
+    <div class="track-dur">${t.duration||''}</div>
+    <div class="track-actions">
+      <button class="btn primary" title="Play">▶</button>
+      <button class="btn add" title="Add to queue">+</button>
+    </div>`;
+  card.querySelector('.btn.primary').addEventListener('click', e=>{ e.stopPropagation(); playTrack(t); });
+  card.querySelector('.btn.add').addEventListener('click', e=>{ e.stopPropagation(); addToQueue(t); });
+  card.addEventListener('click', ()=>playTrack(t));
+  return card;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // SEARCH
 // ═══════════════════════════════════════════════════════════════════════════
 let _lastSearchResults = [];
+let _searchSource = 'youtube'; // 'youtube' | 'spotify'
+
+// Source toggle wiring
+document.getElementById('src-yt').addEventListener('click', ()=>{
+  _searchSource = 'youtube';
+  document.getElementById('src-yt').classList.add('active');
+  document.getElementById('src-sp').classList.remove('active');
+  document.getElementById('search-source-label').textContent = 'YouTube';
+  document.getElementById('search-state').innerHTML='<div class="icon">🎵</div><p>Search for a song</p>';
+  document.getElementById('search-state').style.display='flex';
+  document.getElementById('search-results').style.display='none';
+});
+document.getElementById('src-sp').addEventListener('click', ()=>{
+  _searchSource = 'spotify';
+  document.getElementById('src-sp').classList.add('active');
+  document.getElementById('src-yt').classList.remove('active');
+  document.getElementById('search-source-label').textContent = 'Spotify';
+  document.getElementById('search-state').innerHTML='<div class="icon">🎵</div><p>Search Spotify</p>';
+  document.getElementById('search-state').style.display='flex';
+  document.getElementById('search-results').style.display='none';
+});
 
 async function doSearch(q) {
   q = q || document.getElementById('search-input').value.trim(); if(!q) return;
@@ -2003,17 +2194,27 @@ async function doSearch(q) {
   document.getElementById('search-state').style.display='none';
   document.getElementById('search-results').style.display='none';
   document.getElementById('search-loading').style.display='flex';
-  const data=await api(`/api/search?q=${encodeURIComponent(q)}`);
+  const endpoint = _searchSource==='spotify'
+    ? `/api/spotify/search?q=${encodeURIComponent(q)}`
+    : `/api/search?q=${encodeURIComponent(q)}`;
+  const data = await api(endpoint);
   document.getElementById('search-loading').style.display='none';
+  if(data.error==='not_connected'){
+    document.getElementById('search-state').style.display='flex';
+    document.getElementById('search-state').innerHTML='<div class="icon">🎵</div><p>Connect Spotify first — use the Browse tab.</p>';
+    return;
+  }
   if(!data.results?.length){
     document.getElementById('search-state').style.display='flex';
     document.getElementById('search-state').innerHTML='<div class="icon">🔍</div><p>No results</p>';
     return;
   }
   _lastSearchResults = data.results;
-  document.getElementById('results-label').textContent=`${data.results.length} results for "${q}"`;
+  const src = _searchSource==='spotify' ? '🎵 Spotify' : 'YouTube';
+  document.getElementById('results-label').textContent=`${data.results.length} results · ${src} · "${q}"`;
   const list=document.getElementById('results-list'); list.innerHTML='';
-  data.results.forEach((t,i)=>list.appendChild(makeSearchCard(t,i+1)));
+  const makeCard = _searchSource==='spotify' ? makeSpotifyCard : makeSearchCard;
+  data.results.forEach((t,i)=>list.appendChild(makeCard(t,i+1)));
   document.getElementById('search-results').style.display='';
 }
 
