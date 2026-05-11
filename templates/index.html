@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Sonosphere</title>
 <style>
-/* ── SKIN VARIABLES (overridden per skin) ─────────────────────────────────── */
+/* ── SKIN VARIABLES (defaults — overridden by loaded skin CSS) ───────────── */
 :root {
   --bg:           #09090f;
   --bg2:          #0f0f1a;
@@ -777,9 +777,167 @@ input[type=range]::-webkit-slider-thumb {
 
 <script>
 // ═══════════════════════════════════════════════════════════════════════════
-// SKINS
+// SKINS — loaded dynamically from /api/skins + /skins/<id>/theme.css
 // ═══════════════════════════════════════════════════════════════════════════
-const SKINS = [
+
+// CSS bridge: maps skin CSS variables → app CSS variables
+// Injected once; reads from whatever skin is currently active on :root
+const SKIN_BRIDGE_CSS = `
+  :root {
+    --bg:      var(--app-bg,      #09090f);
+    --bg2:     var(--app-bg-elevated, #0f0f1a);
+    --bg3:     var(--app-bg-elevated, #141425);
+    --panel:   var(--panel-bg,    rgba(12,12,22,0.92));
+    --panel2:  var(--panel-bg-strong, rgba(18,18,30,0.88));
+    --border:  var(--panel-border, rgba(255,255,255,0.07));
+    --border2: var(--panel-border, rgba(255,255,255,0.12));
+    --accent:  var(--accent-primary,   #7c3aed);
+    --accent2: var(--accent-secondary, #a78bfa);
+    --accent3: var(--accent-tertiary,  #06b6d4);
+    --glow:    var(--visualizer-glow,  rgba(124,58,237,0.5));
+    --glow2:   var(--accent-soft,      rgba(167,139,250,0.3));
+    --text:    var(--text-primary,  #f0f0f6);
+    --text2:   var(--text-secondary, rgba(240,240,246,0.55));
+    --text3:   var(--text-muted,    rgba(240,240,246,0.28));
+    --bar-top: var(--visualizer-primary,   rgba(168,85,247,1));
+    --bar-mid: var(--visualizer-secondary, rgba(124,58,237,0.85));
+    --bar-bot: rgba(0,0,0,0);
+    --wave-color:   var(--visualizer-primary, #7c3aed);
+    --playing-bg:   var(--accent-soft,       rgba(124,58,237,0.18));
+    --hover-bg:     var(--button-hover-bg,   rgba(255,255,255,0.06));
+    --green: #22c55e; --red: #ef4444;
+  }
+`;
+const bridgeEl = document.createElement('style');
+bridgeEl.id = 'skin-bridge';
+bridgeEl.textContent = SKIN_BRIDGE_CSS;
+document.head.appendChild(bridgeEl);
+
+// Active skin <link> element
+let skinLinkEl = null;
+
+let SKINS = [];   // populated from /api/skins
+let currentSkin  = localStorage.getItem('sonosphere-skin') || 'neon-pulse';
+
+async function loadSkinsFromServer() {
+  const data = await fetch('/api/skins').then(r => r.json());
+  SKINS = data.skins || [];
+  // Apply saved skin once metadata is loaded
+  await applySkin(currentSkin, false);
+  // If currently on skins view, re-render
+  if (S.currentView === 'skins') renderSkinsGrid(document.querySelector('.skin-filter-btn.active')?.dataset.filter || 'all');
+}
+
+async function applySkin(id, save=true) {
+  const skin = SKINS.find(s => s.id === id) || SKINS[0];
+  if (!skin) return;
+
+  // Swap the <link> tag
+  if (skinLinkEl) skinLinkEl.remove();
+  if (skin.hasCss) {
+    skinLinkEl = document.createElement('link');
+    skinLinkEl.rel = 'stylesheet';
+    skinLinkEl.href = `/skins/${skin.id}/theme.css`;
+    // Wait for CSS to load, then set data-skin so it applies
+    await new Promise(resolve => {
+      skinLinkEl.onload = resolve;
+      skinLinkEl.onerror = resolve;
+      document.head.appendChild(skinLinkEl);
+    });
+  }
+  document.documentElement.setAttribute('data-skin', skin.id);
+
+  currentSkin = skin.id;
+  if (save) localStorage.setItem('sonosphere-skin', skin.id);
+
+  document.querySelectorAll('.skin-card').forEach(c =>
+    c.classList.toggle('active-skin', c.dataset.skinId === skin.id)
+  );
+}
+
+function getCategoryFilters() {
+  const cats = new Set(['all']);
+  SKINS.forEach(s => {
+    if (s.category) cats.add(s.category.toLowerCase().replace(/\s+/g,'-'));
+    (s.tags||[]).forEach(t => cats.add(t.toLowerCase()));
+  });
+  return [...cats];
+}
+
+function renderSkinsGrid(filter='all') {
+  const grid = document.getElementById('skins-grid');
+  grid.innerHTML = '';
+  if (!SKINS.length) {
+    grid.innerHTML = '<div class="empty"><div class="icon">🎨</div><p>Loading skins…</p></div>';
+    return;
+  }
+  const filtered = SKINS.filter(s => {
+    if (filter === 'all') return true;
+    const cat = (s.category||'').toLowerCase().replace(/\s+/g,'-');
+    const tags = (s.tags||[]).map(t=>t.toLowerCase());
+    return cat === filter || tags.includes(filter);
+  });
+
+  filtered.forEach(skin => {
+    const card = document.createElement('div');
+    card.className = 'skin-card' + (skin.id === currentSkin ? ' active-skin' : '');
+    card.dataset.skinId = skin.id;
+    const previewSrc = skin.hasPreview ? `/skins/${skin.id}/preview.svg` : '';
+    card.innerHTML = `
+      <div class="skin-preview" style="background:#111;overflow:hidden;padding:0;align-items:stretch;">
+        ${previewSrc
+          ? `<img src="${previewSrc}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'"/>`
+          : `<div style="flex:1;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.2);font-size:11px;">${skin.name}</div>`
+        }
+      </div>
+      <div class="skin-check">✓</div>
+      <div class="skin-name">${skin.name}</div>
+      <div class="skin-tag">${skin.category||''}</div>`;
+    card.addEventListener('click', async () => {
+      await applySkin(skin.id);
+      renderSkinsGrid(filter);
+      toast(`Skin: ${skin.name}`);
+    });
+    grid.appendChild(card);
+  });
+}
+
+// Populate filter buttons dynamically after skins load
+function renderSkinFilters() {
+  const wrap = document.getElementById('skins-filter');
+  // Collect unique categories
+  const cats = {};
+  SKINS.forEach(s => { if(s.category) cats[s.category] = (cats[s.category]||0)+1; });
+  const sorted = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+
+  wrap.innerHTML = '<button class="skin-filter-btn active" data-filter="all">All</button>';
+  sorted.forEach(([cat, count]) => {
+    const btn = document.createElement('button');
+    btn.className = 'skin-filter-btn';
+    btn.dataset.filter = cat.toLowerCase().replace(/\s+/g,'-');
+    btn.textContent = cat;
+    wrap.appendChild(btn);
+  });
+  wrap.querySelectorAll('.skin-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      wrap.querySelectorAll('.skin-filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSkinsGrid(btn.dataset.filter);
+    });
+  });
+}
+
+// Re-wire filter buttons after dynamic render
+document.getElementById('skins-filter').addEventListener('click', e => {
+  const btn = e.target.closest('.skin-filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.skin-filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSkinsGrid(btn.dataset.filter);
+});
+
+// Legacy hardcoded SKINS kept only so the app isn't blank before server responds
+const SKINS_LEGACY = [
   {
     id:'neon-pulse', name:'Neon Pulse', tags:['neon','dark'],
     preview:{ bg:'#09090f', bars:['#a855f7','#7c3aed','#06b6d4','#8b5cf6','#c026d3'] },
@@ -975,52 +1133,7 @@ const SKINS = [
   },
 ];
 
-let currentSkin = localStorage.getItem('sonosphere-skin') || 'neon-pulse';
-
-function applySkin(id) {
-  const skin = SKINS.find(s => s.id === id) || SKINS[0];
-  const root = document.documentElement;
-  Object.entries(skin.vars).forEach(([k,v]) => root.style.setProperty(k, v));
-  currentSkin = id;
-  localStorage.setItem('sonosphere-skin', id);
-  document.querySelectorAll('.skin-card').forEach(c => {
-    c.classList.toggle('active-skin', c.dataset.skinId === id);
-  });
-}
-
-function renderSkinsGrid(filter='all') {
-  const grid = document.getElementById('skins-grid');
-  grid.innerHTML = '';
-  SKINS.filter(s => filter === 'all' || s.tags.includes(filter)).forEach(skin => {
-    const card = document.createElement('div');
-    card.className = 'skin-card' + (skin.id === currentSkin ? ' active-skin' : '');
-    card.dataset.skinId = skin.id;
-    // Mini preview bars
-    const barsHtml = skin.preview.bars.map((c,i) => {
-      const h = [30,55,80,45,65][i];
-      return `<div class="skin-preview-bar" style="background:${c};height:${h}%;"></div>`;
-    }).join('');
-    card.innerHTML = `
-      <div class="skin-preview" style="background:${skin.preview.bg};">${barsHtml}</div>
-      <div class="skin-check">✓</div>
-      <div class="skin-name">${skin.name}</div>
-      <div class="skin-tag">${skin.tags.join(' · ')}</div>`;
-    card.addEventListener('click', () => { applySkin(skin.id); renderSkinsGrid(filter); toast(`Skin: ${skin.name}`); });
-    grid.appendChild(card);
-  });
-}
-
-document.querySelectorAll('.skin-filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.skin-filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderSkinsGrid(btn.dataset.filter);
-  });
-});
-
-// Apply saved skin on load
-applySkin(currentSkin);
-renderSkinsGrid();
+// (skin system defined above — loaded dynamically from server)
 
 // ═══════════════════════════════════════════════════════════════════════════
 // STATE
@@ -1264,7 +1377,7 @@ function showView(id) {
   S.currentView = id;
   if(id==='browse')  loadLibrary();
   if(id==='rooms')   { loadRooms(); renderRoomsQueue(); }
-  if(id==='skins')   renderSkinsGrid(document.querySelector('.skin-filter-btn.active')?.dataset.filter||'all');
+  if(id==='skins')   { renderSkinFilters(); renderSkinsGrid(document.querySelector('.skin-filter-btn.active')?.dataset.filter||'all'); }
   resizeCanvas();
 }
 document.querySelectorAll('[data-view]').forEach(btn => {
@@ -1820,6 +1933,7 @@ function startPoll() {
 loadDevices();
 loadLibrary();
 showView('player');
+loadSkinsFromServer();
 </script>
 </body>
 </html>
