@@ -741,13 +741,34 @@ def status():
         zone      = soco.SoCo(device_ip)
         track     = zone.get_current_track_info()
         transport = zone.get_current_transport_info()
+
+        # Try to get album art — Sonos returns a URI, may be relative
+        thumbnail = ""
+        art_uri = track.get("album_art", "") or ""
+        if art_uri:
+            if art_uri.startswith("http"):
+                thumbnail = art_uri
+            elif art_uri.startswith("/"):
+                # Relative URI served by the Sonos speaker itself
+                thumbnail = f"http://{device_ip}:1400{art_uri}"
+
+        # Extract YouTube video ID from URI if Sonosphere served this track
+        uri = track.get("uri", "")
+        uri_id = ""
+        if "/audio/" in uri:
+            uri_id = uri.split("/audio/")[-1].split("?")[0]
+        elif "/stream/" in uri:
+            uri_id = uri.split("/stream/")[-1].split("?")[0]
+
         return jsonify({
-            "state":    transport.get("current_transport_state", "STOPPED"),
-            "title":    track.get("title", ""),
-            "artist":   track.get("artist", ""),
-            "position": track.get("position", "0:00:00"),
-            "duration": track.get("duration", "0:00:00"),
-            "volume":   zone.volume,
+            "state":     transport.get("current_transport_state", "STOPPED"),
+            "title":     track.get("title", ""),
+            "artist":    track.get("artist", ""),
+            "position":  track.get("position", "0:00:00"),
+            "duration":  track.get("duration", "0:00:00"),
+            "volume":    zone.volume,
+            "thumbnail": thumbnail,
+            "uri_id":    uri_id,
         })
     except Exception as e:
         return jsonify({"error": str(e)})
