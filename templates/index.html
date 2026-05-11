@@ -1259,24 +1259,15 @@ function initAudio() {
 }
 
 function startVisAudio(id, startPos=0) {
+  // Only drive the visualizer from local library files.
+  // Streaming the same URL twice (browser + Sonos) can destabilize playback.
+  // If the track isn't downloaded, the visualizer just shows an idle animation.
   initAudio();
   if (S.audioCtx.state === 'suspended') S.audioCtx.resume();
-  // Use local file if available, otherwise fall back to the stream proxy
-  const localSrc  = `/audio/${id}`;
-  const streamSrc = `/stream/${id}`;
-  // Pick whichever src is already loaded, or try local first
-  const newSrc = (audioEl.dataset.trackId === id) ? audioEl.src : localSrc;
   if (audioEl.dataset.trackId !== id) {
+    audioEl.onerror = () => { audioEl.src=''; audioEl.dataset.trackId=''; };
     audioEl.dataset.trackId = id;
-    // Try local file; if it 404s, swap to stream URL
-    audioEl.onerror = () => {
-      if (audioEl.src !== streamSrc) {
-        audioEl.src = streamSrc;
-        audioEl.currentTime = startPos;
-        audioEl.play().catch(()=>{});
-      }
-    };
-    audioEl.src = localSrc;
+    audioEl.src = `/audio/${id}`;
     audioEl.currentTime = startPos;
     audioEl.play().catch(()=>{});
   } else if (startPos > 0) {
