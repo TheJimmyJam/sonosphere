@@ -939,25 +939,28 @@ def _play_track_on_sonos(track, device_ip):
 
 def _init_pytubefix_oauth():
     """
-    Run pytubefix OAuth setup interactively at startup.
-    First run: prints a URL + code for you to paste into your browser.
-    After that: cached in LIBRARY_DIR/oauth_token.json — no prompt ever again.
-    Must run in the main thread (needs keyboard input).
+    Warm up pytubefix with SSL fix for macOS Python installs.
+    pytubefix is a fallback downloader — yt-dlp handles most cases.
     """
     try:
+        # Fix macOS Python SSL cert issue (Python doesn't use system certs by default)
+        import ssl, certifi
+        ssl._create_default_https_context = lambda: ssl.create_default_context(cafile=certifi.where())
+    except Exception:
+        pass  # certifi not installed — ssl fix skipped, yt-dlp still works fine
+
+    try:
         from pytubefix import YouTube
-        print(f"  Checking YouTube OAuth (pytubefix)…")
-        print(f"  Token file: {PYTUBEFIX_TOKEN_FILE}")
         yt = YouTube(
             "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
             use_oauth=True,
             allow_oauth_cache=True,
             token_file=PYTUBEFIX_TOKEN_FILE,
         )
-        _ = yt.title   # triggers auth if not cached
-        print(f"  ✓ YouTube OAuth ready ({yt.title})")
-    except Exception as e:
-        print(f"  ⚠ pytubefix auth failed: {e}")
+        _ = yt.title
+        print(f"  ✓ pytubefix ready")
+    except Exception:
+        pass  # pytubefix is fallback only — yt-dlp handles downloads fine without it
 
 
 if __name__ == "__main__":
