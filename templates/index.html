@@ -791,6 +791,7 @@ input[type=range]::-webkit-slider-thumb {
         </div>
         <div class="right-panel-actions">
           <button class="btn ghost" id="btn-shuffle" title="Shuffle">🔀</button>
+          <button class="btn ghost" id="btn-repeat" title="Repeat: Off" style="font-size:14px;opacity:0.4;">🔁</button>
           <button class="btn ghost danger" id="btn-clear-queue" title="Clear">✕</button>
         </div>
       </div>
@@ -822,6 +823,7 @@ input[type=range]::-webkit-slider-thumb {
         <button class="ctrl-btn" id="bar-prev" disabled style="width:34px;height:34px;font-size:14px;">⏮</button>
         <button class="ctrl-btn play-pause" id="bar-pp" disabled style="width:40px;height:40px;font-size:15px;">▶</button>
         <button class="ctrl-btn" id="bar-next" disabled style="width:34px;height:34px;font-size:14px;">⏭</button>
+        <button id="bar-repeat" title="Repeat: Off" style="background:none;border:none;color:var(--text3);font-size:14px;cursor:pointer;padding:4px 6px;opacity:0.4;transition:opacity 0.2s,color 0.2s;">🔁</button>
         <div class="vis-modes" style="margin-left:8px;">
           <button class="vis-btn active" data-mode="bars">Bars</button>
           <button class="vis-btn" data-mode="wave">Wave</button>
@@ -1251,6 +1253,7 @@ const S = {
   pollTimer: null, nowPlaying: null, dlPollers: {},
   visMode: 'bars', audioCtx: null, analyser: null, audioSrc: null,
   queue: [], queueIdx: -1,
+  repeatMode: 'none',   // 'none' | 'all' | 'one'
   currentView: 'player',
   lastState: null,
   rooms: [],
@@ -2183,6 +2186,28 @@ async function clearQueue() {
 
 document.getElementById('btn-shuffle').addEventListener('click',shuffleQueue);
 document.getElementById('btn-clear-queue').addEventListener('click',clearQueue);
+
+// ── Repeat ────────────────────────────────────────────────────────────────
+function setRepeatMode(mode) {
+  S.repeatMode = mode;
+  const MODES = { none: {icon:'🔁', label:'Repeat: Off',    opacity:'0.4', color:'var(--text3)'},
+                  all:  {icon:'🔁', label:'Repeat: Queue',  opacity:'1',   color:'var(--accent2)'},
+                  one:  {icon:'🔂', label:'Repeat: Song',   opacity:'1',   color:'var(--accent2)'} };
+  const cfg = MODES[mode];
+  ['btn-repeat','bar-repeat'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.textContent=cfg.icon; el.title=cfg.label;
+    el.style.opacity=cfg.opacity; el.style.color=cfg.color;
+  });
+}
+function cycleRepeat() {
+  const next = S.repeatMode==='none'?'all': S.repeatMode==='all'?'one':'none';
+  setRepeatMode(next);
+  const labels = {none:'Off', all:'Repeat Queue', one:'Repeat Song'};
+  toast(`Repeat: ${labels[next]}`);
+}
+document.getElementById('btn-repeat').addEventListener('click', cycleRepeat);
+document.getElementById('bar-repeat').addEventListener('click', cycleRepeat);
 // rooms-shuffle and rooms-clear buttons removed (queue panel moved out of Rooms tab)
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -2370,11 +2395,24 @@ function startPoll() {
         }
       }
       // Auto-advance (only when Sonosphere owns the queue)
-      if(was&&!S.playing&&S.lastState==='PLAYING'&&S.queue.length&&S.queueIdx<S.queue.length-1&&!S.nowPlaying?.external){
-        setTimeout(()=>{
-          api(`/api/status?device_ip=${S.device.ip}`).then(s2=>{
-            if(s2.state!=='PLAYING') document.getElementById('btn-next').click();
-          });
+      const trackEnded = was && !S.playing && S.lastState==='PLAYING' && S.queue.length && !S.nowPlaying?.external;
+      if(trackEnded){
+        setTimeout(async()=>{
+          const s2 = await api(`/api/status?device_ip=${S.device.ip}`);
+          if(s2.state==='PLAYING') return; // something else started
+          if(S.repeatMode==='one'){
+            // Replay the same track
+            const res=await api('/api/queue/jump',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,index:S.queueIdx})});
+            if(res.success){updateNowPlaying(S.queue[S.queueIdx]);S.playing=true;updatePP();renderQueue();renderRoomsQueue();}
+          } else if(S.repeatMode==='all'){
+            // Advance; wrap to 0 at end
+            const nextIdx = S.queueIdx < S.queue.length-1 ? S.queueIdx+1 : 0;
+            const res=await api('/api/queue/jump',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,index:nextIdx})});
+            if(res.success){S.queueIdx=nextIdx;updateNowPlaying(S.queue[nextIdx]);S.playing=true;updatePP();renderQueue();renderRoomsQueue();}
+          } else {
+            // repeat='none': advance only if not at end
+            if(S.queueIdx < S.queue.length-1) document.getElementById('btn-next').click();
+          }
         },1500);
       }
       S.lastState=s.state;
