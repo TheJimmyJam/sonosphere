@@ -1208,6 +1208,21 @@ def discover_artist(name):
         return jsonify({"error": str(e), "tracks": [], "similar": []})
 
 
+@app.route("/api/discover/radio")
+def discover_radio():
+    """Return tracks similar to a given song via Last.fm track.getSimilar."""
+    title  = request.args.get("title", "").strip()
+    artist = request.args.get("artist", "").strip()
+    if not title or not artist:
+        return jsonify({"error": "Missing title or artist", "tracks": []})
+    try:
+        data   = _lfm("track.getSimilar", track=title, artist=artist, limit=20, autocorrect=1)
+        tracks = [_lfm_track(t) for t in data.get("similartracks", {}).get("track", []) if t]
+        return jsonify({"tracks": tracks})
+    except Exception as e:
+        return jsonify({"error": str(e), "tracks": []})
+
+
 # ── Spotify helpers ───────────────────────────────────────────────────────────
 
 def _sp_load_tokens():
