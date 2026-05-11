@@ -1491,8 +1491,8 @@ function drawIdle(c, w, h) {
   }
   // Draw logo centered with a gentle breathing opacity
   if (_logoImg.complete && _logoImg.naturalWidth > 0) {
-    const pulse = 0.10 + Math.sin(Date.now() / 1800) * 0.04; // 0.06–0.14
-    const maxW = Math.min(w * 0.38, 320);
+    const pulse = 0.62 + Math.sin(Date.now() / 1800) * 0.08; // 0.54–0.70
+    const maxW = Math.min(w * 0.42, 360);
     const scale = maxW / _logoImg.naturalWidth;
     const lw = _logoImg.naturalWidth * scale;
     const lh = _logoImg.naturalHeight * scale;
@@ -1500,7 +1500,7 @@ function drawIdle(c, w, h) {
     const ly = (h - lh) / 2;
     // Soft glow ring behind logo
     const glow = c.createRadialGradient(w/2, h/2, lw*0.1, w/2, h/2, lw*0.7);
-    glow.addColorStop(0, `rgba(124,58,237,${pulse * 0.6})`);
+    glow.addColorStop(0, `rgba(124,58,237,${pulse * 0.35})`);
     glow.addColorStop(1, 'rgba(124,58,237,0)');
     c.fillStyle = glow;
     c.fillRect(0, 0, w, h);
