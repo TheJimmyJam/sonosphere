@@ -643,9 +643,7 @@ def _build_ytm_client_from_cookies():
         cookie_str = '; '.join(f'{k}={v}' for k, v in cookies.items())
         sapisidhash = _compute_sapisidhash(sapisid)
 
-        # Create unauthenticated instance then inject headers directly
-        ytm = YTMusic()
-        ytm.headers.update({
+        injected = {
             "accept": "*/*",
             "accept-language": "en-US,en;q=0.9",
             "authorization": sapisidhash,
@@ -654,7 +652,17 @@ def _build_ytm_client_from_cookies():
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
             "x-goog-authuser": "0",
             "x-origin": "https://music.youtube.com",
-        })
+        }
+
+        # Create instance and inject headers + set auth flag so _check_auth() passes
+        ytm = YTMusic()
+        ytm.headers.update(injected)
+        # ytmusicapi checks self.auth before any authenticated call — set it truthy
+        ytm.auth = "cookie"
+        # Also patch the underlying session if present (ytmusicapi 1.x uses requests.Session)
+        if hasattr(ytm, '_session'):
+            ytm._session.headers.update(injected)
+
         print("  ✓ YouTube Music connected via Chrome cookies")
         return ytm
     except Exception as e:
