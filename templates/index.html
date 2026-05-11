@@ -1594,6 +1594,13 @@ document.querySelectorAll('[data-view]').forEach(btn => {
 // ═══════════════════════════════════════════════════════════════════════════
 // DEVICES / ROOMS
 // ═══════════════════════════════════════════════════════════════════════════
+function saveLastDevice(ip, name) {
+  try { localStorage.setItem('lastDevice', JSON.stringify({ip, name})); } catch(e){}
+}
+function getLastDevice() {
+  try { return JSON.parse(localStorage.getItem('lastDevice')||'null'); } catch(e){ return null; }
+}
+
 async function loadDevices() {
   const sel=document.getElementById('device-select');
   sel.innerHTML='<option value="">Searching…</option>';
@@ -1606,11 +1613,14 @@ async function loadDevices() {
   data.devices.forEach(d=>{
     const o=document.createElement('option'); o.value=d.ip; o.textContent=d.name; sel.appendChild(o);
   });
-  S.device={ip:data.devices[0].ip, name:data.devices[0].name};
+  // Restore last used speaker if it's still available
+  const last=getLastDevice();
+  const preferred = last && data.devices.find(d=>d.ip===last.ip) ? last : {ip:data.devices[0].ip, name:data.devices[0].name};
+  S.device=preferred;
   sel.value=S.device.ip;
   enableControls();
   startPoll();
-  toast(`Found ${data.devices.length} speaker(s)`);
+  toast(`Found ${data.devices.length} speaker(s) — using ${S.device.name}`);
   loadSidebarRooms();
 }
 
@@ -1650,6 +1660,7 @@ function renderSidebarRooms() {
     item.addEventListener('click', e=>{
       if(e.target.closest('.queue-rm')) return;
       S.device={ip:room.ip,name:room.name};
+      saveLastDevice(room.ip,room.name);
       document.getElementById('device-select').value=room.ip;
       enableControls(); startPoll();
       document.querySelectorAll('.room-item').forEach(r=>r.classList.remove('active'));
@@ -1748,6 +1759,7 @@ function renderSpeakerCards() {
       card.querySelector('.set-active-btn').addEventListener('click', e=>{
         e.stopPropagation();
         S.device={ip:room.ip,name:room.name};
+        saveLastDevice(room.ip,room.name);
         document.getElementById('device-select').value=room.ip;
         enableControls(); startPoll();
         toast(`Speaker: ${room.name}`);
@@ -1819,8 +1831,10 @@ document.getElementById('rooms-refresh-btn').addEventListener('click', async ()=
 });
 
 document.getElementById('device-select').addEventListener('change', function(){
-  if(this.value) S.device={ip:this.value,name:this.options[this.selectedIndex].text};
-  else S.device=null;
+  if(this.value){
+    S.device={ip:this.value,name:this.options[this.selectedIndex].text};
+    saveLastDevice(S.device.ip, S.device.name);
+  } else S.device=null;
 });
 document.getElementById('refresh-btn').addEventListener('click', ()=>{ loadDevices(); });
 
