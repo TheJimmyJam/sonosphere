@@ -1628,7 +1628,8 @@ async function loadDevices() {
 
 async function loadSidebarRooms() {
   const data=await api('/api/rooms');
-  S.rooms=data.rooms||[];
+  // Seed lastVol from the initial load so we always have a non-zero base to scale from
+  S.rooms=(data.rooms||[]).map(r=>({...r, lastVol: r.volume||1}));
   renderSidebarRooms();
   updateMainVolFromRooms();
 }
@@ -2378,7 +2379,10 @@ function getGroupRooms() {
 
 // Sync every slider (sidebar + speaker cards) and its label for a given room IP.
 // Both panels use data-room-ip but querySelector only finds the first — this hits all.
+// Also keeps lastVol updated so applyGroupVolume can recover a zero-volume speaker.
 function syncRoomSlider(ip, vol) {
+  const sr = S.rooms.find(r=>r.ip===ip);
+  if(sr && vol > 0) sr.lastVol = vol;  // remember last non-zero for ratio recovery
   document.querySelectorAll(`input[data-room-ip="${ip}"]`).forEach(sl => {
     sl.value = vol;
     // sidebar label: span:last-child inside .room-vol-row
@@ -2397,11 +2401,15 @@ function applyGroupVolume(oldVol, newVol) {
   if(!groupRooms) return false;           // not grouped — caller handles single-speaker
   const ratio = oldVol > 0 ? newVol / oldVol : null;
   groupRooms.forEach(r=>{
-    // When coming from zero the original ratios are gone — set everyone to newVol directly.
-    // Otherwise scale proportionally.
-    r.volume = ratio === null
-      ? newVol
-      : Math.max(0, Math.min(100, Math.round(r.volume * ratio)));
+    if(ratio === null) {
+      // Coming from zero — set everyone to newVol directly (ratios were lost).
+      r.volume = newVol;
+    } else {
+      // Scale proportionally. If this speaker is at 0, use its last known non-zero
+      // volume as the base — otherwise 0 * ratio = 0 forever and it never recovers.
+      const base = r.volume === 0 ? (r.lastVol || newVol) : r.volume;
+      r.volume = Math.max(0, Math.min(100, Math.round(base * ratio)));
+    }
     syncRoomSlider(r.ip, r.volume);
   });
   return true;
@@ -2480,7 +2488,10 @@ function startRoomsRefresh() {
       // (so any optimistic updates from the slider aren't overwritten mid-drag)
       data.rooms.forEach(fresh => {
         const existing = S.rooms.find(r => r.ip === fresh.ip);
-        if (existing) existing.volume = fresh.volume;
+        if (existing) {
+          if (fresh.volume > 0) existing.lastVol = fresh.volume;  // preserve last non-zero
+          existing.volume = fresh.volume;
+        }
       });
       if (!S.rooms.length) S.rooms = data.rooms;
       updateMainVolFromRooms();
