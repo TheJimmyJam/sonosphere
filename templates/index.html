@@ -1473,6 +1473,10 @@ function drawTunnel(c, f, w, h) {
   updateParticles(c);
 }
 
+// Preload logo for idle state background
+const _logoImg = new Image();
+_logoImg.src = '/assets/sonosphere good.png';
+
 function drawIdle(c, w, h) {
   const t=Date.now()/2400, n=64, bw=(w/n)-3;
   for(let i=0;i<n;i++){
@@ -1481,6 +1485,26 @@ function drawIdle(c, w, h) {
     const g=c.createLinearGradient(0,y,0,h);
     g.addColorStop(0,`rgba(124,58,237,${v*6})`); g.addColorStop(1,'rgba(124,58,237,0)');
     c.fillStyle=g; c.beginPath(); c.roundRect(x,y,bw,bh,[3,3,0,0]); c.fill();
+  }
+  // Draw logo centered with a gentle breathing opacity
+  if (_logoImg.complete && _logoImg.naturalWidth > 0) {
+    const pulse = 0.10 + Math.sin(Date.now() / 1800) * 0.04; // 0.06–0.14
+    const maxW = Math.min(w * 0.38, 320);
+    const scale = maxW / _logoImg.naturalWidth;
+    const lw = _logoImg.naturalWidth * scale;
+    const lh = _logoImg.naturalHeight * scale;
+    const lx = (w - lw) / 2;
+    const ly = (h - lh) / 2;
+    // Soft glow ring behind logo
+    const glow = c.createRadialGradient(w/2, h/2, lw*0.1, w/2, h/2, lw*0.7);
+    glow.addColorStop(0, `rgba(124,58,237,${pulse * 0.6})`);
+    glow.addColorStop(1, 'rgba(124,58,237,0)');
+    c.fillStyle = glow;
+    c.fillRect(0, 0, w, h);
+    // Logo image
+    c.globalAlpha = pulse;
+    c.drawImage(_logoImg, lx, ly, lw, lh);
+    c.globalAlpha = 1;
   }
 }
 
