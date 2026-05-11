@@ -2394,22 +2394,16 @@ function syncRoomSlider(ip, vol) {
   });
 }
 
-// Apply proportional scaling to S.rooms for grouped speakers and sync ALL sliders.
-// oldVol → newVol defines the ratio; updates S.rooms[x].volume in place.
+// Apply the main-slider delta to every grouped speaker equally.
+// Additive model: each speaker moves by the same absolute amount as the main slider,
+// so a zero-volume speaker naturally recovers and relative gaps are preserved.
+// e.g. Den=40, Kitchen=0, main 20→30 (delta +10) → Den=50, Kitchen=10, avg=30 ✓
 function applyGroupVolume(oldVol, newVol) {
   const groupRooms = getGroupRooms();
   if(!groupRooms) return false;           // not grouped — caller handles single-speaker
-  const ratio = oldVol > 0 ? newVol / oldVol : null;
+  const delta = newVol - oldVol;
   groupRooms.forEach(r=>{
-    if(ratio === null) {
-      // Coming from zero — set everyone to newVol directly (ratios were lost).
-      r.volume = newVol;
-    } else {
-      // Scale proportionally. If this speaker is at 0, use its last known non-zero
-      // volume as the base — otherwise 0 * ratio = 0 forever and it never recovers.
-      const base = r.volume === 0 ? (r.lastVol || newVol) : r.volume;
-      r.volume = Math.max(0, Math.min(100, Math.round(base * ratio)));
-    }
+    r.volume = Math.max(0, Math.min(100, r.volume + delta));
     syncRoomSlider(r.ip, r.volume);
   });
   return true;
