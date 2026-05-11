@@ -436,9 +436,11 @@ def rooms():
             except Exception:
                 state = "STOPPED"
             group_members = []
+            group_coord_ip = None
             try:
                 if z.group:
                     group_members = [m.player_name for m in z.group.members if m.ip_address != z.ip_address]
+                    group_coord_ip = z.group.coordinator.ip_address
             except Exception:
                 pass
             result.append({
@@ -448,6 +450,7 @@ def rooms():
                 "state":    state,
                 "isCoord":  (z.group.coordinator.ip_address == z.ip_address) if z.group else True,
                 "group":    group_members,
+                "group_id": group_coord_ip,  # coordinator IP — all group members share this value
             })
         result.sort(key=lambda r: r["name"])
         return jsonify({"rooms": result})
