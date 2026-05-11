@@ -401,6 +401,33 @@ input[type=range]::-webkit-slider-thumb {
 .track-actions { display: flex; gap: 4px; flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
 .track-card:hover .track-actions { opacity: 1; }
 
+/* ── DISCOVER VIEW ───────────────────────────────────────────────────────── */
+.genre-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(110px,1fr)); gap: 8px;
+  margin-bottom: 20px;
+}
+.genre-card {
+  border-radius: var(--radius-sm); padding: 14px 10px; cursor: pointer;
+  text-align: center; font-size: 12px; font-weight: 700; transition: all 0.15s;
+  border: 1px solid transparent; position: relative; overflow: hidden;
+}
+.genre-card:hover { transform: translateY(-2px); filter: brightness(1.2); }
+.genre-card .genre-icon { font-size: 22px; display: block; margin-bottom: 6px; }
+.discover-section { margin-bottom: 20px; }
+.discover-section .section-label { margin-bottom: 10px; display: block; }
+.artist-search-wrap { display: flex; gap: 8px; margin-bottom: 16px; }
+.artist-search-wrap input {
+  flex: 1; background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 10px; color: var(--text); font-size: 13px; padding: 9px 16px; outline: none;
+}
+.artist-search-wrap input:focus { border-color: var(--accent); }
+.similar-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.similar-chip {
+  background: var(--bg3); border: 1px solid var(--border2); border-radius: 20px;
+  padding: 4px 12px; font-size: 11px; cursor: pointer; transition: all 0.15s;
+}
+.similar-chip:hover { border-color: var(--accent2); color: var(--accent2); }
+
 /* ── SOURCE TOGGLE (YouTube / Spotify in search) ────────────────────────── */
 .source-toggle { display: flex; gap: 6px; margin-bottom: 10px; }
 .source-tab {
@@ -628,6 +655,9 @@ input[type=range]::-webkit-slider-thumb {
         <button class="nav-item" data-view="browse">
           <span class="nav-icon">🎵</span> Browse
         </button>
+        <button class="nav-item" data-view="discover">
+          <span class="nav-icon">🔭</span> Discover
+        </button>
         <button class="nav-item" data-view="rooms">
           <span class="nav-icon">🏠</span> Rooms
         </button>
@@ -805,6 +835,50 @@ input[type=range]::-webkit-slider-thumb {
             <button class="btn primary" id="speaker-group-btn">Group Together</button>
             <button class="btn" id="speaker-group-cancel">✕</button>
           </div>
+        </div>
+      </div>
+
+      <!-- DISCOVER VIEW -->
+      <div class="view" id="view-discover" style="flex-direction:column;">
+        <div class="view-header">
+          <div>
+            <div class="view-title">Discover</div>
+            <div class="view-subtitle" id="discover-sub">Powered by Last.fm</div>
+          </div>
+          <button class="btn ghost" id="discover-back-btn" style="display:none">← Back</button>
+        </div>
+
+        <!-- Home: genres + top charts -->
+        <div id="discover-home">
+          <div class="discover-section">
+            <span class="section-label">Browse by Genre</span>
+            <div class="genre-grid" id="genre-grid"></div>
+          </div>
+          <div class="discover-section">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <span class="section-label" style="margin-bottom:0">🌍 Global Top Tracks</span>
+              <button class="btn" id="charts-queue-all">+ Queue All</button>
+            </div>
+            <div id="discover-charts"><div class="loading-row"><div class="spinner"></div></div></div>
+          </div>
+        </div>
+
+        <!-- Artist view -->
+        <div id="discover-artist" style="display:none;">
+          <div class="artist-search-wrap">
+            <input type="text" id="discover-artist-input" placeholder="Search an artist…" autocomplete="off"/>
+            <button class="btn primary" id="discover-artist-btn">Go</button>
+          </div>
+          <div id="discover-artist-results"></div>
+        </div>
+
+        <!-- Genre / chart track list -->
+        <div id="discover-tracklist" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span class="section-label" id="discover-list-label" style="margin-bottom:0"></span>
+            <button class="btn" id="discover-queue-all">+ Queue All</button>
+          </div>
+          <div class="track-list" id="discover-list"></div>
         </div>
       </div>
 
@@ -1629,9 +1703,10 @@ function showView(id) {
   document.getElementById('view-'+id).classList.add('active');
   document.querySelector(`[data-view="${id}"]`)?.classList.add('active');
   S.currentView = id;
-  if(id==='browse')  loadLibrary();
-  if(id==='rooms')   { loadRooms(); renderRoomsQueue(); }
-  if(id==='skins')   { renderSkinFilters(); renderSkinsGrid(document.querySelector('.skin-filter-btn.active')?.dataset.filter||'all'); }
+  if(id==='browse')   loadLibrary();
+  if(id==='rooms')    { loadRooms(); renderRoomsQueue(); }
+  if(id==='skins')    { renderSkinFilters(); renderSkinsGrid(document.querySelector('.skin-filter-btn.active')?.dataset.filter||'all'); }
+  if(id==='discover') initDiscover();
   resizeCanvas();
 }
 document.querySelectorAll('[data-view]').forEach(btn => {
@@ -2187,6 +2262,181 @@ document.getElementById('src-sp').addEventListener('click', ()=>{
   document.getElementById('search-state').style.display='flex';
   document.getElementById('search-results').style.display='none';
 });
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DISCOVER (Last.fm)
+// ═══════════════════════════════════════════════════════════════════════════
+const GENRES = [
+  {tag:'pop',        label:'Pop',        icon:'🎤', color:'#7c3aed'},
+  {tag:'hip-hop',    label:'Hip-Hop',    icon:'🎧', color:'#dc2626'},
+  {tag:'rock',       label:'Rock',       icon:'🎸', color:'#ea580c'},
+  {tag:'r-n-b',      label:'R&B',        icon:'🎶', color:'#d97706'},
+  {tag:'electronic', label:'Electronic', icon:'🎛️', color:'#0891b2'},
+  {tag:'jazz',       label:'Jazz',       icon:'🎺', color:'#0d9488'},
+  {tag:'country',    label:'Country',    icon:'🤠', color:'#65a30d'},
+  {tag:'classical',  label:'Classical',  icon:'🎻', color:'#7c3aed'},
+  {tag:'soul',       label:'Soul',       icon:'✨', color:'#9333ea'},
+  {tag:'metal',      label:'Metal',      icon:'🤘', color:'#475569'},
+  {tag:'latin',      label:'Latin',      icon:'💃', color:'#db2777'},
+  {tag:'indie',      label:'Indie',      icon:'🌿', color:'#059669'},
+];
+
+let _discoverInitialized = false;
+let _discoverMode = 'home'; // 'home' | 'artist' | 'tracklist'
+let _discoverLastTracks = [];
+
+function initDiscover() {
+  if(!_discoverInitialized) {
+    _discoverInitialized = true;
+    renderGenreGrid();
+    loadGlobalCharts();
+    document.getElementById('discover-artist-btn').addEventListener('click', ()=>{
+      const q = document.getElementById('discover-artist-input').value.trim();
+      if(q) loadArtist(q);
+    });
+    document.getElementById('discover-artist-input').addEventListener('keydown', e=>{
+      if(e.key==='Enter') { const q=e.target.value.trim(); if(q) loadArtist(q); }
+    });
+    document.getElementById('discover-back-btn').addEventListener('click', showDiscoverHome);
+    document.getElementById('discover-queue-all').addEventListener('click', ()=>queueAllTracks(_discoverLastTracks));
+    document.getElementById('charts-queue-all').addEventListener('click', ()=>queueAllTracks(_discoverLastTracks));
+  }
+}
+
+function showDiscoverHome() {
+  _discoverMode = 'home';
+  document.getElementById('discover-home').style.display = '';
+  document.getElementById('discover-artist').style.display = 'none';
+  document.getElementById('discover-tracklist').style.display = 'none';
+  document.getElementById('discover-back-btn').style.display = 'none';
+  document.getElementById('discover-sub').textContent = 'Powered by Last.fm';
+}
+
+function showDiscoverArtist() {
+  _discoverMode = 'artist';
+  document.getElementById('discover-home').style.display = 'none';
+  document.getElementById('discover-artist').style.display = '';
+  document.getElementById('discover-tracklist').style.display = 'none';
+  document.getElementById('discover-back-btn').style.display = '';
+}
+
+function showDiscoverTracklist(label) {
+  _discoverMode = 'tracklist';
+  document.getElementById('discover-home').style.display = 'none';
+  document.getElementById('discover-artist').style.display = 'none';
+  document.getElementById('discover-tracklist').style.display = '';
+  document.getElementById('discover-back-btn').style.display = '';
+  document.getElementById('discover-list-label').textContent = label;
+}
+
+function renderGenreGrid() {
+  const grid = document.getElementById('genre-grid');
+  GENRES.forEach(g => {
+    const card = document.createElement('div');
+    card.className = 'genre-card';
+    card.style.cssText = `background:${g.color}22;border-color:${g.color}55;color:${g.color};`;
+    card.innerHTML = `<span class="genre-icon">${g.icon}</span>${g.label}`;
+    card.addEventListener('click', ()=>loadGenreTracks(g.tag, g.label));
+    grid.appendChild(card);
+  });
+  // Artist search card
+  const artistCard = document.createElement('div');
+  artistCard.className = 'genre-card';
+  artistCard.style.cssText = 'background:rgba(255,255,255,0.05);border-color:var(--border2);color:var(--text2);';
+  artistCard.innerHTML = '<span class="genre-icon">🔍</span>Artist';
+  artistCard.addEventListener('click', ()=>{ showDiscoverArtist(); document.getElementById('discover-artist-input').focus(); });
+  grid.appendChild(artistCard);
+}
+
+async function loadGlobalCharts() {
+  const el = document.getElementById('discover-charts');
+  el.innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
+  const data = await api('/api/discover/charts');
+  el.innerHTML = '';
+  if(!data.tracks?.length){ el.innerHTML='<div class="empty"><p>Could not load charts</p></div>'; return; }
+  _discoverLastTracks = data.tracks;
+  const list = document.createElement('div'); list.className='track-list';
+  data.tracks.forEach((t,i)=>list.appendChild(makeDiscoverCard(t,i+1)));
+  el.appendChild(list);
+}
+
+async function loadGenreTracks(tag, label) {
+  showDiscoverTracklist(`${label} · Top Tracks`);
+  document.getElementById('discover-sub').textContent = label;
+  const list = document.getElementById('discover-list');
+  list.innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
+  const data = await api(`/api/discover/genre/${encodeURIComponent(tag)}`);
+  list.innerHTML = '';
+  _discoverLastTracks = data.tracks || [];
+  _discoverLastTracks.forEach((t,i)=>list.appendChild(makeDiscoverCard(t,i+1)));
+}
+
+async function loadArtist(name) {
+  document.getElementById('discover-artist-results').innerHTML =
+    '<div class="loading-row"><div class="spinner"></div></div>';
+  document.getElementById('discover-sub').textContent = name;
+  document.getElementById('discover-back-btn').style.display = '';
+  const data = await api(`/api/discover/artist/${encodeURIComponent(name)}`);
+  const el = document.getElementById('discover-artist-results');
+  el.innerHTML = '';
+  if(data.error){ el.innerHTML=`<div class="empty"><p>${esc(data.error)}</p></div>`; return; }
+
+  // Similar artists chips
+  if(data.similar?.length){
+    const wrap = document.createElement('div');
+    wrap.innerHTML = '<p class="section-label" style="margin-bottom:8px">Similar Artists</p>';
+    const chips = document.createElement('div'); chips.className='similar-chips';
+    data.similar.forEach(a=>{
+      const chip = document.createElement('span'); chip.className='similar-chip';
+      chip.textContent = a;
+      chip.addEventListener('click', ()=>{ document.getElementById('discover-artist-input').value=a; loadArtist(a); });
+      chips.appendChild(chip);
+    });
+    wrap.appendChild(chips);
+    el.appendChild(wrap);
+  }
+
+  // Top tracks
+  if(data.tracks?.length){
+    const hdr = document.createElement('p');
+    hdr.className='section-label'; hdr.style.marginBottom='8px';
+    hdr.textContent = `Top Tracks · ${data.artist||name}`;
+    el.appendChild(hdr);
+    const qBtn = document.createElement('button');
+    qBtn.className='btn'; qBtn.style.marginBottom='10px'; qBtn.textContent='+ Queue All';
+    qBtn.addEventListener('click',()=>queueAllTracks(data.tracks));
+    el.appendChild(qBtn);
+    const list = document.createElement('div'); list.className='track-list';
+    data.tracks.forEach((t,i)=>list.appendChild(makeDiscoverCard(t,i+1)));
+    el.appendChild(list);
+  } else {
+    el.innerHTML += '<div class="empty"><p>No tracks found</p></div>';
+  }
+}
+
+function makeDiscoverCard(t, num) {
+  const card = document.createElement('div'); card.className='track-card';
+  card.innerHTML = `
+    <span class="track-num">${num||''}</span>
+    <img class="track-thumb" src="${t.thumbnail||BLANK}" alt="" loading="lazy" onerror="this.src='${BLANK}'"/>
+    <div class="track-info">
+      <div class="track-title">${esc(t.title)}</div>
+      <div class="track-artist">${esc(t.artist||'')}</div>
+    </div>
+    <div class="track-dur">${t.duration||''}</div>
+    <div class="track-actions">
+      <button class="btn primary">▶</button>
+      <button class="btn add">+</button>
+    </div>`;
+  card.querySelector('.btn.primary').addEventListener('click',e=>{ e.stopPropagation(); playTrack(t); });
+  card.querySelector('.btn.add').addEventListener('click',e=>{ e.stopPropagation(); addToQueue(t); });
+  card.addEventListener('click',()=>playTrack(t));
+  if(t.artist){
+    card.querySelector('.track-artist').style.cssText='cursor:pointer;text-decoration:underline dotted;';
+    card.querySelector('.track-artist').addEventListener('click',e=>{ e.stopPropagation(); showDiscoverArtist(); document.getElementById('discover-artist-input').value=t.artist; loadArtist(t.artist); });
+  }
+  return card;
+}
 
 async function doSearch(q) {
   q = q || document.getElementById('search-input').value.trim(); if(!q) return;
