@@ -388,15 +388,17 @@ input[type=range]::-webkit-slider-thumb {
 .speaker-group-bar span { flex: 1; font-size: 11px; color: var(--text2); }
 
 /* ── BROWSE / LIBRARY / SEARCH VIEW ─────────────────────────────────────── */
-#view-browse, #view-search, #view-skins {
+#view-browse, #view-search, #view-skins, #view-discover {
   padding: 20px; overflow-y: auto; gap: 16px;
 }
 #view-browse::-webkit-scrollbar,
 #view-search::-webkit-scrollbar,
-#view-skins::-webkit-scrollbar { width: 4px; }
+#view-skins::-webkit-scrollbar,
+#view-discover::-webkit-scrollbar { width: 4px; }
 #view-browse::-webkit-scrollbar-thumb,
 #view-search::-webkit-scrollbar-thumb,
-#view-skins::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+#view-skins::-webkit-scrollbar-thumb,
+#view-discover::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
 .view-header {
   display: flex; align-items: center; justify-content: space-between;
