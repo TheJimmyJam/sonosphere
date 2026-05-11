@@ -726,18 +726,26 @@ def control():
         if action == "play":   coordinator.play()
         elif action == "pause": coordinator.pause()
         elif action == "volume":
+            from concurrent.futures import ThreadPoolExecutor
             new_avg = max(1, min(100, int(data.get("value", 50))))
             if zone.group and len(zone.group.members) > 1:
                 members = list(zone.group.members)
-                vols    = []
-                for m in members:
-                    try: vols.append(m.volume)
-                    except Exception: vols.append(new_avg)
+                # Read all volumes in parallel
+                def get_vol(m):
+                    try: return m.volume
+                    except Exception: return new_avg
+                with ThreadPoolExecutor(max_workers=len(members)) as ex:
+                    vols = list(ex.map(get_vol, members))
                 cur_avg = sum(vols) / len(vols) if vols else new_avg
                 ratio   = new_avg / cur_avg if cur_avg > 0 else 1.0
-                for m, v in zip(members, vols):
-                    try: m.volume = max(0, min(100, round(v * ratio)))
+                targets = [max(0, min(100, round(v * ratio))) for v in vols]
+                # Set all volumes in parallel
+                def set_vol(args):
+                    m, v = args
+                    try: m.volume = v
                     except Exception: pass
+                with ThreadPoolExecutor(max_workers=len(members)) as ex:
+                    list(ex.map(set_vol, zip(members, targets)))
             else:
                 zone.volume = max(0, min(100, new_avg))
         return jsonify({"success": True})
@@ -773,12 +781,15 @@ def status():
         elif "/stream/" in uri:
             uri_id = uri.split("/stream/")[-1].split("?")[0]
 
-        # Report group-average volume so the main slider reflects the whole group
+        # Report group-average volume — read all members in parallel
         if zone.group and len(zone.group.members) > 1:
-            vols = []
-            for m in zone.group.members:
-                try: vols.append(m.volume)
-                except Exception: pass
+            from concurrent.futures import ThreadPoolExecutor
+            members = list(zone.group.members)
+            def get_vol(m):
+                try: return m.volume
+                except Exception: return None
+            with ThreadPoolExecutor(max_workers=len(members)) as ex:
+                vols = [v for v in ex.map(get_vol, members) if v is not None]
             volume = round(sum(vols) / len(vols)) if vols else zone.volume
         else:
             volume = zone.volume
