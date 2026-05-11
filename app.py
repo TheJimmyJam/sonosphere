@@ -739,12 +739,13 @@ def _fmt_track(item):
 
 
 def _ydl_cookie_opts():
-    """Base yt-dlp options with cookie auth."""
+    """Base yt-dlp options with cookie auth.
+    Always reads directly from Chrome's live cookie store for authenticated routes —
+    the exported cookie file misses httpOnly cookies that YouTube needs for the
+    SAPISIDHASH Authorization header.
+    """
     opts = {"quiet": True, "no_warnings": True, "extract_flat": True}
-    if os.path.exists(_COOKIE_FILE) and os.path.getsize(_COOKIE_FILE) > 100:
-        opts["cookiefile"] = _COOKIE_FILE
-    else:
-        opts["cookiesfrombrowser"] = ("chrome",)
+    opts["cookiesfrombrowser"] = ("chrome",)
     return opts
 
 
