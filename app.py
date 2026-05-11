@@ -70,6 +70,7 @@ def _load_credentials():
     return creds
 
 _creds = _load_credentials()
+LASTFM_API_KEY        = _creds.get("SONOSPHERE_LASTFM_API_KEY", "")
 SPOTIFY_CLIENT_ID     = _creds.get("SONOSPHERE_SPOTIFY_CLIENT_ID", "")
 SPOTIFY_CLIENT_SECRET = _creds.get("SONOSPHERE_SPOTIFY_CLIENT_SECRET", "")
 SPOTIFY_REDIRECT_URI  = _creds.get("SONOSPHERE_SPOTIFY_REDIRECT_URI", "http://127.0.0.1:8888/auth/spotify/callback")
@@ -693,6 +694,13 @@ def play():
             return jsonify({"success": False, "error": "Could not find track on YouTube"})
         video_id = yt_id
 
+    # Last.fm tracks: resolve to a YouTube video ID on the fly
+    if str(video_id).startswith("lfm_"):
+        yt_id = _lfm_resolve_yt(video_id, title, artist)
+        if not yt_id:
+            return jsonify({"success": False, "error": "Could not find track on YouTube"})
+        video_id = yt_id
+
     track_file = find_track_file(video_id)
 
     if track_file:
@@ -1089,6 +1097,105 @@ def ytm_liked():
 
 
 
+# ── Last.fm helpers + routes ──────────────────────────────────────────────────
+
+def _lfm(method, **params):
+    """Call the Last.fm API and return parsed JSON."""
+    import urllib.request, urllib.parse
+    qs = urllib.parse.urlencode({
+        "method": method, "api_key": LASTFM_API_KEY, "format": "json", **params
+    })
+    req = urllib.request.Request(
+        f"https://ws.audioscrobbler.com/2.0/?{qs}",
+        headers={"User-Agent": "Sonosphere/1.0"}
+    )
+    with urllib.request.urlopen(req, timeout=10) as r:
+        return json.loads(r.read())
+
+def _lfm_track(t, artist_override=""):
+    """Normalise a Last.fm track dict to Sonosphere's standard format."""
+    artist = (t.get("artist") or {})
+    artist_name = artist.get("name","") if isinstance(artist,dict) else str(artist)
+    artist_name = artist_name or artist_override
+    title  = t.get("name","Unknown")
+    # Build a stable id from artist+title
+    safe   = lambda s: s.lower().replace(" ","_")[:40]
+    tid    = f"lfm_{safe(artist_name)}_{safe(title)}"
+    # Last.fm doesn't give durations in chart/tag endpoints — leave blank
+    dur_s  = t.get("duration","0")
+    try:
+        dur_s = int(dur_s)
+        dur_str = f"{dur_s//60}:{dur_s%60:02d}" if dur_s else ""
+    except Exception:
+        dur_str = ""
+    # Thumbnail: use Last.fm image or fall back to a YouTube search thumb later
+    images = t.get("image",[])
+    thumb  = ""
+    for img in reversed(images):
+        if img.get("#text"):
+            thumb = img["#text"]; break
+    return {
+        "id":       tid,
+        "lfm_artist": artist_name,
+        "lfm_title":  title,
+        "title":    title,
+        "artist":   artist_name,
+        "duration": dur_str,
+        "thumbnail": thumb,
+        "source":   "lastfm",
+    }
+
+_lfm_yt_cache = {}   # lfm_xxx → youtube_video_id
+
+def _lfm_resolve_yt(track_id, title, artist):
+    """Resolve a Last.fm track to a YouTube video ID (cached)."""
+    if track_id in _lfm_yt_cache:
+        return _lfm_yt_cache[track_id]
+    query = f"ytsearch1:{title} {artist} audio"
+    ydl_opts = {**_ydl_base_opts(), "quiet": True, "extract_flat": True, "ignoreerrors": True}
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            raw = ydl.extract_info(query, download=False)
+        entries = raw.get("entries",[]) if raw else []
+        yt_id   = entries[0]["id"] if entries else None
+        if yt_id:
+            _lfm_yt_cache[track_id] = yt_id
+        return yt_id
+    except Exception:
+        return None
+
+@app.route("/api/discover/charts")
+def discover_charts():
+    try:
+        data   = _lfm("chart.getTopTracks", limit=25)
+        tracks = [_lfm_track(t) for t in data.get("tracks",{}).get("track",[]) if t]
+        return jsonify({"tracks": tracks})
+    except Exception as e:
+        return jsonify({"error": str(e), "tracks": []})
+
+@app.route("/api/discover/genre/<tag>")
+def discover_genre(tag):
+    try:
+        data   = _lfm("tag.getTopTracks", tag=tag, limit=30)
+        tracks = [_lfm_track(t) for t in data.get("tracks",{}).get("track",[]) if t]
+        return jsonify({"tracks": tracks})
+    except Exception as e:
+        return jsonify({"error": str(e), "tracks": []})
+
+@app.route("/api/discover/artist/<name>")
+def discover_artist(name):
+    try:
+        top_data  = _lfm("artist.getTopTracks", artist=name, limit=20)
+        sim_data  = _lfm("artist.getSimilar",   artist=name, limit=10)
+        tracks    = [_lfm_track(t, name) for t in top_data.get("toptracks",{}).get("track",[]) if t]
+        similar   = [a.get("name","") for a in sim_data.get("similarartists",{}).get("artist",[]) if a.get("name")]
+        # Canonical artist name from top tracks result
+        canon = top_data.get("toptracks",{}).get("@attr",{}).get("artist","") or name
+        return jsonify({"artist": canon, "tracks": tracks, "similar": similar})
+    except Exception as e:
+        return jsonify({"error": str(e), "tracks": [], "similar": []})
+
+
 # ── Spotify helpers ───────────────────────────────────────────────────────────
 
 def _sp_load_tokens():
@@ -1465,6 +1572,12 @@ def _play_track_on_sonos(track, device_ip):
         yt_id = _sp_resolve_yt(video_id[3:], title, artist)
         if not yt_id:
             return False, "Could not resolve Spotify track to YouTube"
+        video_id = yt_id
+    # Last.fm tracks: resolve to YouTube ID before streaming
+    if str(video_id).startswith("lfm_"):
+        yt_id = _lfm_resolve_yt(video_id, title, artist)
+        if not yt_id:
+            return False, "Could not resolve Last.fm track to YouTube"
         video_id = yt_id
     track_file = find_track_file(video_id)
 
