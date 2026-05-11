@@ -184,6 +184,39 @@ input[type=range]::-webkit-slider-thumb {
   pointer-events: none; z-index: 1;
 }
 
+/* ── FULLSCREEN VISUALIZER VIEW ──────────────────────────────────────────── */
+#view-visualizer {
+  position: fixed; inset: 0; z-index: 500;
+  display: none; flex-direction: column;
+  background: var(--bg);
+}
+#view-visualizer.active { display: flex; }
+#vis-canvas-full {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
+.vis-fullscreen-bar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 72px;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(30px);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; padding: 0 20px; gap: 16px;
+  z-index: 10;
+}
+.vis-track-info { display: flex; align-items: center; gap: 10px; min-width: 200px; flex-shrink: 0; }
+.vis-track-thumb { width: 40px; height: 40px; border-radius: 7px; object-fit: cover; background: rgba(255,255,255,.08); flex-shrink:0; }
+.vis-track-text { min-width:0; }
+.vis-track-title  { font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150px; }
+.vis-track-artist { font-size:10px; color:var(--text2); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150px; }
+.vis-controls { flex:1; display:flex; align-items:center; justify-content:center; gap:8px; }
+.vis-right { display:flex; align-items:center; gap:10px; min-width:200px; justify-content:flex-end; flex-shrink:0; }
+.vis-exit-btn {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px; color: var(--text2); padding: 6px 12px;
+  cursor: pointer; font-size: 12px; transition: all 0.15s;
+}
+.vis-exit-btn:hover { background: rgba(255,255,255,0.18); color: var(--text); }
+
 /* Content above canvas */
 .center-content {
   position: relative; z-index: 10; flex: 1;
@@ -550,6 +583,9 @@ input[type=range]::-webkit-slider-thumb {
         <button class="nav-item" data-view="rooms">
           <span class="nav-icon">🏠</span> Rooms
         </button>
+        <button class="nav-item" id="btn-open-visualizer">
+          <span class="nav-icon">📊</span> Visualizer
+        </button>
         <div class="nav-divider"></div>
         <button class="nav-item" data-view="skins">
           <span class="nav-icon">🎨</span> Skins
@@ -772,6 +808,39 @@ input[type=range]::-webkit-slider-thumb {
   </div>
 
 </div><!-- /app -->
+
+<!-- FULLSCREEN VISUALIZER -->
+<div id="view-visualizer">
+  <canvas id="vis-canvas-full"></canvas>
+  <div class="vis-fullscreen-bar">
+    <div class="vis-track-info">
+      <img id="vis-thumb" class="vis-track-thumb" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt=""/>
+      <div class="vis-track-text">
+        <div id="vis-title" class="vis-track-title">Nothing playing</div>
+        <div id="vis-artist" class="vis-track-artist"></div>
+      </div>
+    </div>
+    <div class="vis-controls">
+      <button class="ctrl-btn" id="vis-prev" disabled style="width:36px;height:36px;font-size:15px;">⏮</button>
+      <button class="ctrl-btn play-pause" id="vis-pp" disabled style="width:46px;height:46px;font-size:17px;">▶</button>
+      <button class="ctrl-btn" id="vis-next" disabled style="width:36px;height:36px;font-size:15px;">⏭</button>
+    </div>
+    <div class="vis-right">
+      <div class="vis-modes">
+        <button class="vis-btn active" data-mode="bars">Bars</button>
+        <button class="vis-btn" data-mode="wave">Wave</button>
+        <button class="vis-btn" data-mode="circle">Circle</button>
+        <button class="vis-btn" data-mode="orbit">Orbit</button>
+        <button class="vis-btn" data-mode="tunnel">Tunnel</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:11px;color:var(--text3);">🔊</span>
+        <input type="range" id="vis-vol" min="0" max="100" value="50" style="width:70px;"/>
+      </div>
+      <button class="vis-exit-btn" id="btn-close-visualizer">✕ Exit</button>
+    </div>
+  </div>
+</div>
 
 <div id="toast"></div>
 
@@ -1378,6 +1447,8 @@ function drawIdle(c, w, h) {
   requestAnimationFrame(loop);
   const w=canvas.width, h=canvas.height;
   ctx2d.clearRect(0,0,w,h);
+  // Only draw center canvas when player view is active and fullscreen overlay is not open
+  if(S.currentView!=='player'||document.getElementById('view-visualizer').classList.contains('active')) return;
   if(!S.analyser||!S.playing){drawIdle(ctx2d,w,h);return;}
   const freq=new Uint8Array(S.analyser.frequencyBinCount);
   const time=new Uint8Array(S.analyser.frequencyBinCount);
@@ -1389,11 +1460,35 @@ function drawIdle(c, w, h) {
   else if (S.visMode==='tunnel') drawTunnel(ctx2d,freq,w,h);
 })();
 
+// Rooms canvas loop
+const canvasRooms = document.getElementById('vis-canvas-rooms');
+const ctxRooms = canvasRooms.getContext('2d');
+(function loopRooms() {
+  requestAnimationFrame(loopRooms);
+  const w=canvasRooms.offsetWidth, h=canvasRooms.offsetHeight;
+  if(canvasRooms.width!==w||canvasRooms.height!==h){canvasRooms.width=w;canvasRooms.height=h;}
+  ctxRooms.clearRect(0,0,w,h);
+  if(S.currentView!=='rooms') return;
+  if(!S.analyser||!S.playing){drawIdle(ctxRooms,w,h);return;}
+  const freq=new Uint8Array(S.analyser.frequencyBinCount);
+  const time=new Uint8Array(S.analyser.frequencyBinCount);
+  S.analyser.getByteFrequencyData(freq); S.analyser.getByteTimeDomainData(time);
+  if      (S.visMode==='bars')   drawBars(ctxRooms,freq,w,h);
+  else if (S.visMode==='wave')   drawWave(ctxRooms,time,w,h);
+  else if (S.visMode==='circle') drawCircle(ctxRooms,freq,w,h);
+  else if (S.visMode==='orbit')  drawOrbit(ctxRooms,freq,w,h);
+  else if (S.visMode==='tunnel') drawTunnel(ctxRooms,freq,w,h);
+})();
+
+// Sync vis-mode buttons across all panels (bottom bar + fullscreen bar)
+function setVisMode(mode) {
+  S.visMode = mode;
+  document.querySelectorAll('.vis-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.mode === mode)
+  );
+}
 document.querySelectorAll('.vis-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.vis-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active'); S.visMode=btn.dataset.mode;
-  });
+  btn.addEventListener('click', () => setVisMode(btn.dataset.mode));
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1835,6 +1930,10 @@ function updateNowPlaying(t) {
   document.getElementById('bar-title').textContent=t.title;
   document.getElementById('bar-title').style.color='';
   document.getElementById('bar-artist').textContent=t.artist||'';
+  // Fullscreen visualizer track info
+  document.getElementById('vis-thumb').src  = t.thumbnail || BLANK;
+  document.getElementById('vis-title').textContent  = t.title || 'Nothing playing';
+  document.getElementById('vis-artist').textContent = t.artist || '';
   // Background art
   if(t.thumbnail) document.getElementById('bg-art').style.backgroundImage=`url('${t.thumbnail}')`;
   document.title=`${t.title} — Sonosphere`;
@@ -1854,9 +1953,9 @@ async function playTrack(t) {
 // CONTROLS
 // ═══════════════════════════════════════════════════════════════════════════
 function enableControls() {
-  document.getElementById('btn-pp').disabled=false;
-  document.getElementById('bar-pp').disabled=false;
-  document.getElementById('rooms-pp').disabled=false;
+  ['btn-pp','bar-pp','rooms-pp','vis-pp'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.disabled=false;
+  });
 }
 
 function bindControl(id,action) {
@@ -1883,12 +1982,12 @@ bindControl('btn-next','next'); bindControl('bar-next','next'); bindControl('roo
 
 function updatePP() {
   const icon=S.playing?'⏸':'▶';
-  ['btn-pp','bar-pp','rooms-pp'].forEach(id=>{
+  ['btn-pp','bar-pp','rooms-pp','vis-pp'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.textContent=icon;
   });
   const hasQ=S.queue.length>0;
-  ['btn-prev','bar-prev','rooms-prev'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=!hasQ||S.queueIdx<=0;});
-  ['btn-next','bar-next','rooms-next'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=!hasQ||S.queueIdx>=S.queue.length-1;});
+  ['btn-prev','bar-prev','rooms-prev','vis-prev'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=!hasQ||S.queueIdx<=0;});
+  ['btn-next','bar-next','rooms-next','vis-next'].forEach(id=>{const el=document.getElementById(id);if(el)el.disabled=!hasQ||S.queueIdx>=S.queue.length-1;});
   const art=document.getElementById('album-art');
   art.classList.toggle('active',S.playing);
   document.getElementById('album-glow').style.opacity=S.playing?'1':'0';
@@ -1905,6 +2004,8 @@ function bindVol(sliderId, labelId) {
     const otherLb=sliderId==='vol-slider'?'bar-vol-label':'vol-label';
     document.getElementById(other).value=this.value;
     document.getElementById(otherLb).textContent=this.value;
+    // Also sync fullscreen vis slider
+    const visVol=document.getElementById('vis-vol'); if(visVol) visVol.value=this.value;
     clearTimeout(volT);
     volT=setTimeout(()=>{
       if(!S.device) return;
@@ -1966,12 +2067,105 @@ function startPoll() {
       // Volume sync
       if(s.volume!==undefined&&Math.abs(s.volume-S.volume)>2){
         S.volume=s.volume;
-        ['vol-slider','bar-vol-slider'].forEach(id=>document.getElementById(id).value=s.volume);
+        ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=s.volume;});
         ['vol-label','bar-vol-label'].forEach(id=>document.getElementById(id).textContent=s.volume);
       }
     } catch(e){}
   },3000);
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// FULLSCREEN VISUALIZER
+// ═══════════════════════════════════════════════════════════════════════════
+const visOverlay  = document.getElementById('view-visualizer');
+const canvasFull  = document.getElementById('vis-canvas-full');
+const ctxFull     = canvasFull.getContext('2d');
+
+function resizeFullCanvas() {
+  canvasFull.width  = window.innerWidth;
+  canvasFull.height = window.innerHeight;
+}
+resizeFullCanvas();
+window.addEventListener('resize', resizeFullCanvas);
+
+// Open fullscreen (it's an overlay — doesn't change S.currentView)
+document.getElementById('btn-open-visualizer').addEventListener('click', () => {
+  visOverlay.classList.add('active');
+  // Highlight nav button
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('btn-open-visualizer').classList.add('active');
+  resizeFullCanvas();
+  syncVisOverlayTrack();
+});
+
+// Close fullscreen — restore nav highlight for previous view
+document.getElementById('btn-close-visualizer').addEventListener('click', () => {
+  visOverlay.classList.remove('active');
+  // Restore nav active state
+  document.querySelector(`[data-view="${S.currentView}"]`)?.classList.add('active');
+});
+
+// Sync track info panel inside fullscreen
+function syncVisOverlayTrack() {
+  const t = S.nowPlaying;
+  if (!t) return;
+  document.getElementById('vis-thumb').src  = t.thumbnail || BLANK;
+  document.getElementById('vis-title').textContent  = t.title || 'Nothing playing';
+  document.getElementById('vis-artist').textContent = t.artist || '';
+}
+
+// Fullscreen RAF loop
+(function loopFull() {
+  requestAnimationFrame(loopFull);
+  if (!visOverlay.classList.contains('active')) return;
+  const w = canvasFull.width, h = canvasFull.height;
+  ctxFull.clearRect(0, 0, w, h);
+  if (!S.analyser || !S.playing) { drawIdle(ctxFull, w, h); return; }
+  const freq = new Uint8Array(S.analyser.frequencyBinCount);
+  const time = new Uint8Array(S.analyser.frequencyBinCount);
+  S.analyser.getByteFrequencyData(freq);
+  S.analyser.getByteTimeDomainData(time);
+  if      (S.visMode === 'bars')   drawBars(ctxFull, freq, w, h);
+  else if (S.visMode === 'wave')   drawWave(ctxFull, time, w, h);
+  else if (S.visMode === 'circle') drawCircle(ctxFull, freq, w, h);
+  else if (S.visMode === 'orbit')  drawOrbit(ctxFull, freq, w, h);
+  else if (S.visMode === 'tunnel') drawTunnel(ctxFull, freq, w, h);
+})();
+
+// Wire fullscreen prev/pp/next to the same actions as bar controls
+['vis-pp','vis-prev','vis-next'].forEach(id => {
+  const action = id.replace('vis-','');
+  document.getElementById(id)?.addEventListener('click', async () => {
+    if (!S.device) return;
+    if (action === 'pp') {
+      const act = S.playing ? 'pause' : 'play';
+      await api('/api/control', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({device_ip:S.device.ip, action:act})});
+      S.playing = !S.playing; updatePP();
+    } else if (action === 'prev') {
+      if (!S.queue.length) return;
+      const res = await api('/api/queue/prev', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({device_ip:S.device.ip})});
+      if (res.success) { S.queueIdx=res.current; updateNowPlaying(S.queue[res.current]); S.playing=true; updatePP(); renderQueue(); renderRoomsQueue(); }
+    } else if (action === 'next') {
+      if (!S.queue.length) return;
+      const res = await api('/api/queue/next', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({device_ip:S.device.ip})});
+      if (res.success) { S.queueIdx=res.current; updateNowPlaying(S.queue[res.current]); S.playing=true; updatePP(); renderQueue(); renderRoomsQueue(); }
+    }
+  });
+});
+
+// Wire fullscreen volume slider
+const visVolSlider = document.getElementById('vis-vol');
+visVolSlider.addEventListener('input', function() {
+  S.volume = this.value;
+  // Sync all volume sliders
+  ['vol-slider','bar-vol-slider'].forEach(id => document.getElementById(id).value = this.value);
+  ['vol-label','bar-vol-label'].forEach(id => document.getElementById(id).textContent = this.value);
+  clearTimeout(volT);
+  volT = setTimeout(() => {
+    if (!S.device) return;
+    api('/api/control', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({device_ip:S.device.ip, action:'volume', value:S.volume})});
+  }, 200);
+});
 
 // ═══════════════════════════════════════════════════════════════════════════
 // INIT
