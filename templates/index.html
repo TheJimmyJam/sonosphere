@@ -543,7 +543,8 @@ input[type=range]::-webkit-slider-thumb {
 .bar-transport { display: flex; align-items: center; gap: 4px; }
 .bar-progress { width: 100%; max-width: 480px; display: flex; align-items: center; gap: 8px; }
 .bar-vol { display: flex; align-items: center; gap: 7px; width: var(--right-w); flex-shrink: 0; justify-content: flex-end; }
-.vis-modes { display: flex; gap: 3px; }
+.vis-modes { display: flex; gap: 3px; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+.vis-modes::-webkit-scrollbar { display: none; }
 .vis-btn {
   background: var(--border); border: 1px solid var(--border);
   border-radius: 5px; color: var(--text3); padding: 4px 8px;
@@ -964,6 +965,13 @@ input[type=range]::-webkit-slider-thumb {
           <button class="vis-btn" data-mode="circle">Circle</button>
           <button class="vis-btn" data-mode="orbit">Orbit</button>
           <button class="vis-btn" data-mode="tunnel">Tunnel</button>
+          <button class="vis-btn" data-mode="plasma">Plasma</button>
+          <button class="vis-btn" data-mode="stars">Stars</button>
+          <button class="vis-btn" data-mode="fire">Fire</button>
+          <button class="vis-btn" data-mode="scope">Scope</button>
+          <button class="vis-btn" data-mode="helix">Helix</button>
+          <button class="vis-btn" data-mode="lava">Lava</button>
+          <button class="vis-btn" data-mode="rings">Rings</button>
         </div>
       </div>
       <div class="bar-progress">
@@ -1610,6 +1618,147 @@ function drawTunnel(c, f, w, h) {
   updateParticles(c);
 }
 
+// ── PLASMA (psychedelic interference waves) ─────────────────────────────────
+let _pT=0,_pCnv=null,_pCtx=null;
+function drawPlasma(c,f,w,h){
+  _pT+=0.018+(f.reduce((a,b)=>a+b,0)/f.length/255)*0.045;
+  const sc=3,sw=Math.ceil(w/sc),sh=Math.ceil(h/sc);
+  if(!_pCnv||_pCnv.width!==sw||_pCnv.height!==sh){_pCnv=document.createElement('canvas');_pCnv.width=sw;_pCnv.height=sh;_pCtx=_pCnv.getContext('2d');}
+  const img=_pCtx.createImageData(sw,sh),d=img.data;
+  for(let r=0;r<sh;r++){for(let col=0;col<sw;col++){
+    const x=col/sw,y=r/sh,fv=f[Math.floor(x*f.length)]/255;
+    const v=Math.min(1,Math.max(0,(Math.sin(x*7+_pT)+Math.sin(y*5+_pT*.8)+Math.sin((x+y)*4+_pT*1.2)+Math.sin(Math.hypot(x-.5,y-.5)*10-_pT*1.6)*(0.7+fv*0.6))/4*.5+.5));
+    const hN=((v*360+_pT*25)%360)/360,l=.35+fv*.22,s=.9;
+    const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
+    const tr=(t)=>{t=(t%1+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p;};
+    const i=(r*sw+col)*4;d[i]=tr(hN+1/3)*255|0;d[i+1]=tr(hN)*255|0;d[i+2]=tr(hN-1/3)*255|0;d[i+3]=255;
+  }}
+  _pCtx.putImageData(img,0,0);c.imageSmoothingEnabled=true;c.drawImage(_pCnv,0,0,w,h);
+}
+
+// ── STARFIELD (3-D zoom on beat) ─────────────────────────────────────────────
+const _NSTARS=280;let _sArr=[],_sW=0,_sH=0;
+function _mkStars(w,h){_sArr=Array.from({length:_NSTARS},()=>({x:(Math.random()-.5)*2,y:(Math.random()-.5)*2,z:Math.random(),pz:0}));_sW=w;_sH=h;}
+function drawStarfield(c,f,w,h){
+  if(_sArr.length<_NSTARS||w!==_sW||h!==_sH)_mkStars(w,h);
+  const bass=f.slice(0,16).reduce((a,b)=>a+b,0)/16/255,spd=0.004+bass*0.028;
+  const cx=w/2,cy=h/2;
+  for(const s of _sArr){
+    s.pz=s.z;s.z=(s.z-spd+1)%1;
+    if(s.z>s.pz){s.x=(Math.random()-.5)*2;s.y=(Math.random()-.5)*2;s.pz=s.z=.9+Math.random()*.1;continue;}
+    const x=(s.x/s.z)*cx+cx,y=(s.y/s.z)*cy+cy;
+    if(x<0||x>w||y<0||y>h)continue;
+    const px=(s.x/s.pz)*cx+cx,py=(s.y/s.pz)*cy+cy;
+    const bright=1-s.z,sz=Math.max(.4,bright*2.8),hue=200+s.x*60;
+    c.beginPath();c.moveTo(px,py);c.lineTo(x,y);
+    c.strokeStyle=`hsla(${hue},80%,${70+bright*25}%,${bright*.9})`;
+    c.lineWidth=sz;c.shadowBlur=bright*10;c.shadowColor=`hsl(${hue},80%,85%)`;c.stroke();
+  }
+  c.shadowBlur=0;
+}
+
+// ── FIRE (bass-driven cellular flame simulation) ──────────────────────────────
+let _fBuf=null,_fFW=0,_fFH=0,_fCnv=null,_fCtx=null;
+function drawFire(c,f,w,h){
+  const fw=Math.max(1,Math.floor(w/3)),fh=Math.max(1,Math.floor(h/3));
+  if(!_fBuf||_fFW!==fw||_fFH!==fh){_fBuf=new Float32Array(fw*fh);_fFW=fw;_fFH=fh;_fCnv=document.createElement('canvas');_fCnv.width=fw;_fCnv.height=fh;_fCtx=_fCnv.getContext('2d');}
+  const bass=f.slice(0,Math.floor(f.length*.2)).reduce((a,b)=>a+b,0)/Math.floor(f.length*.2)/255;
+  for(let x=0;x<fw;x++){const v=bass>.04?Math.min(1,Math.random()*bass*2+(Math.random()<bass*.8?.3:0)):0;_fBuf[(fh-1)*fw+x]=v;if(fh>1)_fBuf[(fh-2)*fw+x]=v*.85;}
+  for(let y=0;y<fh-2;y++)for(let x=0;x<fw;x++)_fBuf[y*fw+x]=Math.max(0,(_fBuf[y*fw+x]+_fBuf[(y+1)*fw+((x-1+fw)%fw)]+_fBuf[(y+1)*fw+x]+_fBuf[(y+1)*fw+((x+1)%fw)])/4-.009);
+  const img=_fCtx.createImageData(fw,fh),d=img.data;
+  for(let i=0;i<fw*fh;i++){
+    const v=_fBuf[i];let r=0,g=0,b=0;
+    if(v<.25){r=v*4*200|0;b=v*4*60|0;}else if(v<.5){r=200+((v-.25)*4*55)|0;g=((v-.25)*4*150)|0;}
+    else if(v<.75){r=255;g=(150+((v-.5)*4*80))|0;}else{r=255;g=230;b=((v-.75)*4*255)|0;}
+    d[i*4]=r;d[i*4+1]=g;d[i*4+2]=b;d[i*4+3]=v>.005?255:0;
+  }
+  _fCtx.putImageData(img,0,0);c.imageSmoothingEnabled=true;c.drawImage(_fCnv,0,0,w,h);
+}
+
+// ── SCOPE (retro phosphor oscilloscope) ─────────────────────────────────────
+function drawScope(c,f,t,w,h){
+  c.lineWidth=1;c.strokeStyle='rgba(0,255,80,.06)';
+  for(let i=0;i<=8;i++){c.beginPath();c.moveTo(i/8*w,0);c.lineTo(i/8*w,h);c.stroke();}
+  for(let i=0;i<=6;i++){c.beginPath();c.moveTo(0,i/6*h);c.lineTo(w,i/6*h);c.stroke();}
+  c.strokeStyle='rgba(0,255,80,.18)';c.beginPath();c.moveTo(0,h/2);c.lineTo(w,h/2);c.stroke();
+  for(const [lw,al] of [[7,.08],[3,.35],[1.2,.88]]){
+    c.beginPath();
+    for(let i=0;i<t.length;i++){const x=i/t.length*w,y=(t[i]-128)/128*h*.43+h/2;i===0?c.moveTo(x,y):c.lineTo(x,y);}
+    c.strokeStyle=`rgba(0,255,80,${al})`;c.lineWidth=lw;c.stroke();
+  }
+  const n=Math.min(f.length,64);
+  for(let i=0;i<n;i++){const v=f[i]/255*.13;c.fillStyle=`rgba(0,255,80,${v*2.5})`;c.fillRect(i/n*w,0,w/n-1,h*v);}
+}
+
+// ── HELIX (spinning DNA double helix) ────────────────────────────────────────
+let _hT=0;
+function drawHelix(c,f,w,h){
+  const avg=f.reduce((a,b)=>a+b,0)/f.length/255;
+  _hT+=.026+avg*.055;
+  const cy=h/2,amp=Math.min(w,h)*.22,n=100,rN=20;
+  for(let s=0;s<2;s++){
+    c.beginPath();
+    for(let i=0;i<=n;i++){const t=i/n,fv=f[Math.floor(t*f.length)]/255,x=t*w,y=cy+Math.sin(t*Math.PI*4+_hT+s*Math.PI)*amp*(.6+fv*.8);i===0?c.moveTo(x,y):c.lineTo(x,y);}
+    const hue=s===0?262:188;const g=c.createLinearGradient(0,0,w,0);
+    for(let i=0;i<=6;i++){const fv=f[Math.floor(i/6*f.length)]/255;g.addColorStop(i/6,`hsla(${hue+i*9},88%,${52+fv*22}%,${.6+fv*.4})`);}
+    c.strokeStyle=g;c.lineWidth=3;c.shadowBlur=14;c.shadowColor=`hsl(${hue},80%,65%)`;c.stroke();c.shadowBlur=0;
+  }
+  for(let i=0;i<rN;i++){
+    const t=i/rN,fv=f[Math.floor(t*f.length)]/255,x=t*w;
+    const y1=cy+Math.sin(t*Math.PI*4+_hT)*amp*(.6+fv*.8),y2=cy+Math.sin(t*Math.PI*4+_hT+Math.PI)*amp*(.6+fv*.8);
+    c.beginPath();c.moveTo(x,y1);c.lineTo(x,y2);
+    c.strokeStyle=`hsla(${225+fv*30},80%,65%,${.2+fv*.45})`;c.lineWidth=1+fv*1.5;c.stroke();
+  }
+}
+
+// ── LAVA LAMP (audio-reactive floating blobs) ─────────────────────────────────
+let _lavaT=0;
+function drawLava(c,f,w,h){
+  const avg=f.reduce((a,b)=>a+b,0)/f.length/255;
+  _lavaT+=.012+avg*.03;
+  const blobs=[
+    {bx:.3,by:.4,r:.22,speed:.7,phase:0},{bx:.65,by:.55,r:.25,speed:.5,phase:1.5},
+    {bx:.5,by:.3,r:.18,speed:.9,phase:3},{bx:.2,by:.7,r:.2,speed:.6,phase:4.8},
+    {bx:.75,by:.35,r:.16,speed:1.1,phase:2.2},{bx:.45,by:.7,r:.21,speed:.8,phase:1.1},
+  ];
+  blobs.forEach((b,bi)=>{
+    const fi=Math.floor(bi/blobs.length*f.length),fv=f[fi]/255;
+    const x=(b.bx+Math.sin(_lavaT*b.speed+b.phase)*.18)*w;
+    const y=(b.by+Math.cos(_lavaT*b.speed*0.7+b.phase)*.2)*h;
+    const r=(b.r+fv*.1)*Math.min(w,h);
+    const hue=280+bi*25+fv*40,lum=35+fv*20;
+    const g=c.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,`hsla(${hue},85%,${lum+15}%,.85)`);
+    g.addColorStop(.5,`hsla(${hue},80%,${lum}%,.55)`);
+    g.addColorStop(1,`hsla(${hue},75%,${lum}%,0)`);
+    c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();
+  });
+}
+
+// ── WAVEFORM RINGS (concentric rings that pulse with audio) ──────────────────
+let _ringT=0;
+function drawRings(c,f,w,h){
+  const avg=f.reduce((a,b)=>a+b,0)/f.length/255;
+  _ringT+=.02+avg*.04;
+  const cx=w/2,cy=h/2,nRings=14,baseR=Math.min(w,h)*.04;
+  for(let ri=0;ri<nRings;ri++){
+    const t=ri/nRings,fi=Math.floor(t*f.length),fv=f[fi]/255;
+    const r=baseR+(ri+1)*Math.min(w,h)*.036+fv*Math.min(w,h)*.06;
+    const pts=80,hue=240+t*120+_ringT*20;
+    c.beginPath();
+    for(let i=0;i<=pts;i++){
+      const ang=(i/pts)*Math.PI*2;
+      const wobble=1+Math.sin(ang*5+_ringT*(1+t))*.08*(fv+.2);
+      const rx=cx+Math.cos(ang)*r*wobble,ry=cy+Math.sin(ang)*r*wobble;
+      i===0?c.moveTo(rx,ry):c.lineTo(rx,ry);
+    }
+    c.closePath();
+    c.strokeStyle=`hsla(${hue},85%,${55+fv*20}%,${.15+fv*.5})`;
+    c.lineWidth=1+fv*2.5;c.shadowBlur=fv*12;c.shadowColor=`hsl(${hue},85%,65%)`;c.stroke();
+    c.shadowBlur=0;
+  }
+}
+
 // Preload logo for idle state background
 const _logoImg = new Image();
 _logoImg.src = '/assets/sonosphere-transparent.png';
@@ -1655,11 +1804,18 @@ function drawIdle(c, w, h) {
   const freq=new Uint8Array(S.analyser.frequencyBinCount);
   const time=new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq); S.analyser.getByteTimeDomainData(time);
-  if      (S.visMode==='bars')   drawBars(ctx2d,freq,w,h);
-  else if (S.visMode==='wave')   drawWave(ctx2d,time,w,h);
-  else if (S.visMode==='circle') drawCircle(ctx2d,freq,w,h);
-  else if (S.visMode==='orbit')  drawOrbit(ctx2d,freq,w,h);
-  else if (S.visMode==='tunnel') drawTunnel(ctx2d,freq,w,h);
+  if      (S.visMode==='bars')    drawBars(ctx2d,freq,w,h);
+  else if (S.visMode==='wave')    drawWave(ctx2d,time,w,h);
+  else if (S.visMode==='circle')  drawCircle(ctx2d,freq,w,h);
+  else if (S.visMode==='orbit')   drawOrbit(ctx2d,freq,w,h);
+  else if (S.visMode==='tunnel')  drawTunnel(ctx2d,freq,w,h);
+  else if (S.visMode==='plasma')  drawPlasma(ctx2d,freq,w,h);
+  else if (S.visMode==='stars')   drawStarfield(ctx2d,freq,w,h);
+  else if (S.visMode==='fire')    drawFire(ctx2d,freq,w,h);
+  else if (S.visMode==='scope')   drawScope(ctx2d,freq,time,w,h);
+  else if (S.visMode==='helix')   drawHelix(ctx2d,freq,w,h);
+  else if (S.visMode==='lava')    drawLava(ctx2d,freq,w,h);
+  else if (S.visMode==='rings')   drawRings(ctx2d,freq,w,h);
 })();
 
 // Rooms canvas loop
@@ -1675,11 +1831,18 @@ const ctxRooms = canvasRooms.getContext('2d');
   const freq=new Uint8Array(S.analyser.frequencyBinCount);
   const time=new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq); S.analyser.getByteTimeDomainData(time);
-  if      (S.visMode==='bars')   drawBars(ctxRooms,freq,w,h);
-  else if (S.visMode==='wave')   drawWave(ctxRooms,time,w,h);
-  else if (S.visMode==='circle') drawCircle(ctxRooms,freq,w,h);
-  else if (S.visMode==='orbit')  drawOrbit(ctxRooms,freq,w,h);
-  else if (S.visMode==='tunnel') drawTunnel(ctxRooms,freq,w,h);
+  if      (S.visMode==='bars')    drawBars(ctxRooms,freq,w,h);
+  else if (S.visMode==='wave')    drawWave(ctxRooms,time,w,h);
+  else if (S.visMode==='circle')  drawCircle(ctxRooms,freq,w,h);
+  else if (S.visMode==='orbit')   drawOrbit(ctxRooms,freq,w,h);
+  else if (S.visMode==='tunnel')  drawTunnel(ctxRooms,freq,w,h);
+  else if (S.visMode==='plasma')  drawPlasma(ctxRooms,freq,w,h);
+  else if (S.visMode==='stars')   drawStarfield(ctxRooms,freq,w,h);
+  else if (S.visMode==='fire')    drawFire(ctxRooms,freq,w,h);
+  else if (S.visMode==='scope')   drawScope(ctxRooms,freq,time,w,h);
+  else if (S.visMode==='helix')   drawHelix(ctxRooms,freq,w,h);
+  else if (S.visMode==='lava')    drawLava(ctxRooms,freq,w,h);
+  else if (S.visMode==='rings')   drawRings(ctxRooms,freq,w,h);
 })();
 
 // Sync vis-mode buttons across all panels (bottom bar + fullscreen bar)
@@ -3137,11 +3300,18 @@ function syncVisOverlayTrack() {
   const time = new Uint8Array(S.analyser.frequencyBinCount);
   S.analyser.getByteFrequencyData(freq);
   S.analyser.getByteTimeDomainData(time);
-  if      (S.visMode === 'bars')   drawBars(ctxFull, freq, w, h);
-  else if (S.visMode === 'wave')   drawWave(ctxFull, time, w, h);
-  else if (S.visMode === 'circle') drawCircle(ctxFull, freq, w, h);
-  else if (S.visMode === 'orbit')  drawOrbit(ctxFull, freq, w, h);
-  else if (S.visMode === 'tunnel') drawTunnel(ctxFull, freq, w, h);
+  if      (S.visMode === 'bars')    drawBars(ctxFull, freq, w, h);
+  else if (S.visMode === 'wave')    drawWave(ctxFull, time, w, h);
+  else if (S.visMode === 'circle')  drawCircle(ctxFull, freq, w, h);
+  else if (S.visMode === 'orbit')   drawOrbit(ctxFull, freq, w, h);
+  else if (S.visMode === 'tunnel')  drawTunnel(ctxFull, freq, w, h);
+  else if (S.visMode === 'plasma')  drawPlasma(ctxFull, freq, w, h);
+  else if (S.visMode === 'stars')   drawStarfield(ctxFull, freq, w, h);
+  else if (S.visMode === 'fire')    drawFire(ctxFull, freq, w, h);
+  else if (S.visMode === 'scope')   drawScope(ctxFull, freq, time, w, h);
+  else if (S.visMode === 'helix')   drawHelix(ctxFull, freq, w, h);
+  else if (S.visMode === 'lava')    drawLava(ctxFull, freq, w, h);
+  else if (S.visMode === 'rings')   drawRings(ctxFull, freq, w, h);
 })();
 
 // Wire fullscreen prev/pp/next to the same actions as bar controls
