@@ -415,9 +415,18 @@ input[type=range]::-webkit-slider-thumb {
 .queue-item {
   display: flex; align-items: center; gap: 8px;
   padding: 6px 8px; border-radius: 8px; cursor: pointer; transition: background 0.15s;
+  user-select: none;
 }
 .queue-item:hover  { background: var(--hover-bg); }
 .queue-item.active { background: var(--playing-bg); }
+.queue-item.drag-over { border-top: 2px solid var(--accent2); }
+.queue-item.dragging  { opacity: 0.4; }
+.queue-drag {
+  color: var(--text3); font-size: 13px; cursor: grab; padding: 0 2px;
+  opacity: 0; transition: opacity 0.15s; flex-shrink: 0;
+}
+.queue-item:hover .queue-drag { opacity: 1; }
+.queue-drag:active { cursor: grabbing; }
 .queue-num  { font-size: 10px; color: var(--text3); width: 16px; text-align: right; flex-shrink: 0; }
 .queue-thumb { width: 34px; height: 34px; border-radius: 5px; object-fit: cover; flex-shrink: 0; background: var(--bg3); }
 .queue-info { flex: 1; min-width: 0; }
@@ -1848,17 +1857,51 @@ function renderQueue() {
   }
   list.innerHTML='';
   let totalSec=0;
+  let dragSrc=null;
   S.queue.forEach((t,i)=>{
     totalSec+=toSec(t.duration);
     const el=document.createElement('div');
     el.className='queue-item'+(i===S.queueIdx?' active':'');
+    el.draggable=true;
+    el.dataset.idx=i;
     el.innerHTML=`
+      <span class="queue-drag" title="Drag to reorder">⠿</span>
       <span class="queue-num">${i+1}</span>
       <img class="queue-thumb" src="${t.thumbnail||BLANK}" alt="" onerror="this.src='${BLANK}'"/>
       <div class="queue-info"><div class="queue-title">${esc(t.title)}</div><div class="queue-artist">${esc(t.artist)}</div></div>
       <button class="queue-rm" data-idx="${i}">✕</button>`;
-    el.addEventListener('click',e=>{if(e.target.closest('.queue-rm'))return;jumpQueue(i);});
+    el.addEventListener('click',e=>{if(e.target.closest('.queue-rm')||e.target.closest('.queue-drag'))return;jumpQueue(i);});
     el.querySelector('.queue-rm').addEventListener('click',e=>{e.stopPropagation();removeFromQueue(i);});
+    // ── Drag events ──
+    el.addEventListener('dragstart',e=>{
+      dragSrc=i; el.classList.add('dragging');
+      e.dataTransfer.effectAllowed='move';
+    });
+    el.addEventListener('dragend',()=>{
+      el.classList.remove('dragging');
+      list.querySelectorAll('.queue-item').forEach(r=>r.classList.remove('drag-over'));
+    });
+    el.addEventListener('dragover',e=>{
+      e.preventDefault(); e.dataTransfer.dropEffect='move';
+      list.querySelectorAll('.queue-item').forEach(r=>r.classList.remove('drag-over'));
+      el.classList.add('drag-over');
+    });
+    el.addEventListener('drop',async e=>{
+      e.preventDefault();
+      el.classList.remove('drag-over');
+      const from=dragSrc, to=parseInt(el.dataset.idx);
+      if(from===null||from===to) return;
+      // Reorder locally for instant feedback
+      const moved=S.queue.splice(from,1)[0];
+      S.queue.splice(to,0,moved);
+      if(S.queueIdx===from) S.queueIdx=to;
+      else if(from<S.queueIdx&&to>=S.queueIdx) S.queueIdx--;
+      else if(from>S.queueIdx&&to<=S.queueIdx) S.queueIdx++;
+      renderQueue(); renderRoomsQueue();
+      // Persist to server
+      await api('/api/queue/reorder',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({from,to})});
+    });
     list.appendChild(el);
   });
   document.getElementById('queue-footer-count').textContent=`${S.queue.length} songs`;
