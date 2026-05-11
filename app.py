@@ -1122,7 +1122,17 @@ def queue_jump():
     data      = request.json or {}
     device_ip = data.get("device_ip")
     idx       = data.get("index", 0)
+    video_id  = data.get("video_id")  # Prefer ID-based lookup to survive index mismatches
+
     with queue_lock:
+        # If a video_id was provided, find the actual position in the current queue.
+        # This is the reliable path — index alone can mismatch if a reorder is still
+        # in-flight or the backend was restarted with a stale queue_state.json.
+        if video_id:
+            found = next((i for i, t in enumerate(play_queue) if t.get("id") == video_id), None)
+            if found is not None:
+                idx = found
+
         if idx < 0 or idx >= len(play_queue):
             return jsonify({"success": False, "error": "Index out of range"})
         play_queue_idx = idx
