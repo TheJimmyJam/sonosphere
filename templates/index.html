@@ -1711,15 +1711,9 @@ function renderSidebarRooms() {
     slider.dataset.roomIp = room.ip;
     slider.addEventListener('input',function(){
       label.textContent=this.value;
-      // If this is the active device, sync main sliders too
-      if(S.device && S.device.ip===room.ip){
-        S.volume=this.value;
-        ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{
-          const el=document.getElementById(id); if(el) el.value=this.value;
-        });
-        const vl=document.getElementById('vol-label'), bl=document.getElementById('bar-vol-label');
-        if(vl) vl.textContent=this.value; if(bl) bl.textContent=this.value;
-      }
+      // Update S.rooms so updateMainVolFromRooms() has fresh per-speaker data
+      const sr=S.rooms.find(r=>r.ip===room.ip); if(sr) sr.volume=parseInt(this.value);
+      updateMainVolFromRooms();
       clearTimeout(slider._t);
       slider._t=setTimeout(()=>api('/api/rooms/volume',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ip:room.ip,volume:this.value})}),200);
     });
@@ -1804,12 +1798,9 @@ function renderSpeakerCards() {
     const volLabel  = card.querySelector('.vol-label');
     volSlider.addEventListener('input', function(){
       volLabel.textContent = this.value;
-      if(S.device?.ip === room.ip){
-        S.volume = this.value;
-        ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=this.value;});
-        const vl=document.getElementById('vol-label'),bl=document.getElementById('bar-vol-label');
-        if(vl)vl.textContent=this.value; if(bl)bl.textContent=this.value;
-      }
+      // Update S.rooms so updateMainVolFromRooms() has fresh per-speaker data
+      const sr=S.rooms.find(r=>r.ip===room.ip); if(sr) sr.volume=parseInt(this.value);
+      updateMainVolFromRooms();
       clearTimeout(volSlider._t);
       volSlider._t=setTimeout(()=>api('/api/rooms/volume',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({ip:room.ip,volume:this.value})}),200);
