@@ -496,6 +496,111 @@ def audio(video_id):
     return send_file(str(f), mimetype=mime, conditional=True)
 
 
+# Stream URL cache: video_id -> {"url": str, "mime": str, "expires": float}
+_stream_cache = {}
+_stream_cache_lock = threading.Lock()
+
+def _get_stream_url(video_id):
+    """
+    Extract a direct YouTube audio stream URL via yt-dlp (no download).
+    Caches result for 5 hours (YouTube URLs expire after ~6h).
+    """
+    now = time.time()
+    with _stream_cache_lock:
+        cached = _stream_cache.get(video_id)
+        if cached and cached["expires"] > now:
+            return cached["url"], cached["mime"]
+
+    opts = {
+        "format": "bestaudio[ext=m4a]/bestaudio/best",
+        "quiet": True,
+        "no_warnings": True,
+        "cookiesfrombrowser": ("chrome",),
+        "extractor_args": {"youtube": {"player_client": ["tv_embedded", "web"]}},
+    }
+    with yt_dlp.YoutubeDL(opts) as ydl:
+        info = ydl.extract_info(
+            f"https://www.youtube.com/watch?v={video_id}", download=False
+        )
+
+    # Get best audio format
+    fmt = None
+    for f in (info.get("formats") or []):
+        if f.get("acodec") != "none" and f.get("vcodec") == "none":
+            if fmt is None or (f.get("abr") or 0) > (fmt.get("abr") or 0):
+                fmt = f
+    if not fmt:
+        fmt = info  # fallback to merged format
+
+    url  = fmt.get("url") or info.get("url")
+    mime = "audio/mp4"
+    ext  = fmt.get("ext") or ""
+    if ext == "webm": mime = "audio/webm"
+    elif ext == "mp3": mime = "audio/mpeg"
+
+    with _stream_cache_lock:
+        _stream_cache[video_id] = {"url": url, "mime": mime, "expires": now + 5 * 3600}
+
+    return url, mime
+
+
+@app.route("/stream/<video_id>")
+def stream_audio(video_id):
+    """
+    Proxy a YouTube audio stream to Sonos without downloading.
+    Resolves the direct URL via yt-dlp, then pipes it through Flask.
+    Sonos just sees a normal HTTP audio endpoint.
+    """
+    import requests as req_lib
+
+    try:
+        stream_url, mime = _get_stream_url(video_id)
+    except Exception as e:
+        print(f"  ✗ stream URL error for {video_id}: {e}")
+        return f"Stream error: {e}", 500
+
+    from flask import Response, stream_with_context
+
+    range_header = request.headers.get("Range", "bytes=0-")
+    headers = {
+        "Range": range_header,
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+        "Referer": "https://www.youtube.com/",
+        "Origin": "https://www.youtube.com",
+    }
+
+    upstream = req_lib.get(stream_url, headers=headers, stream=True, timeout=15)
+    status   = upstream.status_code  # 206 Partial or 200
+
+    resp_headers = {
+        "Content-Type":  mime,
+        "Accept-Ranges": "bytes",
+    }
+    for h in ("Content-Length", "Content-Range"):
+        if h in upstream.headers:
+            resp_headers[h] = upstream.headers[h]
+
+    print(f"  → Streaming {video_id} ({mime}) range={range_header} status={status}")
+
+    def generate():
+        for chunk in upstream.iter_content(chunk_size=65536):
+            if chunk:
+                yield chunk
+
+    return Response(stream_with_context(generate()), status=status,
+                    headers=resp_headers, mimetype=mime)
+
+
+@app.route("/api/stream-info/<video_id>")
+def stream_info(video_id):
+    """Pre-resolve a stream URL so playback starts instantly. Call before /api/play."""
+    try:
+        url, mime = _get_stream_url(video_id)
+        return jsonify({"ok": True, "mime": mime})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)})
+
+
 @app.route("/api/play", methods=["POST"])
 def play():
     data      = request.json or {}
@@ -508,14 +613,23 @@ def play():
         return jsonify({"success": False, "error": "Missing params"})
 
     track_file = find_track_file(video_id)
-    if not track_file:
-        return jsonify({"success": False,
-                        "error": "Track not in library. Add it first with the ⬇ button."})
 
-    ext = track_file.suffix.lstrip(".")
-    mime_map = {"m4a": "audio/mp4", "mp4": "audio/mp4", "mp3": "audio/mpeg"}
-    mime = mime_map.get(ext, "audio/mp4")
-    stream_url = f"http://{LOCAL_IP}:{PORT}/audio/{video_id}"
+    if track_file:
+        # Local file — serve directly
+        ext = track_file.suffix.lstrip(".")
+        mime_map = {"m4a": "audio/mp4", "mp4": "audio/mp4", "mp3": "audio/mpeg"}
+        mime = mime_map.get(ext, "audio/mp4")
+        stream_url = f"http://{LOCAL_IP}:{PORT}/audio/{video_id}"
+        print(f"  → play (local): {stream_url}")
+    else:
+        # No local file — stream live from YouTube via proxy
+        print(f"  → play (stream): resolving {video_id}…")
+        try:
+            _, mime = _get_stream_url(video_id)
+        except Exception as e:
+            return jsonify({"success": False, "error": f"Stream error: {e}"})
+        stream_url = f"http://{LOCAL_IP}:{PORT}/stream/{video_id}"
+        print(f"  → play (stream): {stream_url}")
 
     safe_title  = title.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
     safe_artist = artist.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
@@ -755,7 +869,6 @@ def ytm_playlists():
     try:
         opts = _ydl_cookie_opts()
         opts.update({
-            "playlistend": 1,           # just need metadata, not every video
             "ignore_no_formats_error": True,
         })
         with yt_dlp.YoutubeDL(opts) as ydl:
@@ -968,13 +1081,18 @@ def _play_track_on_sonos(track, device_ip):
     title      = track.get("title", "")
     artist     = track.get("artist", "")
     track_file = find_track_file(video_id)
-    if not track_file:
-        return False, "Track not in library"
 
-    ext      = track_file.suffix.lstrip(".")
-    mime_map = {"m4a": "audio/mp4", "mp4": "audio/mp4", "mp3": "audio/mpeg"}
-    mime     = mime_map.get(ext, "audio/mp4")
-    url      = f"http://{LOCAL_IP}:{PORT}/audio/{video_id}"
+    if track_file:
+        ext      = track_file.suffix.lstrip(".")
+        mime_map = {"m4a": "audio/mp4", "mp4": "audio/mp4", "mp3": "audio/mpeg"}
+        mime     = mime_map.get(ext, "audio/mp4")
+        url      = f"http://{LOCAL_IP}:{PORT}/audio/{video_id}"
+    else:
+        try:
+            _, mime = _get_stream_url(video_id)
+        except Exception as e:
+            return False, f"Stream error: {e}"
+        url = f"http://{LOCAL_IP}:{PORT}/stream/{video_id}"
 
     safe_title  = title.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
     safe_artist = artist.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
