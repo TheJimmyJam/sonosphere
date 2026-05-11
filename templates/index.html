@@ -2357,13 +2357,16 @@ function updatePP() {
 let volT=null;
 
 // Return the rooms that are in the same Sonos group as S.device (including itself).
-// Uses S.rooms which is populated by loadSidebarRooms().
+// Uses group_id (coordinator IP) so all members of the same group share the same value —
+// avoids fragile name-string matching that breaks on capitalisation/spacing differences.
 function getGroupRooms() {
   if(!S.device || !S.rooms?.length) return null;
   const myRoom = S.rooms.find(r=>r.ip===S.device.ip);
-  if(!myRoom || !myRoom.group?.length) return null;  // solo speaker
-  // my room + any room whose name appears in myRoom.group
-  return S.rooms.filter(r=>r.ip===S.device.ip || myRoom.group.includes(r.name));
+  if(!myRoom || !myRoom.group_id) return null;  // solo speaker has no group_id
+  // All rooms whose group_id matches mine belong to the same Sonos group
+  const grouped = S.rooms.filter(r=>r.group_id === myRoom.group_id);
+  if(grouped.length <= 1) return null;  // only us — effectively solo
+  return grouped;
 }
 
 // Apply proportional scaling to S.rooms for grouped speakers and sync sidebar sliders.
