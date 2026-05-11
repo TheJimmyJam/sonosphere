@@ -747,6 +747,7 @@ input[type=range]::-webkit-slider-thumb {
           </div>
           <div style="display:flex;gap:6px;">
             <button class="btn ghost" id="btn-ytm-back" style="display:none">← Back</button>
+            <button class="btn" id="btn-queue-all" title="Add all library tracks to queue">Queue All</button>
             <button class="btn" id="btn-show-ytm">YouTube ↗</button>
             <button class="btn" id="btn-show-spotify" style="background:rgba(29,185,84,0.15);border-color:rgba(29,185,84,0.4);color:#1DB954;">🎵 Spotify</button>
           </div>
@@ -2227,6 +2228,17 @@ function makeLibraryCard(t,num) {
   return card;
 }
 
+document.getElementById('btn-queue-all').addEventListener('click', async () => {
+  const data = await api('/api/library');
+  const tracks = data.tracks || [];
+  if (!tracks.length) { toast('Library is empty'); return; }
+  const btn = document.getElementById('btn-queue-all');
+  btn.disabled = true; btn.textContent = 'Adding…';
+  tracks.forEach(t => addToQueue(t));
+  btn.disabled = false; btn.textContent = 'Queue All';
+  toast(`Added ${tracks.length} tracks to queue`);
+});
+
 // YTM
 function showBrowseMode(mode) {
   _browseMode=mode;
@@ -2235,6 +2247,7 @@ function showBrowseMode(mode) {
   document.getElementById('browse-ytm-tracks').style.display=mode==='ytm-tracks'?'':'none';
   document.getElementById('btn-ytm-back').style.display=mode!=='library'?'':'none';
   document.getElementById('btn-show-ytm').style.display=mode==='library'?'':'none';
+  document.getElementById('btn-queue-all').style.display=mode==='library'?'':'none';
   document.getElementById('browse-title').textContent=
     mode==='library'?'My Library':mode==='ytm'?'YouTube Music':'';
 }
