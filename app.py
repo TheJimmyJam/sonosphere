@@ -726,7 +726,14 @@ def control():
         if action == "play":   coordinator.play()
         elif action == "pause": coordinator.pause()
         elif action == "volume":
-            zone.volume = max(0, min(100, int(data.get("value", 50))))
+            vol = max(0, min(100, int(data.get("value", 50))))
+            # Set volume on all members of the group so the slider controls the room
+            if zone.group:
+                for member in zone.group.members:
+                    try: member.volume = vol
+                    except Exception: pass
+            else:
+                zone.volume = vol
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
