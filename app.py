@@ -625,55 +625,46 @@ def _compute_sapisidhash(sapisid):
 
 def _build_ytm_client_from_cookies():
     """
-    Build a working YTMusic client directly from Chrome cookies.
-    Injects headers into the session after construction — bypasses all file-based auth.
-    Returns a YTMusic instance or None.
+    Build a working YTMusic client from Chrome cookies.
+    Uses ytmusicapi.setup(headers_raw=...) to generate a properly-formatted
+    auth file, then loads it the normal way — no internal hacking needed.
     """
     try:
+        import ytmusicapi
         from ytmusicapi import YTMusic
+
         cookies = _parse_cookies_from_file()
         if not cookies:
+            print("  ⚠ No Chrome cookies found — open Chrome and sign into YouTube, then restart")
             return None
 
         sapisid = cookies.get('__Secure-3PAPISID') or cookies.get('SAPISID')
         if not sapisid:
-            print("  ⚠ Not signed into YouTube in Chrome — open Chrome and sign in, then restart")
+            print("  ⚠ Not signed into YouTube in Chrome — sign in and restart")
             return None
 
         cookie_str = '; '.join(f'{k}={v}' for k, v in cookies.items())
         sapisidhash = _compute_sapisidhash(sapisid)
 
-        injected = {
-            "accept": "*/*",
-            "accept-language": "en-US,en;q=0.9",
-            "authorization": sapisidhash,
-            "content-type": "application/json",
-            "cookie": cookie_str,
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-            "x-goog-authuser": "0",
-            "x-origin": "https://music.youtube.com",
-        }
+        # Build a raw headers string in the format ytmusicapi.setup() expects
+        raw_headers = "\n".join([
+            "accept: */*",
+            "accept-encoding: gzip, deflate",
+            "accept-language: en-US,en;q=0.9",
+            f"authorization: {sapisidhash}",
+            "content-type: application/json",
+            f"cookie: {cookie_str}",
+            "user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "x-goog-authuser: 0",
+            "x-origin: https://music.youtube.com",
+        ])
 
-        # Create instance and force-inject headers into every location ytmusicapi might read from
-        ytm = YTMusic()
-        ytm.auth = "cookie"           # passes _check_auth() which tests `if not self.auth`
-        # _headers is the dict ytmusicapi actually attaches to every API request
-        if hasattr(ytm, '_headers'):
-            ytm._headers.update(injected)
-        else:
-            ytm._headers = injected.copy()
-        # Some versions also use a requests.Session
-        if hasattr(ytm, '_session'):
-            ytm._session.headers.update(injected)
-        # And a plain .headers attribute
-        if hasattr(ytm, 'headers') and isinstance(ytm.headers, dict):
-            ytm.headers.update(injected)
-
-        # DEBUG: show what attrs ytmusicapi exposes so we know where headers live
-        attrs = [a for a in dir(ytm) if not a.startswith('__') and not callable(getattr(ytm, a, None))]
-        print(f"  [ytm attrs] {attrs}")
+        # Let ytmusicapi parse and format the auth file itself — proper format guaranteed
+        ytmusicapi.setup(filepath=YTM_AUTH_FILE, headers_raw=raw_headers)
+        ytm = YTMusic(auth=YTM_AUTH_FILE)
         print("  ✓ YouTube Music connected via Chrome cookies")
         return ytm
+
     except Exception as e:
         print(f"  ⚠ YouTube Music cookie auth failed: {e}")
         return None
