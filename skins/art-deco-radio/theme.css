@@ -1,0 +1,96 @@
+/* Sonosphere Expansion Pack 03 — Super Premium — Art Deco Radio
+   Skin format: JSON + CSS variables
+   Apply with: document.documentElement.dataset.skin = "art-deco-radio" */
+
+:root[data-skin="art-deco-radio"] {
+  color-scheme: dark;
+  --skin-id: "art-deco-radio";
+  --skin-name: "Art Deco Radio";
+  --skin-category: "Architectural Premium";
+  --skin-material: "deco lacquer";
+
+  --app-bg: #070604;
+  --app-bg-layer-1: radial-gradient(circle at 18% 12%, color-mix(in srgb, #d4af37 18%, transparent), transparent 34%);
+  --app-bg-layer-2: radial-gradient(circle at 84% 18%, color-mix(in srgb, #7dd3fc 16%, transparent), transparent 30%);
+  --app-bg-layer-3: linear-gradient(135deg, color-mix(in srgb, #070604 92%, #d4af37 8%), color-mix(in srgb, #070604 90%, #7dd3fc 10%));
+
+  --panel-bg: rgba(22,18,11,.93);
+  --panel-bg-strong: color-mix(in srgb, rgba(22,18,11,.93) 82%, black 12%);
+  --panel-bg-soft: color-mix(in srgb, rgba(22,18,11,.93) 64%, transparent);
+  --panel-border: rgba(212,175,55,.25);
+  --panel-shadow: 0 32px 110px rgba(0,0,0,.36);
+  --panel-highlight: inset 0 1px 0 rgba(255,255,255,.11);
+
+  --text-primary: #fff8dc;
+  --text-secondary: #cab98c;
+  --text-muted: color-mix(in srgb, #cab98c 68%, transparent);
+  --text-inverse: #ffffff;
+
+  --accent-primary: #d4af37;
+  --accent-secondary: #7dd3fc;
+  --accent-tertiary: color-mix(in srgb, #d4af37 48%, #7dd3fc 52%);
+  --accent-soft: color-mix(in srgb, #d4af37 13%, transparent);
+  --accent-glow-color: rgba(125,211,252,.18);
+  --accent-glow: 0 0 28px var(--accent-glow-color);
+
+  --button-bg: color-mix(in srgb, rgba(22,18,11,.93) 78%, white 5%);
+  --button-hover-bg: color-mix(in srgb, rgba(22,18,11,.93) 65%, #d4af37 12%);
+  --button-active-bg: linear-gradient(135deg, #d4af37, #7dd3fc);
+  --button-border: color-mix(in srgb, #d4af37 24%, transparent);
+
+  --slider-track: color-mix(in srgb, #cab98c 22%, transparent);
+  --slider-fill: linear-gradient(90deg, #d4af37, #7dd3fc);
+  --scrubber-thumb: #fff8dc;
+
+  --room-active-bg: linear-gradient(135deg, color-mix(in srgb, #d4af37 76%, black 10%), color-mix(in srgb, #7dd3fc 66%, black 12%));
+  --queue-row-bg: color-mix(in srgb, rgba(22,18,11,.93) 84%, transparent);
+  --album-border: color-mix(in srgb, #d4af37 22%, white 5%);
+
+  --visualizer-primary: #d4af37;
+  --visualizer-secondary: #7dd3fc;
+  --visualizer-mode: "deco-fan";
+  --visualizer-density: 0.38;
+  --visualizer-glow: rgba(125,211,252,.18);
+
+  --app-radius: 24px;
+  --panel-radius: 12px;
+  --card-radius: 8px;
+  --album-radius: 14px;
+  --control-radius: 999px;
+  --app-blur: 6px;
+
+  --font-ui: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  --font-display: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+}
+
+.sonosphere-app[data-skin="art-deco-radio"],
+:root[data-skin="art-deco-radio"] body {
+  background: var(--app-bg-layer-1), var(--app-bg-layer-2), var(--app-bg-layer-3), var(--app-bg);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+}
+
+:root[data-skin="art-deco-radio"] .panel,
+:root[data-skin="art-deco-radio"] .sidebar,
+:root[data-skin="art-deco-radio"] .queue-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--panel-radius);
+  box-shadow: var(--panel-shadow), var(--panel-highlight);
+  backdrop-filter: blur(var(--app-blur));
+}
+
+:root[data-skin="art-deco-radio"] .active-room,
+:root[data-skin="art-deco-radio"] .primary-button,
+:root[data-skin="art-deco-radio"] .play-button,
+:root[data-skin="art-deco-radio"] .selected-skin {
+  background: var(--button-active-bg);
+  color: var(--text-inverse);
+  box-shadow: var(--accent-glow);
+}
+
+:root[data-skin="art-deco-radio"] .visualizer {
+  --bar-color-a: var(--visualizer-primary);
+  --bar-color-b: var(--visualizer-secondary);
+  filter: drop-shadow(0 0 18px var(--visualizer-glow));
+}
