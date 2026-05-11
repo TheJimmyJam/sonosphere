@@ -1723,15 +1723,14 @@ function makeYTMCard(t,num) {
     <div class="track-info"><div class="track-title">${esc(t.title)}</div><div class="track-artist">${esc(t.artist||'')}</div></div>
     <div class="track-dur">${t.duration||''}</div>
     <div class="track-actions">
-      ${inLib
-        ?'<button class="btn primary">▶</button><button class="btn add">+</button>'
-        :'<button class="btn" data-action="dl">⬇</button>'}
+      <button class="btn primary">▶</button>
+      <button class="btn add">+</button>
+      ${inLib?'':`<button class="btn" data-action="dl" title="Save to library">⬇</button>`}
     </div>`;
-  if(inLib){
-    card.querySelector('.btn.primary').addEventListener('click',e=>{e.stopPropagation();playTrack(t);});
-    card.querySelector('.btn.add').addEventListener('click',e=>{e.stopPropagation();addToQueue(t);});
-    card.addEventListener('click',()=>playTrack(t));
-  } else {
+  card.querySelector('.btn.primary').addEventListener('click',e=>{e.stopPropagation();playTrack(t);});
+  card.querySelector('.btn.add').addEventListener('click',e=>{e.stopPropagation();addToQueue(t);});
+  card.addEventListener('click',()=>playTrack(t));
+  if(!inLib){
     const dlBtn=card.querySelector('[data-action=dl]');
     dlBtn.addEventListener('click',async e=>{
       e.stopPropagation(); dlBtn.textContent='⏳'; dlBtn.disabled=true;
@@ -1739,7 +1738,6 @@ function makeYTMCard(t,num) {
       toast(`Downloading: ${t.title}`);
       pollDownload(t.id,dlBtn,card,t);
     });
-    card.addEventListener('click',()=>toast('Download first with ⬇',true));
   }
   return card;
 }
@@ -1775,15 +1773,14 @@ function makeSearchCard(t,num) {
     <div class="track-info"><div class="track-title">${esc(t.title)}</div><div class="track-artist">${esc(t.artist||'')}</div></div>
     <div class="track-dur">${t.duration||''}</div>
     <div class="track-actions">
-      ${inLib
-        ?'<button class="btn primary">▶</button><button class="btn add">+</button>'
-        :'<button class="btn" data-action="dl">⬇</button>'}
+      <button class="btn primary">▶</button>
+      <button class="btn add">+</button>
+      ${inLib?'':`<button class="btn" data-action="dl" title="Save to library">⬇</button>`}
     </div>`;
-  if(inLib){
-    card.querySelector('.btn.primary').addEventListener('click',e=>{e.stopPropagation();playTrack(t);});
-    card.querySelector('.btn.add').addEventListener('click',e=>{e.stopPropagation();addToQueue(t);});
-    card.addEventListener('click',()=>playTrack(t));
-  } else {
+  card.querySelector('.btn.primary').addEventListener('click',e=>{e.stopPropagation();playTrack(t);});
+  card.querySelector('.btn.add').addEventListener('click',e=>{e.stopPropagation();addToQueue(t);});
+  card.addEventListener('click',()=>playTrack(t));
+  if(!inLib){
     const dlBtn=card.querySelector('[data-action=dl]');
     dlBtn.addEventListener('click',async e=>{
       e.stopPropagation(); dlBtn.textContent='⏳'; dlBtn.disabled=true;
@@ -1791,7 +1788,6 @@ function makeSearchCard(t,num) {
       toast(`Downloading: ${t.title}`);
       pollDownload(t.id,dlBtn,card,t);
     });
-    card.addEventListener('click',()=>toast('Add to library first with ⬇',true));
   }
   return card;
 }
