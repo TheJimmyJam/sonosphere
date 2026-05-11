@@ -595,21 +595,82 @@ def status():
 # Auth file: browser request headers pasted from Chrome DevTools (ytmusicapi.setup())
 YTM_AUTH_FILE = str(LIBRARY_DIR / "ytm_headers.json")
 
+def _build_ytm_auth_from_cookies():
+    """
+    Auto-generate ytm_headers.json from the Chrome cookies we already export.
+    No user interaction needed — reuses the same cookies yt-dlp uses for downloads.
+    Returns True if successful.
+    """
+    try:
+        if not os.path.exists(_COOKIE_FILE) or os.path.getsize(_COOKIE_FILE) < 100:
+            return False
+
+        # Parse Netscape cookie file → build cookie string for music.youtube.com
+        cookies = {}
+        with open(_COOKIE_FILE) as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                parts = line.split('\t')
+                if len(parts) < 7:
+                    continue
+                domain, _, path, secure, expires, name, value = parts[:7]
+                if 'youtube' in domain:
+                    cookies[name] = value
+
+        if 'SAPISID' not in cookies and '__Secure-3PAPISID' not in cookies:
+            print("  ⚠ YouTube cookies found but missing auth cookies — make sure you're signed into Chrome")
+            return False
+
+        cookie_str = '; '.join(f'{k}={v}' for k, v in cookies.items())
+
+        # Build the minimal headers dict ytmusicapi needs
+        headers = {
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate",
+            "accept-language": "en-US,en;q=0.9",
+            "content-type": "application/json",
+            "cookie": cookie_str,
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "x-goog-authuser": "0",
+            "x-origin": "https://music.youtube.com",
+        }
+
+        # Write the auth file
+        import json as _json
+        with open(YTM_AUTH_FILE, 'w') as f:
+            _json.dump(headers, f, indent=2)
+
+        print("  ✓ YouTube Music auth built automatically from Chrome cookies")
+        return True
+
+    except Exception as e:
+        print(f"  ⚠ Auto-auth from cookies failed: {e}")
+        return False
+
+
 def _get_ytm():
-    """Return a cached YTMusic client, authenticated via browser headers file."""
+    """Return a cached YTMusic client, authenticated automatically from Chrome cookies."""
     global _ytm_client
     with _ytm_lock:
         if _ytm_client is not None:
             return _ytm_client
         try:
             from ytmusicapi import YTMusic
-            # Try new headers file first, then legacy oauth file
+            # Try existing auth files first, then auto-build from cookies
             for auth_file in (YTM_AUTH_FILE, str(LIBRARY_DIR / "ytm_oauth.json")):
                 if os.path.exists(auth_file):
-                    _ytm_client = YTMusic(auth=auth_file)
-                    print(f"  ✓ YouTube Music API ready")
-                    return _ytm_client
-            print("  ⚠ ytmusicapi not authenticated — run setup at startup")
+                    try:
+                        _ytm_client = YTMusic(auth=auth_file)
+                        print(f"  ✓ YouTube Music API ready")
+                        return _ytm_client
+                    except Exception:
+                        pass  # stale file — fall through to rebuild
+            # No valid file — try auto-building from cookies
+            if _build_ytm_auth_from_cookies():
+                _ytm_client = YTMusic(auth=YTM_AUTH_FILE)
+                return _ytm_client
             return None
         except Exception as e:
             print(f"  ⚠ ytmusicapi init failed: {e}")
@@ -618,37 +679,20 @@ def _get_ytm():
 
 def _init_ytm_oauth():
     """
-    Authenticate ytmusicapi using browser request headers (works with all ytmusicapi versions).
-    User copies headers from Chrome DevTools → pastes here → saved to ytm_headers.json.
+    Auto-authenticate ytmusicapi from Chrome cookies — no user interaction needed.
+    Falls back to a clear error message if cookies aren't available.
     """
     # Already have a working auth file?
     for auth_file in (YTM_AUTH_FILE, str(LIBRARY_DIR / "ytm_oauth.json")):
         if os.path.exists(auth_file):
             print("  ✓ YouTube Music already authenticated")
             return
-    try:
-        import ytmusicapi
-        print()
-        print("  ── YouTube Music Setup ─────────────────────────────────")
-        print("  To enable your playlists & Liked Songs, sign in once.")
-        print("  (Press Enter to skip — search still works without this)")
-        print()
-        answer = input("  Set up YouTube Music now? [Y/n]: ").strip().lower()
-        if answer in ("n", "no"):
-            print("  Skipped — you can re-run setup by deleting ytm_headers.json and restarting")
-            return
-        print()
-        print("  Steps:")
-        print("  1. Open https://music.youtube.com in Chrome and make sure you're signed in")
-        print("  2. Press Cmd+Option+I to open DevTools → click the Network tab → reload (Cmd+R)")
-        print("  3. Click any request to music.youtube.com in the list")
-        print("  4. Scroll to 'Request Headers' → select all the header lines and copy them")
-        print("  5. Paste below and press Enter twice when done:")
-        print()
-        ytmusicapi.setup(filepath=YTM_AUTH_FILE)
-        print("  ✓ YouTube Music authenticated!")
-    except Exception as e:
-        print(f"  ⚠ YouTube Music setup failed: {e}")
+    print("  Setting up YouTube Music from Chrome cookies…")
+    if _build_ytm_auth_from_cookies():
+        print("  ✓ YouTube Music ready — no sign-in needed")
+    else:
+        print("  ⚠ YouTube Music unavailable — make sure you're signed into YouTube in Chrome")
+        print("    (Playlists & Liked Songs won't show, but search + playback still work)")
 
 
 def _fmt_track(item):
