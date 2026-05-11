@@ -1446,6 +1446,22 @@ def queue_add():
     return jsonify({"success": True, "queue": play_queue, "current": play_queue_idx})
 
 
+@app.route("/api/queue/add-many", methods=["POST"])
+def queue_add_many():
+    """Append multiple tracks to the queue at once."""
+    data   = request.json or {}
+    tracks = data.get("tracks", [])
+    added  = 0
+    with queue_lock:
+        for t in tracks:
+            track = {k: t.get(k, "") for k in ("id", "title", "artist", "duration", "thumbnail")}
+            if track["id"]:
+                play_queue.append(track)
+                added += 1
+    save_queue_state()
+    return jsonify({"success": True, "added": added, "queue": play_queue, "current": play_queue_idx})
+
+
 @app.route("/api/queue/next", methods=["POST"])
 def queue_next():
     global play_queue_idx
