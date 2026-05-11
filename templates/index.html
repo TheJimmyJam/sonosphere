@@ -95,7 +95,18 @@ input[type=range]::-webkit-slider-thumb {
   background: var(--accent2); border-radius: 50%;
 }
 #vol-slider { width: 80px; }
-#vol-label { font-size: 11px; color: var(--text3); width: 24px; }
+#vol-label, #bar-vol-label {
+  font-size: 11px; color: var(--text3); width: 34px;
+  background: transparent; border: 1px solid transparent; border-radius: 4px;
+  text-align: center; padding: 1px 2px; outline: none;
+  -moz-appearance: textfield;
+}
+#vol-label::-webkit-inner-spin-button,
+#vol-label::-webkit-outer-spin-button,
+#bar-vol-label::-webkit-inner-spin-button,
+#bar-vol-label::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+#vol-label:hover, #bar-vol-label:hover { border-color: var(--border2); }
+#vol-label:focus, #bar-vol-label:focus { border-color: var(--accent); color: var(--text); background: var(--bg3); }
 .topbar-icon-btn {
   background: var(--border); border: 1px solid var(--border);
   border-radius: 7px; color: var(--text2); padding: 5px 9px;
@@ -631,7 +642,7 @@ input[type=range]::-webkit-slider-thumb {
       <div class="vol-wrap">
         <span class="vol-icon">🔊</span>
         <input type="range" id="vol-slider" min="0" max="100" value="50"/>
-        <span id="vol-label">50</span>
+        <input type="number" id="vol-label" value="50" min="0" max="100"/>
       </div>
       <select id="device-select" style="background:var(--bg3);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-size:12px;padding:5px 8px;cursor:pointer;outline:none;max-width:130px;">
         <option value="">Searching…</option>
@@ -965,7 +976,7 @@ input[type=range]::-webkit-slider-thumb {
     <div class="bar-vol">
       <span style="font-size:11px;color:var(--text3);">🔊</span>
       <input type="range" id="bar-vol-slider" min="0" max="100" value="50" style="width:80px;"/>
-      <span id="bar-vol-label" style="font-size:11px;color:var(--text3);width:24px;">50</span>
+      <input type="number" id="bar-vol-label" value="50" min="0" max="100" style="font-size:11px;color:var(--text3);width:34px;"/>
     </div>
   </div>
 
@@ -1770,7 +1781,7 @@ function updateMainVolFromRooms() {
     const el=document.getElementById(id); if(el) el.value=avg;
   });
   ['vol-label','bar-vol-label'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.textContent=avg;
+    const el=document.getElementById(id); if(el) el.value=avg;
   });
 }
 
@@ -2882,29 +2893,52 @@ function sendVolume() {
   }
 }
 
+function applyVolValue(newVol) {
+  // Shared logic: apply a volume value from either the slider or the number input
+  newVol = Math.max(0, Math.min(100, newVol));
+  const oldVol = S.volume != null ? parseInt(S.volume) : 50;
+  S.volume = newVol;
+  // Sync all main controls
+  ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=newVol;});
+  ['vol-label','bar-vol-label'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=newVol;});
+  // Proportional group scaling or single-speaker sync
+  if(!applyGroupVolume(oldVol, newVol) && S.device){
+    const sr=S.rooms.find(r=>r.ip===S.device.ip); if(sr) sr.volume=newVol;
+    syncRoomSlider(S.device.ip, newVol);
+  }
+  clearTimeout(volT);
+  volT=setTimeout(sendVolume, 200);
+}
+
 function bindVol(sliderId, labelId) {
   const sl=document.getElementById(sliderId), lb=document.getElementById(labelId);
   if(!sl) return;
+  // Slider input
   sl.addEventListener('input',function(){
-    const oldVol = S.volume != null ? parseInt(S.volume) : 50;  // don't use || — 0 is falsy  // capture BEFORE overwriting
-    const newVol = parseInt(this.value);
-    S.volume = newVol;
-    lb.textContent = newVol;
-    // Sync the other main slider + vis slider
-    const other=sliderId==='vol-slider'?'bar-vol-slider':'vol-slider';
-    const otherLb=sliderId==='vol-slider'?'bar-vol-label':'vol-label';
-    document.getElementById(other).value=newVol;
-    document.getElementById(otherLb).textContent=newVol;
-    const visVol=document.getElementById('vis-vol'); if(visVol) visVol.value=newVol;
-    // Proportional group scaling (updates S.rooms + all room sliders)
-    // or single-speaker sync across all panels
-    if(!applyGroupVolume(oldVol, newVol) && S.device){
-      const sr=S.rooms.find(r=>r.ip===S.device.ip); if(sr) sr.volume=newVol;
-      syncRoomSlider(S.device.ip, newVol);
-    }
-    clearTimeout(volT);
-    volT=setTimeout(sendVolume, 200);
+    applyVolValue(parseInt(this.value));
   });
+  // Number input: Enter or blur applies the value
+  if(lb) {
+    const commitInput = function() {
+      let v = parseInt(this.value);
+      if(isNaN(v)) v = S.volume || 50;
+      v = Math.max(0, Math.min(100, v));
+      this.value = v;
+      applyVolValue(v);
+      this.blur();
+    };
+    lb.addEventListener('keydown', function(e){
+      if(e.key === 'Enter') { e.preventDefault(); commitInput.call(this); }
+      if(e.key === 'Escape') { this.value = S.volume; this.blur(); }
+    });
+    lb.addEventListener('blur', function(){
+      let v = parseInt(this.value);
+      if(isNaN(v)) { this.value = S.volume; return; }
+      applyVolValue(Math.max(0, Math.min(100, v)));
+    });
+    // Select all on click so it's easy to just type the new number
+    lb.addEventListener('focus', function(){ this.select(); });
+  }
 }
 bindVol('vol-slider','vol-label');
 bindVol('bar-vol-slider','bar-vol-label');
@@ -3042,7 +3076,7 @@ function startPoll() {
       if(s.volume!==undefined && !getGroupRooms() && Math.abs(s.volume-S.volume)>2){
         S.volume=s.volume;
         ['vol-slider','bar-vol-slider','vis-vol'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=s.volume;});
-        ['vol-label','bar-vol-label'].forEach(id=>document.getElementById(id).textContent=s.volume);
+        ['vol-label','bar-vol-label'].forEach(id=>{ const el=document.getElementById(id); if(el&&document.activeElement!==el) el.value=s.volume; });
       }
     } catch(e){}
   },3000);
@@ -3134,7 +3168,7 @@ visVolSlider.addEventListener('input', function() {
   const newVol = parseInt(this.value);
   S.volume = newVol;
   ['vol-slider','bar-vol-slider'].forEach(id => document.getElementById(id).value = newVol);
-  ['vol-label','bar-vol-label'].forEach(id => document.getElementById(id).textContent = newVol);
+  ['vol-label','bar-vol-label'].forEach(id => { const el=document.getElementById(id); if(el) el.value=newVol; });
   applyGroupVolume(oldVol, newVol);
   clearTimeout(volT);
   volT = setTimeout(sendVolume, 200);
