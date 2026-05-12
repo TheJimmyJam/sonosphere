@@ -1902,8 +1902,8 @@ function toast(msg, err=false) {
 async function api(path,opts={}) { return (await fetch(path,opts)).json(); }
 function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-function toSec(t){const p=(t||'0:00').split(':').map(Number);return p.length===3?p[0]*3600+p[1]*60+p[2]:p[0]*60+(p[1]||0);}
-function fmt(s){return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;}
+function toSec(t){if(!t||typeof t!=='string')return 0;const p=t.split(':').map(Number);if(p.some(isNaN))return 0;return p.length===3?p[0]*3600+p[1]*60+p[2]:p[0]*60+(p[1]||0);}
+function fmt(s){if(!s||isNaN(s)||s<0)return '0:00';return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // NAVIGATION
@@ -3393,10 +3393,9 @@ function startPoll() {
       // Progress
       if(s.position&&s.duration){
         const posSec=toSec(s.position);
-        // Sonos reports "0:00:00" for streamed tracks — fall back to queue metadata
+        // Sonos reports "0:00:00" or "NOT_IMPLEMENTED" for streamed tracks — fall back to queue metadata
         const durSec=toSec(s.duration)||toSec(S.queue[S.queueIdx]?.duration||'');
-        updateProgress(posSec,durSec);
-        syncVisToSonos(posSec);
+        if(!isNaN(posSec) && !isNaN(durSec)) { updateProgress(posSec,durSec); syncVisToSonos(posSec); }
       }
       // Volume sync — skip when grouped: /api/status returns the Sonos group-master
       // volume (the coordinator's level), not the per-speaker average.
