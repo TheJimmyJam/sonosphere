@@ -619,7 +619,7 @@ def _get_stream_url(video_id):
 
 
 # ── Audio processing settings ─────────────────────────────────────────────────
-NORMALIZATION_ENABLED = True   # EBU R128 loudnorm via ffmpeg
+NORMALIZATION_ENABLED = False  # EBU R128 loudnorm via ffmpeg (disabled — too much buffering lag)
 NORMALIZATION_TARGET  = -14    # LUFS target (streaming standard)
 
 def _find_ffmpeg():
