@@ -2976,6 +2976,60 @@ async function radioRefill() {
   _radioFetching = false;
 }
 
+// ── Crossfade ─────────────────────────────────────────────────────────────
+const CROSSFADE_SECS = 4;      // seconds before end to start fade
+let _cfActive   = false;       // fade currently in progress
+let _cfVolSaved = null;        // volume before fade started
+let _cfInterval = null;
+
+function crossfadeCheck(posSec, durSec) {
+  if (!S.playing || !S.device || !durSec || durSec < CROSSFADE_SECS * 2) return;
+  const remaining = durSec - posSec;
+  const hasNext = S.queueIdx < S.queue.length - 1 || _radioMode;
+
+  if (!_cfActive && remaining > 0 && remaining <= CROSSFADE_SECS && hasNext) {
+    _cfActive   = true;
+    _cfVolSaved = S.volume;
+    const steps     = 8;
+    const stepMs    = (remaining * 1000) / steps;
+    const stepSize  = Math.round(S.volume / steps);
+    let   step      = 0;
+    clearInterval(_cfInterval);
+    _cfInterval = setInterval(async () => {
+      step++;
+      const newVol = Math.max(0, _cfVolSaved - step * stepSize);
+      await api('/api/rooms/volume', {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ip: S.device.ip, volume: newVol})
+      });
+      if (step >= steps) clearInterval(_cfInterval);
+    }, stepMs);
+  }
+}
+
+async function crossfadeRestore() {
+  if (!_cfActive || _cfVolSaved === null) return;
+  clearInterval(_cfInterval);
+  _cfActive = false;
+  const target = _cfVolSaved;
+  _cfVolSaved  = null;
+  // Ramp back up over 1.5s
+  const steps   = 6;
+  const stepMs  = 1500 / steps;
+  const stepSize = Math.round(target / steps);
+  let step = 0;
+  const ramp = setInterval(async () => {
+    step++;
+    const newVol = Math.min(target, step * stepSize);
+    await api('/api/rooms/volume', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ip: S.device.ip, volume: newVol})
+    });
+    S.volume = newVol;
+    if (step >= steps) { clearInterval(ramp); S.volume = target; }
+  }, stepMs);
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // PLAYBACK
 // ═══════════════════════════════════════════════════════════════════════════
@@ -3047,13 +3101,18 @@ async function queueGoTo(idx) {
   const track = S.queue[idx];
   const res = await api('/api/queue/jump', {method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({device_ip: S.device.ip, index: idx, video_id: track?.id})});
-  if(res.success){ S.queueIdx=res.current; updateNowPlaying(S.queue[res.current]); S.playing=true; updatePP(); renderQueue(); renderRoomsQueue(); }
+  if(res.success){
+    S.queueIdx=res.current; updateNowPlaying(S.queue[res.current]); S.playing=true; updatePP(); renderQueue(); renderRoomsQueue();
+    crossfadeRestore(); // ramp volume back up if a crossfade fade-out was in progress
+  }
 }
 
 function bindControl(id,action) {
   document.getElementById(id)?.addEventListener('click',async()=>{
     if(!S.device) return;
     if(action==='pp'){
+      // If pausing mid-crossfade, restore volume immediately
+      if(S.playing && _cfActive){ clearInterval(_cfInterval); _cfActive=false; if(_cfVolSaved!==null){ await api('/api/rooms/volume',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ip:S.device.ip,volume:_cfVolSaved})}); S.volume=_cfVolSaved; _cfVolSaved=null; } }
       const act=S.playing?'pause':'play';
       await api('/api/control',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device_ip:S.device.ip,action:act})});
       S.playing=!S.playing; updatePP();
@@ -3216,6 +3275,7 @@ function updateProgress(pos, dur) {
   document.getElementById('time-dur').textContent=ds;
   document.getElementById('bar-dur').textContent=ds;
   document.getElementById('rooms-dur').textContent=ds;
+  crossfadeCheck(pos, dur);
 }
 
 // Keep S.rooms volumes fresh so proportional group scaling uses accurate per-speaker values.
