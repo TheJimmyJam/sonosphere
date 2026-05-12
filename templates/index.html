@@ -1431,6 +1431,26 @@ const S = {
 const canvas  = document.getElementById('vis-canvas');
 const ctx2d   = canvas.getContext('2d');
 const audioEl = document.getElementById('analyzer-audio');
+audioEl.crossOrigin = 'anonymous';
+
+// Unlock the audio element on first user interaction so .play() works
+// even after async operations (browser autoplay policy blocks async plays
+// unless the element has already been "touched" during a user gesture).
+let _audioUnlocked = false;
+function _unlockAudio() {
+  if (_audioUnlocked) return;
+  initAudio();
+  // Play a tiny silent WAV to unlock the element, then immediately pause
+  const silentWav = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+  const prev = audioEl.src;
+  audioEl.src = silentWav;
+  audioEl.play().then(() => {
+    audioEl.pause();
+    audioEl.src = prev || '';
+    _audioUnlocked = true;
+  }).catch(() => {});
+}
+document.addEventListener('click', _unlockAudio, { once: true });
 
 function resizeCanvas() {
   const c = canvas.parentElement;
@@ -1456,27 +1476,32 @@ function initAudio() {
 
 function startVisAudio(id, startPos=0) {
   // Drive the visualizer by silently streaming audio through the browser.
-  // Gain is set to 0 so the user only hears Sonos — the browser audio is
-  // just for Web Audio API analysis. Try local library first, fall back to
-  // the Flask stream proxy so streamed tracks also get visualizations.
+  // Gain is 0 so the user only hears Sonos — browser audio is for the analyser only.
   initAudio();
   if (S.audioCtx.state === 'suspended') S.audioCtx.resume();
-  if (audioEl.dataset.trackId !== id) {
-    audioEl.dataset.trackId = id;
-    // Try local file first; on error fall back to stream proxy
+  if (audioEl.dataset.trackId === id) {
+    if (startPos > 0) audioEl.currentTime = startPos;
+    return;
+  }
+  audioEl.dataset.trackId = id;
+  // Non-library IDs go straight to the stream proxy; library tracks try local first
+  const isStreamed = id.startsWith('lfm_') || id.startsWith('sp_') || id.length === 11;
+  if (isStreamed) {
+    audioEl.onerror = null;
+    audioEl.src = `/stream/${id}`;
+  } else {
     audioEl.onerror = () => {
       if (!audioEl.src.includes('/stream/')) {
+        audioEl.onerror = null;
         audioEl.src = `/stream/${id}`;
         audioEl.currentTime = 0;
         audioEl.play().catch(()=>{});
       }
     };
     audioEl.src = `/audio/${id}`;
-    audioEl.currentTime = startPos;
-    audioEl.play().catch(()=>{});
-  } else if (startPos > 0) {
-    audioEl.currentTime = startPos;
   }
+  audioEl.currentTime = startPos;
+  audioEl.play().catch(()=>{});
 }
 
 function syncVisToSonos(sonosPosSec) {
