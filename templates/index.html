@@ -1996,12 +1996,16 @@ function renderSidebarRooms() {
     const isPlaying = room.state==='PLAYING';
     // Non-coordinator members of a group report the coordinator's playing state —
     // show "Grouped" so the user knows only the coordinator is the actual source.
-    const isCoord = room.isCoord !== false;
-    const coordName = (!isCoord && room.group?.length) ? room.group[0] : null;
-    const subLabel = isPlaying
-      ? (isCoord ? 'Playing' : `Grouped with ${coordName||'group'}`)
-      : 'Ready';
-    const icon = isPlaying ? (isCoord ? '🔊' : '🔗') : '🔈';
+    const isCoord    = room.isCoord !== false;
+    const hasMembers = isCoord && room.group?.length > 0;
+    const coordName  = !isCoord ? (S.rooms.find(r => r.ip === room.group_id)?.name || room.group?.[0] || 'group') : null;
+    const totalSpk   = hasMembers ? room.group.length + 1 : 0;
+    const subLabel   = hasMembers
+      ? `🔗 Group · ${totalSpk} speakers`
+      : isPlaying
+        ? (isCoord ? 'Playing' : `Grouped with ${coordName}`)
+        : (isCoord ? 'Ready' : `Grouped with ${coordName}`);
+    const icon = (isPlaying && isCoord) ? '🔊' : (hasMembers || !isCoord) ? '🔗' : '🔈';
     const item=document.createElement('div');
     item.className='room-item'+(isActive?' active':'');
     item.innerHTML=`
@@ -2076,11 +2080,17 @@ function renderSpeakerCards() {
   S.rooms.forEach(room => {
     const isActive  = S.device?.ip === room.ip;
     const isPlaying = room.state === 'PLAYING';
-    const isCoord   = room.isCoord !== false;
-    const grouped   = !isCoord;
-    const coordName = (grouped && room.group?.length) ? room.group[0] : null;
-    const statusTxt = isPlaying ? (isCoord ? '▶ Playing' : `🔗 Grouped with ${coordName||'group'}`) : '⏸ Ready';
-    const icon      = isPlaying ? (isCoord ? '🔊' : '🔗') : '🔈';
+    const isCoord    = room.isCoord !== false;
+    const grouped    = !isCoord;
+    const hasMembers = isCoord && room.group?.length > 0;
+    const coordName  = grouped ? (S.rooms.find(r => r.ip === room.group_id)?.name || room.group?.[0] || 'group') : null;
+    const totalSpk   = hasMembers ? room.group.length + 1 : 0;
+    const statusTxt  = hasMembers
+      ? (isPlaying ? `▶ Playing · ${totalSpk} speakers` : `🔗 Group · ${totalSpk} speakers`)
+      : isPlaying
+        ? (isCoord ? '▶ Playing' : `🔗 Grouped with ${coordName}`)
+        : (isCoord ? '⏸ Ready'  : `🔗 Grouped with ${coordName}`);
+    const icon       = (isPlaying && isCoord) ? '🔊' : (hasMembers || grouped) ? '🔗' : '🔈';
 
     const card = document.createElement('div');
     card.className = 'speaker-card' + (isActive?' active':'') + (grouped?' grouped':'');
