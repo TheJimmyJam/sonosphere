@@ -618,14 +618,34 @@ def _get_stream_url(video_id):
     return url, mime
 
 
+# ── Audio processing settings ─────────────────────────────────────────────────
+NORMALIZATION_ENABLED = True   # EBU R128 loudnorm via ffmpeg
+NORMALIZATION_TARGET  = -14    # LUFS target (streaming standard)
+
+def _find_ffmpeg():
+    """Locate ffmpeg on macOS (Homebrew or system paths)."""
+    import shutil
+    found = shutil.which("ffmpeg")
+    if found:
+        return found
+    for p in ["/opt/homebrew/bin/ffmpeg", "/usr/local/bin/ffmpeg", "/usr/bin/ffmpeg"]:
+        if os.path.exists(p):
+            return p
+    return None
+
+_FFMPEG = _find_ffmpeg()
+print(f"  ffmpeg: {_FFMPEG or 'NOT FOUND — normalization disabled'}")
+
+
 @app.route("/stream/<video_id>")
 def stream_audio(video_id):
     """
-    Proxy a YouTube audio stream to Sonos without downloading.
-    Resolves the direct URL via yt-dlp, then pipes it through Flask.
-    Sonos just sees a normal HTTP audio endpoint.
+    Proxy a YouTube audio stream to Sonos.
+    If ffmpeg is available and normalization is enabled, applies EBU R128 loudnorm.
+    Otherwise falls back to direct proxy.
     """
     import requests as req_lib
+    from flask import Response, stream_with_context
 
     try:
         stream_url, mime = _get_stream_url(video_id)
@@ -633,8 +653,45 @@ def stream_audio(video_id):
         print(f"  ✗ stream URL error for {video_id}: {e}")
         return f"Stream error: {e}", 500
 
-    from flask import Response, stream_with_context
+    # ── Normalized path via ffmpeg ──────────────────────────────────────────
+    if NORMALIZATION_ENABLED and _FFMPEG:
+        print(f"  → Streaming {video_id} (normalized, loudnorm I={NORMALIZATION_TARGET})")
+        import subprocess
 
+        cmd = [
+            _FFMPEG, "-hide_banner", "-loglevel", "error",
+            "-headers",
+            "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\r\n"
+            "Referer: https://www.youtube.com/\r\nOrigin: https://www.youtube.com\r\n",
+            "-i", stream_url,
+            "-af", f"loudnorm=I={NORMALIZATION_TARGET}:TP=-1.5:LRA=11",
+            "-f", "mp3", "-acodec", "libmp3lame", "-q:a", "2",
+            "-",
+        ]
+
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+
+        def generate_normalized():
+            try:
+                while True:
+                    chunk = proc.stdout.read(65536)
+                    if not chunk:
+                        break
+                    yield chunk
+            finally:
+                try:
+                    proc.kill()
+                except Exception:
+                    pass
+
+        return Response(
+            stream_with_context(generate_normalized()),
+            status=200,
+            headers={"Content-Type": "audio/mpeg", "Accept-Ranges": "none"},
+            mimetype="audio/mpeg",
+        )
+
+    # ── Direct proxy fallback (no ffmpeg) ──────────────────────────────────
     range_header = request.headers.get("Range", "bytes=0-")
     headers = {
         "Range": range_header,
@@ -644,17 +701,14 @@ def stream_audio(video_id):
     }
 
     upstream = req_lib.get(stream_url, headers=headers, stream=True, timeout=15)
-    status   = upstream.status_code  # 206 Partial or 200
+    status   = upstream.status_code
 
-    resp_headers = {
-        "Content-Type":  mime,
-        "Accept-Ranges": "bytes",
-    }
+    resp_headers = {"Content-Type": mime, "Accept-Ranges": "bytes"}
     for h in ("Content-Length", "Content-Range"):
         if h in upstream.headers:
             resp_headers[h] = upstream.headers[h]
 
-    print(f"  → Streaming {video_id} ({mime}) range={range_header} status={status}")
+    print(f"  → Streaming {video_id} ({mime}) range={range_header} status={status} [no normalization]")
 
     def generate():
         for chunk in upstream.iter_content(chunk_size=65536):
