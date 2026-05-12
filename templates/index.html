@@ -1455,14 +1455,22 @@ function initAudio() {
 }
 
 function startVisAudio(id, startPos=0) {
-  // Only drive the visualizer from local library files.
-  // Streaming the same URL twice (browser + Sonos) can destabilize playback.
-  // If the track isn't downloaded, the visualizer just shows an idle animation.
+  // Drive the visualizer by silently streaming audio through the browser.
+  // Gain is set to 0 so the user only hears Sonos — the browser audio is
+  // just for Web Audio API analysis. Try local library first, fall back to
+  // the Flask stream proxy so streamed tracks also get visualizations.
   initAudio();
   if (S.audioCtx.state === 'suspended') S.audioCtx.resume();
   if (audioEl.dataset.trackId !== id) {
-    audioEl.onerror = () => { audioEl.src=''; audioEl.dataset.trackId=''; };
     audioEl.dataset.trackId = id;
+    // Try local file first; on error fall back to stream proxy
+    audioEl.onerror = () => {
+      if (!audioEl.src.includes('/stream/')) {
+        audioEl.src = `/stream/${id}`;
+        audioEl.currentTime = 0;
+        audioEl.play().catch(()=>{});
+      }
+    };
     audioEl.src = `/audio/${id}`;
     audioEl.currentTime = startPos;
     audioEl.play().catch(()=>{});
