@@ -34,7 +34,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         for v in [web!, status!] as [NSView] { v.translatesAutoresizingMaskIntoConstraints = false; root.addSubview(v) }
         NSLayoutConstraint.activate([
             web.leadingAnchor.constraint(equalTo: root.leadingAnchor), web.trailingAnchor.constraint(equalTo: root.trailingAnchor),
-            web.topAnchor.constraint(equalTo: root.topAnchor), web.bottomAnchor.constraint(equalTo: root.bottomAnchor),
+            web.bottomAnchor.constraint(equalTo: root.bottomAnchor),
             status.centerXAnchor.constraint(equalTo: root.centerXAnchor), status.centerYAnchor.constraint(equalTo: root.centerYAnchor),
         ])
 
@@ -46,6 +46,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         window.titleVisibility = .hidden
         window.minSize = NSSize(width: 1200, height: 700)
         window.contentView = root
+        window.backgroundColor = NSColor(red: 0.035, green: 0.035, blue: 0.06, alpha: 1)
+        root.layer?.backgroundColor = window.backgroundColor.cgColor
+        // Keep the page below the title bar so the strip stays draggable (the web view swallows drags).
+        if let guide = window.contentLayoutGuide as? NSLayoutGuide {
+            web.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
+        }
         window.center()
         window.setFrameAutosaveName("SonosphereMain")
         window.makeKeyAndOrderFront(nil)
