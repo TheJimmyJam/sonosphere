@@ -435,10 +435,28 @@ def delete_track():
     return jsonify({"success": True})
 
 
+# Speakers have fixed IPs on the home gateway. Multicast discovery can come back
+# empty (macOS Local Network permission, Wi-Fi hiccups), so fall back to asking a
+# known speaker for the whole household.
+KNOWN_SONOS_IPS = [ip.strip() for ip in os.environ.get(
+    "SONOS_IPS", "192.168.1.238,192.168.1.242,192.168.1.243,192.168.1.241").split(",") if ip.strip()]
+
+def discover_zones(timeout=5):
+    zones = set(soco.discover(timeout=timeout) or [])
+    if zones:
+        return zones
+    for ip in KNOWN_SONOS_IPS:
+        try:
+            return set(soco.SoCo(ip).visible_zones)
+        except Exception:
+            continue
+    return set()
+
+
 @app.route("/api/devices")
 def devices():
     try:
-        zones = list(soco.discover(timeout=5) or [])
+        zones = list(discover_zones(timeout=5))
         return jsonify({"devices": [
             {"name": z.player_name, "ip": z.ip_address} for z in zones
         ]})
@@ -450,7 +468,7 @@ def devices():
 def rooms():
     """Return all rooms with name, IP, volume, group info, and playback state."""
     try:
-        zones = list(soco.discover(timeout=5) or [])
+        zones = list(discover_zones(timeout=5))
         result = []
         for z in zones:
             try:
