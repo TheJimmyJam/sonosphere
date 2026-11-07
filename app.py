@@ -838,6 +838,8 @@ def control():
         coordinator = zone.group.coordinator if zone.group else zone
         if action == "play":   coordinator.play()
         elif action == "pause": coordinator.pause()
+        elif action == "next": coordinator.next()
+        elif action == "previous": coordinator.previous()
         elif action == "volume":
             # Single speaker (or group fallback) — set directly
             zone.volume = max(0, min(100, int(data.get("value", 50))))
@@ -859,6 +861,181 @@ def control():
         return jsonify({"success": False, "error": str(e)})
 
 
+# ── Apple Music + Sonos favorites ─────────────────────────────────────────────
+# Apple Music plays through the Sonos's own Apple Music account (service 204), so
+# nothing streams through this Mac. Albums and songs go on the group's Sonos queue;
+# Apple Music live stations play directly. The account token comes from an Apple
+# Music favorite already saved in the Sonos app.
+from xml.sax.saxutils import escape as _xml_escape
+import requests as _http
+
+def _coordinator(ip):
+    z = soco.SoCo(ip)
+    return z.group.coordinator if z.group else z
+
+def _fav_kind(uri):
+    if not uri:
+        return "folder", False
+    if uri.startswith("x-rincon-cpcontainer:1004206c"):
+        return "album", True
+    if uri.startswith("x-rincon-cpcontainer:1006206c"):
+        return "playlist", True
+    if uri.startswith("x-sonosapi-stream:") and "sid=204" in uri:
+        return "station", True
+    if uri.startswith("x-sonosapi-radio:") and "sid=204" in uri:
+        # Artist radio: the speakers refuse to start these over UPnP (701).
+        return "radio", False
+    return "other", False
+
+_am_account = {"desc": None, "sn": None}
+
+def _apple_account(zone):
+    if _am_account["desc"]:
+        return _am_account
+    import re
+    for f in zone.music_library.get_sonos_favorites(complete_result=True):
+        uri = f.resources[0].uri if f.resources else ""
+        if "sid=204" not in uri:
+            continue
+        meta = getattr(f, "resource_meta_data", "") or ""
+        m = re.search(r"<desc[^>]*>([^<]+)</desc>", meta)
+        sn = re.search(r"[?&]sn=(\d+)", uri)
+        if m and sn:
+            _am_account.update(desc=m.group(1), sn=sn.group(1))
+            return _am_account
+    return None
+
+def _am_didl(item_id, parent_id, title, upnp_class, desc):
+    return ('<DIDL-Lite xmlns:dc="http://purl.org/dc/elements/1.1/" '
+            'xmlns:upnp="urn:schemas-upnp-org:metadata-1-0/upnp/" '
+            'xmlns:r="urn:schemas-rinconnetworks-com:metadata-1-0/" '
+            'xmlns="urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/">'
+            f'<item id="{item_id}" parentID="{parent_id}" restricted="true">'
+            f'<dc:title>{_xml_escape(title or "")}</dc:title><upnp:class>{upnp_class}</upnp:class>'
+            f'<desc id="cdudn" nameSpace="urn:schemas-rinconnetworks-com:metadata-1-0/">{desc}</desc>'
+            '</item></DIDL-Lite>')
+
+def _queue_and_play(coord, uri, meta, mode):
+    """mode: 'replace' = clear and play now, 'next' = play after current, 'add' = end of queue."""
+    if mode == "replace":
+        coord.clear_queue()
+        coord.avTransport.AddURIToQueue([("InstanceID", 0), ("EnqueuedURI", uri),
+            ("EnqueuedURIMetaData", meta), ("DesiredFirstTrackNumberEnqueued", 0),
+            ("EnqueueAsNext", 0)])
+        coord.play_from_queue(0)
+        return
+    pos = 0
+    if mode == "next":
+        try:
+            pos = int(coord.get_current_track_info().get("playlist_position") or 0) + 1
+        except Exception:
+            pos = 0
+    coord.avTransport.AddURIToQueue([("InstanceID", 0), ("EnqueuedURI", uri),
+        ("EnqueuedURIMetaData", meta), ("DesiredFirstTrackNumberEnqueued", pos),
+        ("EnqueueAsNext", 1 if mode == "next" else 0)])
+
+def _art(url, size=300):
+    return (url or "").replace("100x100bb", f"{size}x{size}bb")
+
+
+@app.route("/api/sonos/favorites")
+def sonos_favorites():
+    ip = request.args.get("device_ip") or (KNOWN_SONOS_IPS[0] if KNOWN_SONOS_IPS else None)
+    try:
+        zone = soco.SoCo(ip)
+        out = []
+        for i, f in enumerate(zone.music_library.get_sonos_favorites(complete_result=True)):
+            uri = f.resources[0].uri if f.resources else ""
+            kind, playable = _fav_kind(uri)
+            art = getattr(f, "album_art_uri", "") or ""
+            if art.startswith("/"):
+                art = f"http://{ip}:1400{art}"
+            out.append({"index": i, "title": f.title, "kind": kind, "playable": playable,
+                        "art": art, "service": "apple" if "sid=204" in uri else "other"})
+        return jsonify({"favorites": out})
+    except Exception as e:
+        return jsonify({"favorites": [], "error": str(e)})
+
+
+@app.route("/api/sonos/favorites/play", methods=["POST"])
+def sonos_favorite_play():
+    data = request.json or {}
+    ip, idx, mode = data.get("device_ip"), data.get("index"), data.get("mode", "replace")
+    title = data.get("title")
+    if not ip or idx is None:
+        return jsonify({"success": False, "error": "Missing speaker or favorite"})
+    try:
+        coord = _coordinator(ip)
+        favs = coord.music_library.get_sonos_favorites(complete_result=True)
+        f = favs[int(idx)]
+        if title and f.title != title:   # favorites changed since the list loaded
+            f = next((x for x in favs if x.title == title), None)
+            if not f:
+                return jsonify({"success": False, "error": "That favorite moved. Refresh and try again."})
+        uri = f.resources[0].uri if f.resources else ""
+        meta = getattr(f, "resource_meta_data", "") or ""
+        kind, playable = _fav_kind(uri)
+        if not playable:
+            return jsonify({"success": False, "error": "The Sonos won't start this one from a computer. Use an album, playlist or Apple Music station."})
+        if kind == "station":
+            coord.play_uri(uri, meta, force_radio=False)
+        else:
+            _queue_and_play(coord, uri, meta, mode)
+        return jsonify({"success": True, "kind": kind})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+
+@app.route("/api/am/search")
+def am_search():
+    q = (request.args.get("q") or "").strip()
+    if not q:
+        return jsonify({"albums": [], "songs": []})
+    try:
+        base = "https://itunes.apple.com/search"
+        common = {"term": q, "country": "US", "media": "music"}
+        albums = _http.get(base, params={**common, "entity": "album", "limit": 24}, timeout=10).json().get("results", [])
+        songs = _http.get(base, params={**common, "entity": "song", "limit": 25}, timeout=10).json().get("results", [])
+        return jsonify({
+            "albums": [{"id": a["collectionId"], "title": a.get("collectionName", ""),
+                        "artist": a.get("artistName", ""), "art": _art(a.get("artworkUrl100")),
+                        "year": (a.get("releaseDate") or "")[:4], "tracks": a.get("trackCount")}
+                       for a in albums if a.get("collectionId")],
+            "songs": [{"id": t["trackId"], "title": t.get("trackName", ""), "artist": t.get("artistName", ""),
+                       "album": t.get("collectionName", ""), "art": _art(t.get("artworkUrl100"), 120),
+                       "ms": t.get("trackTimeMillis")}
+                      for t in songs if t.get("trackId")],
+        })
+    except Exception as e:
+        return jsonify({"albums": [], "songs": [], "error": str(e)})
+
+
+@app.route("/api/am/play", methods=["POST"])
+def am_play():
+    data = request.json or {}
+    ip, kind, item = data.get("device_ip"), data.get("kind"), str(data.get("id") or "")
+    mode, title = data.get("mode", "replace"), data.get("title", "")
+    if not ip or kind not in ("album", "song") or not item.isdigit():
+        return jsonify({"success": False, "error": "Missing speaker or item"})
+    try:
+        coord = _coordinator(ip)
+        acct = _apple_account(coord)
+        if not acct:
+            return jsonify({"success": False, "error": "Save any Apple Music album as a favorite in the Sonos app once, then try again."})
+        if kind == "album":
+            item_id = f"1004206calbum%3A{item}"
+            uri = f"x-rincon-cpcontainer:{item_id}?sid=204&flags=8300&sn={acct['sn']}"
+            meta = _am_didl(item_id, item_id, title, "object.container.album.musicAlbum", acct["desc"])
+        else:
+            item_id = f"10032020song%3A{item}"
+            uri = f"x-sonos-http:song%3A{item}.mp4?sid=204&flags=8224&sn={acct['sn']}"
+            meta = _am_didl(item_id, item_id, title, "object.item.audioItem.musicTrack", acct["desc"])
+        _queue_and_play(coord, uri, meta, mode)
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+
 @app.route("/api/status")
 def status():
     device_ip = request.args.get("device_ip")
@@ -866,8 +1043,10 @@ def status():
         return jsonify({})
     try:
         zone      = soco.SoCo(device_ip)
-        track     = zone.get_current_track_info()
-        transport = zone.get_current_transport_info()
+        # A grouped speaker reports nothing itself: the group's coordinator has the track.
+        coord     = zone.group.coordinator if zone.group else zone
+        track     = coord.get_current_track_info()
+        transport = coord.get_current_transport_info()
 
         # Try to get album art — Sonos returns a URI, may be relative
         thumbnail = ""
@@ -877,7 +1056,7 @@ def status():
                 thumbnail = art_uri
             elif art_uri.startswith("/"):
                 # Relative URI served by the Sonos speaker itself
-                thumbnail = f"http://{device_ip}:1400{art_uri}"
+                thumbnail = f"http://{coord.ip_address}:1400{art_uri}"
 
         # Extract YouTube video ID from URI if Sonosphere served this track
         uri = track.get("uri", "")

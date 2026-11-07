@@ -11,6 +11,18 @@
 
 ---
 
+## Mac app (2026-11)
+
+`desktop/install.sh` installs **Sonosphere.app** in `~/Applications` (Dock icon, Cmd-Q, Spotlight) and a
+LaunchAgent (`com.jimmy.sonosphere`) that runs the server at login. No Terminal window. Log: `~/Library/Logs/Sonosphere.log`.
+
+**Apple Music tab:** your Sonos favorites (albums, Apple Music live stations) plus Apple Music catalog search
+(albums and songs). Plays through the Sonos's own Apple Music account; Play now / Play next / + Queue go on the
+Sonos queue, and ⏮ ⏭ drive that queue. Needs one Apple Music favorite saved in the Sonos app (it supplies the
+account token). Artist radio and YouTube/Sonos Radio favorites can't be started from a computer and show greyed out.
+
+Speakers are found by network discovery, falling back to fixed IPs (`SONOS_IPS`, comma-separated).
+
 ## Features
 
 - **Search YouTube Music** and download tracks to a local library
