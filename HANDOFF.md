@@ -1,9 +1,19 @@
 # Sonosphere: handoff
 
 **Status:** Mac app live on the mini: `~/Applications/Sonosphere.app` + LaunchAgent `com.jimmy.sonosphere` (server :8888). Apple Music tab shipped (main eb10ca8).
-**Next:** Jimmy's first real use is the live check of the Apple Music buttons. Optional polish below.
+**Next:** Nothing for a session to do. Jimmy's first real use is the live check of the Apple Music buttons. The desktop Sonosphere widget lives in JamTools/NowPlayingWidget (its HANDOFF #3).
 
-## HANDOFF #1 (2026-11-07 15:40): pick up here
+## HANDOFF #2 (2026-11-07 ~4:15 PM): pick up here
+Clocks: My Builds literary-land (log) since 2:25 PM, 1h 22m · none stopped in the last 12 h
+
+1. Done: bottom bar fits at 1200px (d9b21a6); window drags by a thin dark title strip, page pinned below it (51c839d); install.sh retries the LaunchAgent bootstrap (it used to fail with "Bootstrap failed: 5" and leave the server down). All on main.
+2. Desktop widget for Sonos rooms + group volume: built into `~/Desktop/Projects/JamTools/NowPlayingWidget` (not this repo); see its HANDOFF #3.
+3. Still unchecked by hand: Apple Music Play now / Play next / + Queue in the app.
+
+**Open with Jimmy:** none.
+**Mode:** auto mode fine.
+
+## HANDOFF #1 (2026-11-07 15:40): SUPERSEDED by HANDOFF #2
 Clocks: My Builds literary-land (log) since 2:25 PM, 1h 08m · none stopped in the last 12 h
 
 1. Install/rebuild: `desktop/install.sh` (venv on ~/.local/bin/python3.11, swiftc app, LaunchAgent). Log `~/Library/Logs/Sonosphere.log`. Push straight to main with the NEW_GITHUB_CLASSIC_PAT (origin URL has no token).

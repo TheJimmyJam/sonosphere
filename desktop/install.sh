@@ -64,5 +64,5 @@ cat > "$PLIST" <<PL
 </dict></plist>
 PL
 launchctl bootout gui/$UID_/com.jimmy.sonosphere 2>/dev/null || true
-launchctl bootstrap gui/$UID_ "$PLIST"
+for i in 1 2 3 4 5; do launchctl bootstrap gui/$UID_ "$PLIST" 2>/dev/null && break; sleep 1; done  # bootout finishes async
 echo "installed: $APP (server: com.jimmy.sonosphere on :8888)"
